@@ -42,9 +42,9 @@ def add_article():
 
     return render_template("article.html", form=form) 
 
-@app.route("/add_article")
+@app.route("/new_todo")
 def new():
-    return render_template("article.html")
+    return render_template("new_todo.html")
 
 @app.route("/create_todo", methods=["POST"])
 def todo_creation():
