@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Todo app
+{% endblock %}
+
+{% block body %}
+
+<h2>Add article</h2>
+
+<div>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <br/>
+        {{ form.title.label(class="form-label") }}
+        {{ form.title(class="form-control") }}
+        <br/>
+        {{ form.author.label(class="form-label") }}
+        {{ form.author(class="form-control") }}
+        <br/>
+        {{ form.journal.label(class="form-label") }}
+        {{ form.journal(class="form-control") }}
+        <br/>
+        {{ form.year.label(class="form-label") }}
+        {{ form.year(class="form-control") }}
+        <br/>
+        {{ form.volume.label(class="form-label") }}
+        {{ form.volume(class="form-control") }}
+        <br/>
+        {{ form.number.label(class="form-label") }}
+        {{ form.number(class="form-control") }}
+        <br/>
+        {{ form.pages.label(class="form-label") }}
+        {{ form.pages(class="form-control") }}
+        <br/>
+        {{ form.month.label(class="form-label") }}
+        {{ form.month(class="form-control") }}
+        <br/>
+        {{ form.doi.label(class="form-label") }}
+        {{ form.doi(class="form-control") }}
+        <br/>
+        {{ form.submit(class="btn btn-dark") }}
+    </form>
+  
+</div>
+
+
+<div>
+  <a href="{{ url_for('index') }}">Return</a>
+</div>
+
+{% endblock %}

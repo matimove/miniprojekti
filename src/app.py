@@ -1,8 +1,9 @@
-from flask import redirect, render_template, request, jsonify, flash
+from flask import redirect, render_template, request, jsonify, flash, url_for
 from db_helper import reset_db
 from repositories.todo_repository import get_todos, create_todo, set_done
 from config import app, test_env
 from util import validate_todo
+from forms import AddArticleForm
 
 #Pieni muutos
 
@@ -11,6 +12,35 @@ def index():
     todos = get_todos()
     unfinished = len([todo for todo in todos if not todo.done])
     return render_template("index.html", todos=todos, unfinished=unfinished) 
+
+@app.route("/add-article", methods=["POST", "GET"])
+def add_article():
+    form = AddArticleForm()
+
+    if form.validate_on_submit():
+        author = form.author.data 
+        title = form.title.data
+        journal = form.journal.data
+        year = form.year.data
+        volume = form.volume.data
+        number = form.number.data
+        pages = form.pages.data
+        month = form.month.data
+        doi = form.doi.data
+
+        form.author.data = ""
+        form.title.data = ""
+        form.journal.data = ""
+        form.year.data = ""
+        form.volume.data = ""
+        form.number.data = ""
+        form.pages.data = ""
+        form.month.data = ""
+        form.doi.data = ""
+
+        return redirect(url_for("index"))
+
+    return render_template("article.html", form=form) 
 
 @app.route("/new_todo")
 def new():
