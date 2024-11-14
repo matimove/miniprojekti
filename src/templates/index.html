@@ -29,6 +29,19 @@ Reference app
 </ul>
 -->
 
+<div>
+  Articles
+</div>
+<ul>
+  {% for article in articles %}
+    <li style="display: flex">
+      <div>
+        {{ article }}
+      </div>
+    </li>
+  {% endfor %}
+</ul>
+
 <h4>Add Reference:</h4></br>
 <div>
   <a href="/add-article" class="btn btn-dark">Article</a>

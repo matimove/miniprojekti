@@ -5,13 +5,15 @@ from config import app, test_env
 from util import validate_todo
 from forms import AddArticleForm
 
+from repositories import article_repository
+from services import article_service
+
 #Pieni muutos
 
 @app.route("/")
 def index():
-    todos = get_todos()
-    unfinished = len([todo for todo in todos if not todo.done])
-    return render_template("index.html", todos=todos, unfinished=unfinished) 
+    articles_list = article_repository.get_articles()
+    return render_template("index.html", articles=articles_list)
 
 @app.route("/add-article", methods=["POST", "GET"])
 def add_article():
@@ -22,11 +24,13 @@ def add_article():
         title = form.title.data
         journal = form.journal.data
         year = form.year.data
-        volume = form.volume.data
-        number = form.number.data
-        pages = form.pages.data
-        month = form.month.data
-        doi = form.doi.data
+
+        # Non-required fields are replaced with None if empty
+        volume = form.volume.data if form.volume.data else None
+        number = form.number.data if form.number.data else None
+        pages = form.pages.data if form.pages.data else None
+        month = form.month.data if form.month.data else None
+        doi = form.doi.data if form.doi.data else None
 
         form.author.data = ""
         form.title.data = ""
@@ -37,6 +41,10 @@ def add_article():
         form.pages.data = ""
         form.month.data = ""
         form.doi.data = ""
+
+        # Validate with article_service
+        # if input is OK, the values are passed on to article_repository for article entry creation
+        article_id = article_service.validate(author, title, journal, year, volume, number, pages, month, doi)
 
         return redirect(url_for("index"))
 
