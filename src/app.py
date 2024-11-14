@@ -4,6 +4,8 @@ from repositories.todo_repository import get_todos, create_todo, set_done
 from config import app, test_env
 from util import validate_todo
 
+#Pieni muutos
+
 @app.route("/")
 def index():
     todos = get_todos()
