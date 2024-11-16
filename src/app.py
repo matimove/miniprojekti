@@ -5,15 +5,13 @@ from config import app, test_env
 from util import validate_todo
 from forms import AddArticleForm
 
-from repositories import article_repository
 from services import article_service
 
 #Pieni muutos
 
 @app.route("/")
 def index():
-    articles_list = article_repository.get_articles()
-    return render_template("index.html", articles=articles_list)
+    return render_template("index.html")
 
 @app.route("/add-article", methods=["POST", "GET"])
 def add_article():
