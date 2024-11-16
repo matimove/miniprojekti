@@ -6,7 +6,6 @@ from util import validate_todo
 from forms import AddArticleForm
 
 from repositories import article_repository
-from services import article_service
 
 #Pieni muutos
 
@@ -41,10 +40,6 @@ def add_article():
         form.pages.data = ""
         form.month.data = ""
         form.doi.data = ""
-
-        # Validate with article_service
-        # if input is OK, the values are passed on to article_repository for article entry creation
-        article_id = article_service.validate(author, title, journal, year, volume, number, pages, month, doi)
 
         return redirect(url_for("index"))
 
