@@ -4,12 +4,18 @@ from config import app, test_env
 from forms import AddArticleForm
 
 from services.article_service import validate_article, UserInputError
+from repositories import article_repository
 
 #Pieni muutos
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    articles_list = article_repository.get_articles()
+    if not articles_list:
+        message = "You have no articles saved"
+    else:
+        message = None
+    return render_template("index.html", articles=articles_list, message=message)
 
 @app.route("/add-article", methods=["POST", "GET"])
 def add_article():

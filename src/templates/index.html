@@ -10,6 +10,7 @@ Reference app
 
 <!-- Flash message for validation success -->
 
+<<<<<<< HEAD
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
     <div>
@@ -21,6 +22,21 @@ Reference app
     </div>
   {% endif %}
 {% endwith %}
+=======
+<div>
+  Articles
+</div>
+
+{% if message %}
+    <p>{{ message }}</p>
+{% else %}
+    <ul>
+    {% for article in articles %}
+        <li>{{ article.title }} by {{ article.author }} ({{ article.year }})</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+>>>>>>> us2_view_articles
 
 <h4>Add Reference:</h4></br>
 <div>
