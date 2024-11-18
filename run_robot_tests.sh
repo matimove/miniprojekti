@@ -19,10 +19,19 @@ done
 
 echo "Flask server is ready"
 
-# suoritetaan testit
-poetry run robot --variable HEADLESS:true src/story_tests
+# tarkistetaan, onko testitiedostoja olemassa
+# resource.robot ignorataan, katsotaan, onko .robot-tiedostoja *** Test Cases *** -osiolla
+test_files=$(find src/story_tests -type f -name "*.robot" -exec grep -l "*** Test Cases ***" {} +)
 
-status=$?
+if [[ -n "$test_files" ]]; then
+  echo "Found Robot Framework test files. Running tests..."
+  # suoritetaan testit
+  poetry run robot --variable HEADLESS:true src/story_tests
+  status=$?
+else
+  echo "No Robot Framework test cases found. Skipping tests."
+  status=0
+fi
 
 # pysäytetään Flask-palvelin portissa 5001
 kill $(lsof -t -i:5001)

@@ -1,0 +1,11 @@
+[run]
+omit =
+	src/tests/*
+	src/story_tests/*
+	src/db_helper.py
+	src/config.py
+	src/util.py
+	src/forms.py
+	src/__pycache__/*
+	src/index.py
+
