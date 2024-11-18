@@ -5,7 +5,7 @@ from config import app, test_env
 from util import validate_todo
 from forms import AddArticleForm
 
-from services import article_service
+from services.article_service import validate_article, UserInputError
 
 #Pieni muutos
 
@@ -18,6 +18,7 @@ def add_article():
     form = AddArticleForm()
 
     if form.validate_on_submit():
+        # Extract form data
         author = form.author.data 
         title = form.title.data
         journal = form.journal.data
@@ -29,7 +30,8 @@ def add_article():
         pages = form.pages.data if form.pages.data else None
         month = form.month.data if form.month.data else None
         doi = form.doi.data if form.doi.data else None
-
+        
+        # Clear form fields after data extraction
         form.author.data = ""
         form.title.data = ""
         form.journal.data = ""
@@ -40,12 +42,17 @@ def add_article():
         form.month.data = ""
         form.doi.data = ""
 
-        # Validate with article_service
-        # if input is OK, the values are passed on to article_repository for article entry creation
-        article_id = article_service.validate(author, title, journal, year, volume, number, pages, month, doi)
+        try:
+            # Validate and create the article
+            validate_article(author, title, journal, year, volume, number, pages, month, doi)
+            flash("Article added successfully!", "success")  # Success message
+            return redirect(url_for("index"))
 
-        return redirect(url_for("index"))
+        except UserInputError as e:
+            # Pass the error message to the template
+            flash(str(e), "error")  # Error message
 
+    # Render the form again (with error messages if any)
     return render_template("article.html", form=form) 
 
 @app.route("/new_todo")
