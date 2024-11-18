@@ -8,26 +8,19 @@ Reference app
 </br>
 <h2>Reference app</h2></br>
 
-<!-- 
-<div>
-  things still unfinished: {{ unfinished }}
-</div>  
-{{ test }}
-<ul>
-  {% for todo in todos %}
-    <li style="display: flex">
-      <div>
-        {{ todo }} 
-      </div>
-      {% if not todo.done %}
-        <form action="/toggle_todo/{{ todo.id }}" method="post" style="margin-left: 10px;">
-          <button type="submit">mark as done</button>
-        </form>
-      {% endif %}
-    </li>
-  {% endfor %}
-</ul>
--->
+<!-- Flash message for validation success -->
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div>
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
 
 <h4>Add Reference:</h4></br>
 <div>
