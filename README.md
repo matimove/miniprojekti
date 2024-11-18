@@ -1,7 +1,11 @@
 # miniprojekti
 Ohtu miniprojekti - Ryhmä: OhtuWarriors
 
-[Backlog](https://helsinkifi-my.sharepoint.com/:x:/r/personal/toniemin_ad_helsinki_fi/_layouts/15/Doc.aspx?sourcedoc=%7B50381186-43DF-44AF-A205-691DD18D833E%7D&file=Ohtuwarriors%20backlog.xlsx&action=default&mobileredirect=true)
+[Backlog](https://helsinkifi-my.sharepoint.com/:x:/g/personal/toniemin_ad_helsinki_fi/EYYROFDfQ69EogVpHdGNgz4BX9Zb_ViC6bIx5EghfRbXNg?e=fH4cX5)
+
+## Definition of done
+
+Vaatimus on valmis, jos se on analysoitu, suunniteltu, ohjelmoitu, testattu, testaus automatisoitu, dokumentoitu, integroitu muuhun ohjelmistoon ja viety tuotantoympäristöön.
 
 ## Ohjeet sovelluksen käynnistämiseen paikallisesti
 Kloonaa repositorio ja luo juurihakemistoon seuraavanlainen .env tiedosto
