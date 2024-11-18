@@ -21,6 +21,19 @@ Reference app
     </div>
   {% endif %}
 {% endwith %}
+<div>
+  Articles
+</div>
+
+{% if message %}
+    <p>{{ message }}</p>
+{% else %}
+    <ul>
+    {% for article in articles %}
+        <li>{{ article.title }} by {{ article.author }} ({{ article.year }})</li>
+    {% endfor %}
+    </ul>
+{% endif %}
 
 <h4>Add Reference:</h4></br>
 <div>

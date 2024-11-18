@@ -25,3 +25,9 @@ def create_article(author, title, journal, year, volume, number, pages, month, d
     db.session.commit()
 
     return article_id
+
+def get_articles():
+    sql = "SELECT id, author, title, journal, year, volume, number, pages, month, doi FROM articles"
+    result = db.session.execute(text(sql))
+    articles = result.fetchall()
+    return articles
