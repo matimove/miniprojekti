@@ -32,15 +32,16 @@ Reference app
 <div>
   Articles
 </div>
-<ul>
-  {% for article in articles %}
-    <li style="display: flex">
-      <div>
-        {{ article }}
-      </div>
-    </li>
-  {% endfor %}
-</ul>
+
+{% if message %}
+    <p>{{ message }}</p>
+{% else %}
+    <ul>
+    {% for article in articles %}
+        <li>{{ article.title }} by {{ article.author }} ({{ article.year }})</li>
+    {% endfor %}
+    </ul>
+{% endif %}
 
 <h4>Add Reference:</h4></br>
 <div>

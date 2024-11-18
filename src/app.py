@@ -12,7 +12,11 @@ from repositories import article_repository
 @app.route("/")
 def index():
     articles_list = article_repository.get_articles()
-    return render_template("index.html", articles=articles_list)
+    if not articles_list:
+        message = "You have no articles saved"
+    else:
+        message = None
+    return render_template("index.html", articles=articles_list, message=message)
 
 @app.route("/add-article", methods=["POST", "GET"])
 def add_article():
