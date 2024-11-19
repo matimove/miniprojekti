@@ -6,6 +6,7 @@ ${SERVER}     localhost:5001
 ${DELAY}      0.5 seconds
 ${HOME_URL}   http://${SERVER}
 ${RESET_URL}  http://${SERVER}/reset_db
+${ADD_ARTICLE_URL}  http://${SERVER}/add-article
 ${BROWSER}    chrome
 ${HEADLESS}   false
 
@@ -24,6 +25,8 @@ Open And Configure Browser
     END
     Open Browser  browser=${BROWSER}  options=${options}
 
-Reset Todos
+Reset Articles
     Go To  ${RESET_URL}
 
+Go To Add Article Page
+    Go To  ${ADD_ARTICLE_URL}
