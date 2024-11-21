@@ -61,7 +61,5 @@ def validate_month(month):
         "July", "August", "September", "October", "November", "December",
         "Jan", "Feb", "Mar", "Apr", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ]
-    if month.isdigit() and not (1 <= int(month) <= 12):
-        raise ValueError("Month must be a valid number (1-12).")
-    elif month.capitalize() not in valid_months:
+    if month.capitalize() not in valid_months:
         raise ValueError("Month must be a valid name or abbreviation.")

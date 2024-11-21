@@ -37,6 +37,16 @@ def validate_article(author, title, journal, year, volume=None, number=None, pag
         int: The ID of the created article.
     """
     try:
+        # Month mapping for numeric and abbreviated month inputs
+        month_mapping = {
+            1: "January", 2: "February", 3: "March", 4: "April",
+            5: "May", 6: "June", 7: "July", 8: "August",
+            9: "September", 10: "October", 11: "November", 12: "December",
+            "Jan": "January", "Feb": "February", "Mar": "March", "Apr": "April",
+            "May": "May", "Jun": "June", "Jul": "July", "Aug": "August",
+            "Sep": "September", "Oct": "October", "Nov": "November", "Dec": "December"
+        }
+
         # Validate required fields
         validate_required_field(author, "Author")
         validate_author(author)
@@ -58,7 +68,24 @@ def validate_article(author, title, journal, year, volume=None, number=None, pag
         if pages:
             validate_pages(pages)
         if month:
-            validate_month(month)
+            # Normalize month input
+            if month.isdigit():
+                # If month input is numeric, convert into corresponding month
+                month_num = int(month)
+                if 1 <= month_num <= 12:
+                    month = month_mapping[month_num]
+                else:
+                    raise ValueError("Numeric month input must be between 1 and 12.")
+            elif month in month_mapping:  
+                # If month input is abbreviated, convert into corresponding month
+                month = month_mapping[month]
+            elif month.capitalize() in month_mapping.values():  
+                # If month input is full month name, normalize capitalization
+                month = month.capitalize()
+            else:
+                raise ValueError("Month must be a valid name or abbreviation.")
+            
+            validate_month(month)  # Validate the normalized month
         if doi:
             validate_doi(doi)
         
