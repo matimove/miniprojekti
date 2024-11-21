@@ -14,3 +14,14 @@ class AddArticleForm(FlaskForm):
     month = StringField("Month")
     doi = StringField("doi")
     submit = SubmitField("Submit")
+
+
+class AddBookForm(FlaskForm):
+    title = StringField("Title", validators=[DataRequired()])
+    author = StringField("Author", validators=[DataRequired()])
+    year = StringField("Year", validators=[DataRequired()])
+    publisher = StringField("Publisher")
+    address = StringField("Address")
+    pages = StringField("Pages")
+    doi = StringField("doi")
+    submit = SubmitField("Submit")
