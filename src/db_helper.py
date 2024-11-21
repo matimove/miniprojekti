@@ -1,7 +1,7 @@
 from config import db, app
 from sqlalchemy import text
 
-table_name = "articles"
+table_names = ["articles", "inproceedings"]
 
 def table_exists(name):
     sql_table_existence = text(
@@ -19,21 +19,21 @@ def table_exists(name):
     return result.fetchall()[0][0]
 
 def reset_db():
-    print(f"Clearing contents from table {table_name}")
-    sql = text(f"DELETE FROM {table_name}")
-    db.session.execute(sql)
-    db.session.commit()
+    for table_name in table_names:
+        if table_exists(table_name):
+            print(f"Clearing contents from table {table_name}")
+            sql = text(f"DROP TABLE {table_name}")
+            db.session.execute(sql)
+            db.session.commit()
 
 def setup_db():
-    if table_exists(table_name):
-      print(f"Table {table_name} exists, dropping")
-      sql = text(f"DROP TABLE {table_name}")
-      db.session.execute(sql)
-      db.session.commit()
 
-    print(f"Creating table {table_name}")
+    reset_db()
+
+    print(f"Creating table: articles")
+
     sql = text(
-        f"CREATE TABLE {table_name} ("
+        f"CREATE TABLE articles ("
         "  id SERIAL PRIMARY KEY,"
         "  title TEXT NOT NULL,"
         "  author TEXT NOT NULL,"
@@ -46,7 +46,32 @@ def setup_db():
         "  doi TEXT"
         ");"
 
-      )
+    )
+
+    db.session.execute(sql)
+    db.session.commit()
+
+    print(f"Creating table: inproceedings")
+
+    sql = text(
+        f"CREATE TABLE inproceedings ("
+        "  id SERIAL PRIMARY KEY,"
+        "  title TEXT NOT NULL,"
+        "  booktitle TEXT NOT NULL,"
+        "  author TEXT NOT NULL,"
+        "  year INTEGER NOT NULL,"
+        "  editor TEXT,"
+        "  volume INTEGER,"
+        "  number INTEGER,"
+        "  series TEXT,"
+        "  pages TEXT,"
+        "  address TEXT,"
+        "  month TEXT,"
+        "  organization TEXT,"
+        "  publisher TEXT"
+        ");"
+
+    )
 
     db.session.execute(sql)
     db.session.commit()

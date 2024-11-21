@@ -22,14 +22,17 @@ Reference app
   {% endif %}
 {% endwith %}
 
-{% if message %}
-    <p>{{ message }}</p>
-{% endif %}
-
 <h4>Add Reference:</h4>
 <div>
   <a href="/add-article" class="btn btn-dark">Article</a>
+  <a href="/add-inproceedings" class="btn btn-dark">Inproceedings</a>
 </div> </br>
+
+<h5>Articles</h5>
+
+{% if message_articles %}
+    <p>{{ message_articles }}</p>
+{% endif %}
 
 {% for article in articles %}
   <div class="card w-75 mb-3">
@@ -66,7 +69,47 @@ Reference app
 
 {% endfor %}
 
+<h5>Inproceedings</h5>
 
+{% if message_inproceedings %}
+    <p>{{ message_inproceedings }}</p>
+{% endif %}
 
+{% for inproceedings in inproceedings_list %}
+  <div class="card w-75 mb-3">
+    <div class="card-body">
+      <h5 class="card-title">{{ inproceedings.title }}</h5>
+      <p class="card-text"> by {{ inproceedings.author }} ({{ inproceedings.year }})</p></br>
+      <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#Modal{{inproceedings.id}}">View</button>
+      <a href="#" class="btn btn-outline-dark">Edit</a>
+      <a href="#" class="btn btn-danger">Delete</a>
+    </div>
+  </div>
+
+  <div class="modal fade" id="Modal{{inproceedings.id}}" tabindex="-1" aria-labelledby="Reference information" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header ">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h4>{{ inproceedings.title }}</h4>
+          <p>
+            <b>Author:</b>  {{ inproceedings.author }}</br>
+            <b>Published:</b>  {% if inproceedings.month %}{{ inproceedings.month }}{% endif %} {{ inproceedings.year }}</br>
+            <b>Book title:</b>  {{ inproceedings.booktitle }} </br>
+            <b>Volume:</b>  {% if inproceedings.volume %}{{ inproceedings.volume }}{% endif %} </br>
+            <b>Number:</b>  {% if inproceedings.number %}{{ inproceedings.number }}{% endif %} </br>
+            <b>Pages:</b> {% if inproceedings.pages %}{{ inproceedings.pages }}{% endif %} </br>
+            <b>Address:</b>  {% if inproceedings.address %}{{ inproceedings.address }}{% endif %} </br>
+            <b>Organization:</b>  {% if inproceedings.organization %}{{ inproceedings.organization }}{% endif %} </br>
+            <b>Publisher:</b>  {% if inproceedings.publisher %}{{ inproceedings.publisher }}{% endif %} </br>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endfor %}
 
 {% endblock %}
