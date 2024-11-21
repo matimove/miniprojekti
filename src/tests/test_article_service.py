@@ -143,6 +143,69 @@ def test_validate_article_invalid_month():
             month="FakeMonth"  # Invalid month
         )
 
+def test_validate_valid_numeric_month():
+    """Test that a valid article passes validation and is created."""
+    with patch("services.article_service.article_repository.create_article") as mock_create:
+        mock_create.return_value = 1
+
+        result = validate_article(
+            author="Joulupukki",
+            title="Toimitusketjujen optimointi",
+            journal="Joulutiede Journal",
+            year="2023",
+            volume="10",
+            number="2",
+            pages="1-10",
+            month="12",
+            doi="10.1234/example-doi"
+        )
+
+        assert result == 1
+        mock_create.assert_called_once()
+
+def test_validate_article_invalid_numeric_month():
+    """Test that an invalid month raises UserInputError."""
+    with pytest.raises(UserInputError, match="Numeric month input must be between 1 and 12."):
+        validate_article(
+            author="Joulupukki",
+            title="Toimitusketjujen optimointi",
+            journal="Joulutiede Journal",
+            year="2023",
+            month="13"  # Invalid month
+        )
+
+
+def test_validate_valid_abbreviated_month():
+    """Test that a valid article passes validation and is created."""
+    with patch("services.article_service.article_repository.create_article") as mock_create:
+        mock_create.return_value = 1
+
+        result = validate_article(
+            author="Joulupukki",
+            title="Toimitusketjujen optimointi",
+            journal="Joulutiede Journal",
+            year="2023",
+            volume="10",
+            number="2",
+            pages="1-10",
+            month="Dec",
+            doi="10.1234/example-doi"
+        )
+
+        assert result == 1
+        mock_create.assert_called_once()
+
+def test_validate_article_invalid_abbreviated_month():
+    """Test that an invalid month raises UserInputError."""
+    with pytest.raises(UserInputError, match="Month must be a valid name or abbreviation."):
+        validate_article(
+            author="Joulupukki",
+            title="Toimitusketjujen optimointi",
+            journal="Joulutiede Journal",
+            year="2023",
+            month="Doc"  # Invalid month
+        )
+
 def test_validate_article_repository_failure():
     """Test that repository failure raises an exception."""
     with patch("services.article_service.article_repository.create_article", side_effect=Exception("DB Error")):

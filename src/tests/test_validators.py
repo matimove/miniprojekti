@@ -72,12 +72,16 @@ def test_validate_doi_invalid():
     with pytest.raises(ValueError, match="DOI must follow the format '10.xxxx/xxxxx'."):
         validate_doi("invalid-doi")  # Wrong format
 
-def test_validate_numeric_month_invalid():
-    """Test an invalid month."""
-    with pytest.raises(ValueError, match=re.escape("Month must be a valid number (1-12).")):
-        validate_month("13") # Invalid numeric month input
+def test_validate_month_valid():
+    """Test a valid month"""
+    assert validate_month("January") is None  # Should pass without error
 
 def test_validate_month_invalid():
-    """Test an missing month."""
+    """Test an invalid month."""
     with pytest.raises(ValueError, match="Month must be a valid name or abbreviation."):
         validate_month("Dokember") # Invalid month input
+
+def test_validate_month_missing():
+    """Test an invalid month."""
+    with pytest.raises(ValueError, match="Month must be a valid name or abbreviation."):
+        validate_month("") # Missing month input
