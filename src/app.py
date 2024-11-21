@@ -4,18 +4,21 @@ from config import app, test_env
 from forms import AddArticleForm, AddBookForm
 
 from services.article_service import validate_article, UserInputError
-from repositories import article_repository
+from services.book_service import validate_book, UserInputError
+from repositories import article_repository, book_repository
 
 #Pieni muutos
 
 @app.route("/")
 def index():
-    articles_list = article_repository.get_articles()
-    if not articles_list:
-        message = "You have no articles saved"
+    articles_list = article_repository.get_articles() 
+    books_list = book_repository.get_books() 
+    reference_list = articles_list+books_list
+    if not reference_list:
+        message = "You have no references saved"
     else:
         message = None
-    return render_template("index.html", articles=articles_list, message=message)
+    return render_template("index.html", references=books_list, message=message)
 
 @app.route("/add-article", methods=["POST", "GET"])
 def add_article():
@@ -74,25 +77,26 @@ def add_book():
         address = form.address.data if form.address.data else None
         pages = form.pages.data if form.pages.data else None
         doi = form.doi.data if form.doi.data else None
-        
-        # Clear form fields after data extraction
-        form.author.data = ""
-        form.title.data = ""
-        form.year.data = ""
-        form.publisher.data = ""
-        form.address.data = ""
-        form.pages.data = ""
-        form.doi.data = ""
 
-#        try:
-#            # Validate and create the article
-#            validate_article(author, title, year, publisher, address, pages, doi)
-#            flash("Book added successfully!", "success")  # Success message
-#            return redirect(url_for("index"))
-#
-#        except UserInputError as e:
-#            # Pass the error message to the template
-#            flash(str(e), "error")  # Error message
+        try:
+            # Validate and create the article
+            validate_book(author, title, year, publisher, address, pages, doi)
+            flash("Book added successfully!", "success")  # Success message
+
+            # Clear form fields after data extraction
+            form.author.data = ""
+            form.title.data = ""
+            form.year.data = ""
+            form.publisher.data = ""
+            form.address.data = ""
+            form.pages.data = ""
+            form.doi.data = ""
+
+            return redirect(url_for("index"))
+
+        except UserInputError as e:
+            # Pass the error message to the template
+            flash(str(e), "error")  # Error message
 
     # Render the form again (with error messages if any)
     return render_template("book.html", form=form) 
