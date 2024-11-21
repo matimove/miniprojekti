@@ -21,23 +21,29 @@ Reference app
     </div>
   {% endif %}
 {% endwith %}
-<div>
-  Articles
-</div>
 
 {% if message %}
     <p>{{ message }}</p>
-{% else %}
-    <ul>
-    {% for article in articles %}
-        <li>{{ article.title }} by {{ article.author }} ({{ article.year }})</li>
-    {% endfor %}
-    </ul>
 {% endif %}
 
-<h4>Add Reference:</h4></br>
+<h4>Add Reference:</h4>
 <div>
   <a href="/add-article" class="btn btn-dark">Article</a>
-</div> 
+</div> </br>
+
+{% for article in articles %}
+  <div class="card w-75 mb-3">
+    <div class="card-body">
+      <h5 class="card-title">{{ article.title }}</h5>
+      <p class="card-text"> by {{ article.author }} ({{ article.year }})</p></br>
+      <a href="#" class="btn btn-outline-dark">View</a>
+      <a href="#" class="btn btn-outline-dark">Edit</a>
+      <a href="#" class="btn btn-danger">Delete</a>
+    </div>
+  </div></br>
+
+{% endfor %}
+
+
 
 {% endblock %}
