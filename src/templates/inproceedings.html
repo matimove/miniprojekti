@@ -1,0 +1,131 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Reference app
+{% endblock %}
+
+{% block body %}
+<br/><div>
+    <a href="{{ url_for('index') }}" class="btn btn-dark">Return</a>
+</div><br/><br/>
+<div class="col d-flex justify-content-center">
+    <div class="shadow p-3 mb-5 bg-white rounded" style="width: 60rem;">
+        <h2 class="text-center">Add inproceedings</h2><br/>
+
+        <!-- Flash messages for validation errors or success -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div>
+              {% for category, message in messages %}
+                <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }}" role="alert">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+        
+        <!-- Inproceedings Form -->
+
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="mb-3">
+                {{ form.author.label(class="form-label") }} *
+                {{ form.author(class="form-control") }}
+                <small id="authorHelpInLine" class="text-muted">
+                    Required field. Must be 2-100 characters long. Can contain letters, spaces, and dashes.
+                </small>
+            </div>
+            <div class="mb-3">
+                {{ form.title.label(class="form-label") }} *
+                {{ form.title(class="form-control") }}
+                <small id="titleHelpInLine" class="text-muted">
+                    Required field. Must be 5-255 characters long. Can contain letters, numbers, spaces, and punctuation marks.
+                </small>
+            </div>
+            <div class="mb-3">
+                {{ form.booktitle.label(class="form-label") }} *
+                {{ form.booktitle(class="form-control") }}
+                <small id="booktitleHelpInLine" class="text-muted">
+                    Required field. Must be 5-255 characters long. Can contain letters, numbers, spaces, and punctuation marks.
+                </small>
+            </div>
+            <div class="mb-3">
+                {{ form.year.label(class="form-label") }} *
+                {{ form.year(class="form-control") }}
+                <small id="yearHelpInLine" class="text-muted">
+                    Required field. Must be a number between 1500-2100.
+                </small>
+            </div>
+            <div class="mb-3">
+                {{ form.editor.label(class="form-label") }}
+                {{ form.editor(class="form-control") }}
+                <small id="editorHelpInLine" class="text-muted">
+                    Optional. Must be 2-100 characters long if not left empty. Can contain letters, spaces, and dashes.
+                </small>
+            </div>
+            <div class="mb-3">
+                {{ form.volume.label(class="form-label") }}
+                {{ form.volume(class="form-control") }}
+                <small id="volumeHelpInLine" class="text-muted">
+                    Optional. Must be a valid number if not left empty.
+                </small>
+            </div>
+            <div class="mb-3">
+                {{ form.number.label(class="form-label") }}
+                {{ form.number(class="form-control") }}
+                <small id="numberHelpInLine" class="text-muted">
+                    Optional. Must be a valid number if not left empty.
+                </small>
+            </div>
+            <div class="mb-3">
+                {{ form.series.label(class="form-label") }}
+                {{ form.series(class="form-control") }}
+                <small id="seriesHelpInLine" class="text-muted">
+                    Optional. Must be 5-255 characters long if not left empty. Can contain letters, numbers, spaces, and punctuation marks.
+                </small>
+            </div>
+            <div class="mb-3">
+                {{ form.pages.label(class="form-label") }}
+                {{ form.pages(class="form-control") }}
+                <small id="pagesHelpInLine" class="text-muted">
+                    Optional. Must be a valid page number or page range (ex. 123-130) if not left empty.
+                </small>
+            </div>
+            <div class="mb-3">
+                {{ form.address.label(class="form-label") }}
+                {{ form.address(class="form-control") }}
+                <small id="addressHelpInLine" class="text-muted">
+                    Optional. Must be 5-255 characters long if not left empty. Can contain letters, numbers, spaces, and punctuation marks.
+                </small>
+            </div>
+            <div class="mb-3">
+                {{ form.month.label(class="form-label") }}
+                {{ form.month(class="form-control") }}
+                <small id="addressHelpInLine" class="text-muted">
+                    Optional. Must be a valid month name, abbreviation (ex. "Feb") or numeric value (1-12) if not left empty.
+                </small>
+            </div>
+            <div class="mb-3 ">
+                {{ form.organization.label(class="form-label") }}
+                {{ form.organization(class="form-control") }}
+                <small id="editorHelpInLine" class="text-muted">
+                    Optional. Must be 5-255 characters long if not left empty. Can contain letters, numbers, spaces, and punctuation marks.
+                </small>
+            </div>
+            <div class="mb-3 ">
+                {{ form.publisher.label(class="form-label") }}
+                {{ form.publisher(class="form-control") }}
+                <small id="editorHelpInLine" class="text-muted">
+                    Optional. Must be 5-255 characters long if not left empty. Can contain letters, numbers, spaces, and punctuation marks.
+                </small>
+            </div>
+            <br/>
+            <div class="text-center">
+                {{ form.submit(class="btn btn-dark") }}
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
