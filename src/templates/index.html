@@ -42,7 +42,7 @@ Reference app
     </div>
   </div>
 
-  <div class="modal fade" id="Modal{{article.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="Modal{{article.id}}" tabindex="-1" aria-labelledby="Reference information" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header ">
@@ -51,13 +51,13 @@ Reference app
         <div class="modal-body">
           <h4>{{ article.title }}</h4>
           <p>
-            Author: {{ article.author }}</br>
-            Published: {{ article.month }} {{ article.year}}</br>
-            Journal: {{ article.journal }}</br>
-            Volume: {{ article.volume }}</br>
-            Number: {{ article.number }}</br>
-            Pages: {{ article.pages }}</br>
-            doi: {{ article.doi }}</br>
+            <b>Author:</b>  {{ article.author }}</br>
+            <b>Published:</b>  {% if article.month %}{{ article.month }}{% endif %} {% if article.year %}{{ article.year}}{% endif %}</br>
+            <b>Journal:</b>  {% if article.month %}{{ article.journal }}{% endif %} </br>
+            <b>Volume:</b>  {% if article.volume %}{{ article.volume }}{% endif %} </br>
+            <b>Number:</b>  {% if article.number %}{{ article.number }}{% endif %} </br>
+            <b>Pages:</b> {% if article.page %}{{ article.pages }}{% endif %} </br>
+            <b>doi:</b>  {% if article.doi %}{{ article.doi }}{% endif %} </br>
           </p>
         </div>
       </div>
