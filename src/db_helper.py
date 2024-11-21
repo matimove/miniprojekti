@@ -20,10 +20,11 @@ def table_exists(name):
 
 def reset_db():
     for table_name in table_names:
-        print(f"Clearing contents from table {table_name}")
-        sql = text(f"DROP TABLE {table_name}")
-        db.session.execute(sql)
-        db.session.commit()
+        if table_exists(table_name):
+            print(f"Clearing contents from table {table_name}")
+            sql = text(f"DROP TABLE {table_name}")
+            db.session.execute(sql)
+            db.session.commit()
 
 def setup_db():
 
