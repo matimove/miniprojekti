@@ -3,8 +3,8 @@ from db_helper import reset_db
 from config import app, test_env
 from forms import AddArticleForm, AddInproceedingsForm
 
-from services.article_service import validate_article, UserInputError
-from services.inproceedings_service import validate_inproceedings, UserInputError
+from services.article_service import validate_article, UserInputError as ArticleUserInputError
+from services.inproceedings_service import validate_inproceedings, UserInputError as InproceedingsUserInputError
 from repositories import article_repository, inproceedings_repository
 
 #Pieni muutos
@@ -62,7 +62,7 @@ def add_article():
 
             return redirect(url_for("index"))
 
-        except UserInputError as e:
+        except ArticleUserInputError as e:
             # Pass the error message to the template
             flash(str(e), "error")  # Error message
 
@@ -114,7 +114,7 @@ def add_inproceedings():
 
             return redirect(url_for("index"))
 
-        except UserInputError as e:
+        except InproceedingsUserInputError as e:
             # Pass the error message to the template
             flash(str(e), "error")  # Error message
 
