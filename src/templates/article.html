@@ -30,19 +30,19 @@ Reference app
         <form method="POST">
             {{ form.hidden_tag() }}
             <div class="mb-3">
-                {{ form.title.label(class="form-label") }}
+                {{ form.title.label(class="form-label") }} *
                 {{ form.title(class="form-control") }}
             </div>
             <div class="mb-3">
-                {{ form.author.label(class="form-label") }}
+                {{ form.author.label(class="form-label") }} *
                 {{ form.author(class="form-control") }}
             </div>
             <div class="mb-3 ">
-                {{ form.journal.label(class="form-label") }}
+                {{ form.journal.label(class="form-label") }} *
                 {{ form.journal(class="form-control") }}
             </div>
             <div class="mb-3 ">
-                {{ form.year.label(class="form-label") }}
+                {{ form.year.label(class="form-label") }} *
                 {{ form.year(class="form-control") }}
             </div>
             <div class="mb-3 ">
