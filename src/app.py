@@ -35,21 +35,22 @@ def add_article():
         month = form.month.data if form.month.data else None
         doi = form.doi.data if form.doi.data else None
         
-        # Clear form fields after data extraction
-        form.author.data = ""
-        form.title.data = ""
-        form.journal.data = ""
-        form.year.data = ""
-        form.volume.data = ""
-        form.number.data = ""
-        form.pages.data = ""
-        form.month.data = ""
-        form.doi.data = ""
-
         try:
             # Validate and create the article
             validate_article(author, title, journal, year, volume, number, pages, month, doi)
             flash("Article added successfully!", "success")  # Success message
+
+            # Clear form fields after data extraction
+            form.author.data = ""
+            form.title.data = ""
+            form.journal.data = ""
+            form.year.data = ""
+            form.volume.data = ""
+            form.number.data = ""
+            form.pages.data = ""
+            form.month.data = ""
+            form.doi.data = ""
+
             return redirect(url_for("index"))
 
         except UserInputError as e:
