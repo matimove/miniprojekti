@@ -36,14 +36,35 @@ Reference app
     <div class="card-body">
       <h5 class="card-title">{{ article.title }}</h5>
       <p class="card-text"> by {{ article.author }} ({{ article.year }})</p></br>
-      <a href="#" class="btn btn-outline-dark">View</a>
+      <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">View</button>
       <a href="#" class="btn btn-outline-dark">Edit</a>
       <a href="#" class="btn btn-danger">Delete</a>
     </div>
   </div></br>
 
-{% endfor %}
 
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header ">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h4>{{ article.title }}</h4>
+        <p>
+          Author: {{ article.author }}</br>
+          Published: {{ article.month }} {{ article.year}}</br>
+          Journal: {{ article.journal }}</br>
+          Volume: {{ article.volume }}</br>
+          Number: {{ article.number }}</br>
+          Pages: {{ article.pages }}</br>
+          doi: {{ article.doi }}</br>
+        </p>
+      </div>
+    </div>
+</div>
+
+{% endfor %}
 
 
 {% endblock %}
