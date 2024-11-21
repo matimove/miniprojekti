@@ -53,10 +53,10 @@ Reference app
           <p>
             <b>Author:</b>  {{ article.author }}</br>
             <b>Published:</b>  {% if article.month %}{{ article.month }}{% endif %} {% if article.year %}{{ article.year}}{% endif %}</br>
-            <b>Journal:</b>  {% if article.month %}{{ article.journal }}{% endif %} </br>
+            <b>Journal:</b>  {% if article.journal %}{{ article.journal }}{% endif %} </br>
             <b>Volume:</b>  {% if article.volume %}{{ article.volume }}{% endif %} </br>
             <b>Number:</b>  {% if article.number %}{{ article.number }}{% endif %} </br>
-            <b>Pages:</b> {% if article.page %}{{ article.pages }}{% endif %} </br>
+            <b>Pages:</b> {% if article.pages %}{{ article.pages }}{% endif %} </br>
             <b>doi:</b>  {% if article.doi %}{{ article.doi }}{% endif %} </br>
           </p>
         </div>
