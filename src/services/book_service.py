@@ -20,13 +20,13 @@ class UserInputError(Exception):
         title (str): Title of the article.
         year (str): Year of publication.
         publisher (str): Publisher name.
-        address (str, optional): Addredd.
+        edition (str, optional): Addredd.
         pages (str, optional): Page range.
         doi (str, optional): Digital Object Identifier.
     """
 
 
-def validate_book(author, title, year, publisher=None, address=None, pages=None, doi=None):
+def validate_book(author, title, year, publisher=None, edition=None, pages=None, doi=None):
     
     try:
         validate_required_field(author, "Author")
@@ -40,8 +40,8 @@ def validate_book(author, title, year, publisher=None, address=None, pages=None,
 
         if publisher:
             validate_publisher(publisher)
-#        if address:
-#            validate_numeric(address, "Address")
+        if edition:
+            validate_numeric(edition, "Edition")
         if pages:
             validate_pages(pages)
         if doi:
@@ -52,7 +52,7 @@ def validate_book(author, title, year, publisher=None, address=None, pages=None,
             title=title,
             publisher=publisher,
             year=year,
-            address=address,
+            edition=edition,
             pages=pages,
             doi=doi
         )

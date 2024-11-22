@@ -1,12 +1,12 @@
 from sqlalchemy import text
 from config import db
 
-def create_book(author, title, year, publisher, address, pages, doi):
+def create_book(author, title, year, publisher, edition, pages, doi):
     sql = """
         INSERT INTO books
-            (author, title, year, publisher, address, pages, doi)
+            (author, title, year, publisher, edition, pages, doi)
         VALUES
-            (:author, :title, :year, :publisher, :address, :pages, :doi)
+            (:author, :title, :year, :publisher, :edition, :pages, :doi)
         RETURNING id
     """
     params = {
@@ -14,7 +14,7 @@ def create_book(author, title, year, publisher, address, pages, doi):
         "title": title,
         "year": year,
         "publisher": publisher,
-        "address": address,
+        "edition": edition,
         "pages": pages,
         "doi": doi
     }
@@ -25,7 +25,7 @@ def create_book(author, title, year, publisher, address, pages, doi):
     return book_id
 
 def get_books():
-    sql = "SELECT id, author, title, year, publisher, address, pages, doi FROM books"
+    sql = "SELECT id, author, title, year, publisher, edition, pages, doi FROM books"
     result = db.session.execute(text(sql))
     articles = result.fetchall()
     return articles
