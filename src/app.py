@@ -12,13 +12,18 @@ from repositories import article_repository, book_repository
 @app.route("/")
 def index():
     articles_list = article_repository.get_articles() 
-    books_list = book_repository.get_books() 
-    reference_list = articles_list+books_list
-    if not reference_list:
-        message = "You have no references saved"
+    if not articles_list:
+        message_articles = "You have no references saved"
     else:
-        message = None
-    return render_template("index.html", references=books_list, message=message)
+        message_articles = None
+
+    books_list = book_repository.get_books()
+    if not books_list:
+        message_books = "You have no books saved"
+    else:
+        message_books = None
+
+    return render_template("index.html", articles=articles_list, message_articles=message_articles, books_list=books_list, message_books=message_books)
 
 @app.route("/add-article", methods=["POST", "GET"])
 def add_article():
@@ -74,13 +79,13 @@ def add_book():
 
         # Non-required fields are replaced with None if empty
         publisher = form.publisher.data if form.publisher.data else None
-        address = form.address.data if form.address.data else None
+        edition = form.edition.data if form.edition.data else None
         pages = form.pages.data if form.pages.data else None
         doi = form.doi.data if form.doi.data else None
 
         try:
             # Validate and create the article
-            validate_book(author, title, year, publisher, address, pages, doi)
+            validate_book(author, title, year, publisher, edition, pages, doi)
             flash("Book added successfully!", "success")  # Success message
 
             # Clear form fields after data extraction
@@ -88,7 +93,7 @@ def add_book():
             form.title.data = ""
             form.year.data = ""
             form.publisher.data = ""
-            form.address.data = ""
+            form.edition.data = ""
             form.pages.data = ""
             form.doi.data = ""
 

@@ -58,7 +58,7 @@ def setup_db():
                 "  author TEXT NOT NULL,"
                 "  year INTEGER NOT NULL,"
                 "  publisher TEXT ,"
-                "  address TEXT,"
+                "  edition TEXT,"
                 "  pages TEXT,"
                 "  doi TEXT"
                 ");"

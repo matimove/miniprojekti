@@ -21,7 +21,7 @@ class AddBookForm(FlaskForm):
     author = StringField("Author", validators=[DataRequired()])
     year = StringField("Year", validators=[DataRequired()])
     publisher = StringField("Publisher")
-    address = StringField("Address")
+    edition = StringField("edition")
     pages = StringField("Pages")
     doi = StringField("doi")
     submit = SubmitField("Submit")
