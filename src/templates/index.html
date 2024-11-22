@@ -35,6 +35,45 @@ Reference app
     </ul>
 {% endif %}
 
+{% if message_books %}
+    <p>{{ message_books }}</p>
+{% endif %}
+
+{% for book in books_list %}
+  <div class="card w-75 mb-3">
+    <div class="card-body">
+      <h5 class="card-title">{{ book.title }}</h5>
+      <p class="card-text"> by {{ book.author }} ({{ book.year }})</p></br>
+      <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#Modal{{book.id}}">View</button>
+      <a href="#" class="btn btn-outline-dark">Edit</a>
+      <a href="#" class="btn btn-danger">Delete</a>
+    </div>
+  </div>
+
+  <div class="modal fade" id="Modal{{book.id}}" tabindex="-1" aria-labelledby="Reference information" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header ">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h4>{{ book.title }}</h4>
+          <p>
+            <b>Author:</b>  {{ book.author }}</br>
+            <b>Published:</b>  {{ book.year }}</br>
+            <b>Publisher:</b>  {% if book.publisher %}{{ book.publisher }}{% endif %} </br>
+            <b>Edition:</b> {% if book.edition %}{{ book.edition }}{% endif %} </br>
+            <b>Pages:</b>  {% if book.pages %}{{ book.pages }}{% endif %} </br>
+            <b>Doi:</b>  {% if book.doi %}{{ book.doi }}{% endif %} </br>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endfor %}
+
+
 <h4>Add Reference:</h4></br>
 <div class="add_button_container" style="display: inline;">
   <a href="/add-article" class="btn btn-dark">Article</a>
@@ -43,5 +82,6 @@ Reference app
   <a href="/add-conference" class="btn btn-dark">Conference</a>
   <a href="/add-misc" class="btn btn-dark">Misc</a>
 </div> 
+
 
 {% endblock %}
