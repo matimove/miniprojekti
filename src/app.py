@@ -172,6 +172,18 @@ def add_book():
     # Render the form again (with error messages if any)
     return render_template("book.html", form=form)
 
+@app.route("/add-conference", methods=["POST", "GET"])
+def add_conference():
+    # toistaiseksi ohjaa vain takaisin etusivulle
+    return redirect(url_for("index"))
+
+
+
+@app.route("/add-misc", methods=["POST", "GET"])
+def add_misc():
+    # toistaiseksi ohjaa vain takaisin etusivulle
+    return redirect(url_for("index"))
+
 
 # testausta varten oleva reitti
 if test_env:
