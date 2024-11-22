@@ -15,6 +15,16 @@ class AddArticleForm(FlaskForm):
     doi = StringField("doi")
     submit = SubmitField("Submit")
 
+class AddBookForm(FlaskForm):
+    title = StringField("Title", validators=[DataRequired()])
+    author = StringField("Author", validators=[DataRequired()])
+    year = StringField("Year", validators=[DataRequired()])
+    publisher = StringField("Publisher")
+    edition = StringField("edition")
+    pages = StringField("Pages")
+    doi = StringField("doi")
+    submit = SubmitField("Submit")
+
 class AddInproceedingsForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired()])
     author = StringField("Author", validators=[DataRequired()])

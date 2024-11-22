@@ -27,6 +27,13 @@ def validate_author(author):
         raise ValueError("Author name can only contain letters, spaces, and dashes.")
     validate_length(author, "Author name", 2, 100)
 
+def validate_publisher(publisher):
+    """Validates an publisher's name (letters, spaces, and dashes)."""
+    pattern = r"^[a-zA-Z\- ]+$"
+    if not re.match(pattern, publisher):
+        raise ValueError("Publisher name can only contain letters, spaces, and dashes.")
+    validate_length(publisher, "Publisher name", 2, 100)
+
 def validate_title(title):
     """Validates an article title (letters, numbers, spaces, and punctuation)."""
     validate_length(title, "Title", 5, 255)

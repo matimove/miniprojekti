@@ -1,7 +1,7 @@
 from config import db, app
 from sqlalchemy import text
 
-table_names = ["articles", "inproceedings"]
+table_names = ["articles", "books", "inproceedings"]
 
 def table_exists(name):
     sql_table_existence = text(
@@ -51,6 +51,24 @@ def setup_db():
     db.session.execute(sql)
     db.session.commit()
 
+    print(f"Creating table: books")
+    
+    sql = text(
+        f"CREATE TABLE books ("
+        "  id SERIAL PRIMARY KEY,"
+        "  title TEXT NOT NULL,"
+        "  author TEXT NOT NULL,"
+        "  year INTEGER NOT NULL,"
+        "  publisher TEXT ,"
+        "  edition TEXT,"
+        "  pages TEXT,"
+        "  doi TEXT"
+        ");"
+    )
+
+    db.session.execute(sql)
+    db.session.commit()
+
     print(f"Creating table: inproceedings")
 
     sql = text(
@@ -75,6 +93,7 @@ def setup_db():
 
     db.session.execute(sql)
     db.session.commit()
+
 
 if __name__ == "__main__":
     with app.app_context():
