@@ -185,9 +185,88 @@ def add_misc():
     return redirect(url_for("index"))
 
 
+@app.route("/delete/<citation_type>/<int:id>", methods=["POST"])
+def delete_citation(citation_type, id):
+    try:
+        if citation_type == "article":
+            article_repository.delete_article(id)
+        elif citation_type == "book":
+            book_repository.delete_book(id)
+        elif citation_type == "inproceedings":
+            inproceedings_repository.delete_inproceeding(id)
+        else:
+            flash("Invalid citation type", "error")
+            return redirect(url_for("index"))
+        
+        flash("Citation deleted successfully!", "success")
+    except Exception as e:
+        flash(f"Error deleting citation: {str(e)}", "error")
+    
+    return redirect(url_for("index"))
+
+@app.route("/edit/<citation_type>/<int:id>", methods=["GET", "POST"])
+def edit_citation(citation_type, id):
+    form = None
+    citation = None
+
+    if citation_type == "article":
+        citation = article_repository.get_article_by_id(id)
+        form = AddArticleForm(obj=citation)
+    elif citation_type == "book":
+        citation = book_repository.get_book_by_id(id)
+        form = AddBookForm(obj=citation)
+    elif citation_type == "inproceedings":
+        citation = inproceedings_repository.get_inproceeding_by_id(id)
+        form = AddInproceedingsForm(obj=citation)
+    else:
+        flash("Invalid citation type", "error")
+        return redirect(url_for("index"))
+
+    if form.validate_on_submit():
+        try:
+            # Update based on type
+            if citation_type == "article":
+                validate_article(
+                    form.author.data, form.title.data, form.journal.data,
+                    form.year.data, form.volume.data, form.number.data,
+                    form.pages.data, form.month.data, form.doi.data
+                )
+            elif citation_type == "book":
+                validate_book(
+                    form.author.data, form.title.data, form.year.data,
+                    form.publisher.data, form.edition.data, form.pages.data,
+                    form.doi.data
+                )
+            elif citation_type == "inproceedings":
+                validate_inproceedings(
+                    form.author.data, form.title.data, form.booktitle.data,
+                    form.year.data, form.editor.data, form.volume.data,
+                    form.number.data, form.series.data, form.pages.data,
+                    form.address.data, form.month.data, form.organization.data,
+                    form.publisher.data
+                )
+
+            if citation_type == "article":
+                article_repository.delete_article(id)
+            elif citation_type == "book":
+                book_repository.delete_book(id)
+            elif citation_type == "inproceedings":
+                inproceedings_repository.delete_inproceeding(id)
+            
+            flash("Citation updated successfully!", "success")
+            return redirect(url_for("index"))
+        except (ArticleUserInputError, UserInputError, InproceedingsUserInputError) as e:
+            flash(str(e), "error")
+    
+    return render_template(f"{citation_type}.html", form=form, editing=True)
+
+
 # testausta varten oleva reitti
 if test_env:
     @app.route("/reset_db")
     def reset_database():
         reset_db()
         return jsonify({ 'message': "db reset" })
+    
+
+

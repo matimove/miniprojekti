@@ -41,12 +41,15 @@ Reference app
   <div class="card w-75 mb-3">
     <div class="card-body">
       <h5 class="card-title">{{ article.title }}</h5>
-      <p class="card-text"> by {{ article.author }} ({{ article.year }})</p></br>
-      <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#Modal{{article.id}}">View</button>
-      <a href="#" class="btn btn-outline-dark">Edit</a>
-      <a href="#" class="btn btn-danger">Delete</a>
+      <p class="card-text">by {{ article.author }} ({{ article.year }})</p>
+      <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#Modal{{ article.id }}">View</button>
+      <a href="/edit/article/{{ article.id }}" class="btn btn-outline-dark">Edit</a>
+      <a href="#" onclick="event.preventDefault(); document.getElementById('delete-form-article-{{ article.id }}').submit();" class="btn btn-danger">Delete</a>
+      <form id="delete-form-article-{{ article.id }}" action="/delete/article/{{ article.id }}" method="POST" style="display: none;">
+      </form>
     </div>
   </div>
+
 
   <div class="modal fade" id="Modal{{article.id}}" tabindex="-1" aria-labelledby="Reference information" aria-hidden="true">
     <div class="modal-dialog">
@@ -81,8 +84,10 @@ Reference app
       <h5 class="card-title">{{ book.title }}</h5>
       <p class="card-text"> by {{ book.author }} ({{ book.year }})</p></br>
       <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#Modal{{book.id}}">View</button>
-      <a href="#" class="btn btn-outline-dark">Edit</a>
-      <a href="#" class="btn btn-danger">Delete</a>
+      <a href="/edit/book/{{ book.id }}" class="btn btn-outline-dark">Edit</a>
+      <a href="#" onclick="event.preventDefault(); document.getElementById('delete-form-book-{{ book.id }}').submit();" class="btn btn-danger">Delete</a>
+      <form id="delete-form-book-{{ book.id }}" action="/delete/book/{{ book.id }}" method="POST" style="display: none;">
+      </form>
     </div>
   </div>
 
@@ -121,11 +126,13 @@ Reference app
       <h5 class="card-title">{{ inproceedings.title }}</h5>
       <p class="card-text"> by {{ inproceedings.author }} ({{ inproceedings.year }})</p></br>
       <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#Modal{{inproceedings.id}}">View</button>
-      <a href="#" class="btn btn-outline-dark">Edit</a>
-      <a href="#" class="btn btn-danger">Delete</a>
+      <a href="/edit/inproceedings/{{ inproceedings.id }}" class="btn btn-outline-dark">Edit</a>
+      <a href="#" onclick="event.preventDefault(); document.getElementById('delete-form-inproceedings-{{ inproceedings.id }}').submit();" class="btn btn-danger">Delete</a>
+      <form id="delete-form-inproceedings-{{ inproceedings.id }}" action="/delete/inproceedings/{{ inproceedings.id }}" method="POST" style="display: none;">
+      </form>
     </div>
   </div>
-
+  
   <div class="modal fade" id="Modal{{inproceedings.id}}" tabindex="-1" aria-labelledby="Reference information" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">

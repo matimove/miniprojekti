@@ -31,3 +31,13 @@ def get_articles():
     result = db.session.execute(text(sql))
     articles = result.fetchall()
     return articles
+
+def delete_article(id):
+    sql = text("DELETE FROM articles WHERE id = :id")
+    db.session.execute(sql, {"id": id})
+    db.session.commit()
+
+def get_article_by_id(id):
+    sql = text("SELECT * FROM articles WHERE id = :id")
+    result = db.session.execute(sql, {"id": id})
+    return result.fetchone()

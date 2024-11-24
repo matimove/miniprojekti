@@ -29,3 +29,13 @@ def get_books():
     result = db.session.execute(text(sql))
     articles = result.fetchall()
     return articles
+
+def delete_book(id):
+    sql = text("DELETE FROM books WHERE id = :id")
+    db.session.execute(sql, {"id": id})
+    db.session.commit()
+
+def get_book_by_id(id):
+    sql = text("SELECT * FROM books WHERE id = :id")
+    result = db.session.execute(sql, {"id": id})
+    return result.fetchone()
