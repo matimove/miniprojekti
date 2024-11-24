@@ -4,9 +4,9 @@ from config import db
 def create_inproceedings(title, author, booktitle, year, editor, volume, number, series, pages, address, month, organization, publisher):
     sql = """
         INSERT INTO inproceedings
-            (author, title, booktitle, year, volume, number, series, pages, address, month, organization, publisher)
+            (author, title, booktitle, year, editor, volume, number, series, pages, address, month, organization, publisher)
         VALUES
-            (:author, :title, :booktitle, :year, :volume, :number, :series, :pages, :address, :month, :organization, :publisher)
+            (:author, :title, :booktitle, :year, :editor, :volume, :number, :series, :pages, :address, :month, :organization, :publisher)
         RETURNING id
     """
     params = {
