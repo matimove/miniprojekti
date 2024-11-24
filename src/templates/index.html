@@ -142,9 +142,10 @@ Reference app
         <div class="modal-body">
           <h4>{{ inproceedings.title }}</h4>
           <p>
-            <b>Author:</b>  {{ inproceedings.author }}</br>
+            <b>Author(s):</b>  {{ inproceedings.author }}</br>
             <b>Published:</b>  {% if inproceedings.month %}{{ inproceedings.month }}{% endif %} {{ inproceedings.year }}</br>
             <b>Book title:</b>  {{ inproceedings.booktitle }} </br>
+            <b>Editor(s):</b>  {% if inproceedings.editor %}{{ inproceedings.editor }}{% endif %} </br>
             <b>Volume:</b>  {% if inproceedings.volume %}{{ inproceedings.volume }}{% endif %} </br>
             <b>Number:</b>  {% if inproceedings.number %}{{ inproceedings.number }}{% endif %} </br>
             <b>Pages:</b> {% if inproceedings.pages %}{{ inproceedings.pages }}{% endif %} </br>

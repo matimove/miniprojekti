@@ -14,6 +14,12 @@ def validate_numeric(value, field_name):
     """Validates that a value is numeric."""
     if not str(value).isdigit():
         raise ValueError(f"{field_name} must be a valid number.")
+    
+def validate_common_pattern(string, name):
+    """Validates that a given string matches a common pattern of only containing letters, numbers, spaces and punctuation."""
+    pattern = r"^[a-zA-Z0-9 .,\-?!:;'()\"@]+$"
+    if not re.match(pattern, string):
+        raise ValueError(f"{name} contains invalid characters.")
 
 def validate_year(year):
     """Validates that the year is numeric and within a realistic range."""
@@ -70,3 +76,35 @@ def validate_month(month):
     ]
     if month.capitalize() not in valid_months:
         raise ValueError("Month must be a valid name or abbreviation.")
+
+def validate_booktitle(booktitle):
+    """Validates a booktitle (letters, numbers, spaces, and punctuation)."""
+    validate_length(booktitle, "Booktitle", 1, 255)
+    validate_common_pattern(booktitle, "Booktitle")
+
+def validate_series(series):
+    """Validates a series name (letters, numbers, spaces, and punctuation)."""
+    validate_length(series, "Series", 1, 255)
+    validate_common_pattern(series, "Series")
+
+def validate_address(address):
+    """Validates an address (letters, numbers, spaces, and punctuation)."""
+    validate_length(address, "Address", 1, 255)
+    validate_common_pattern(address, "Address")
+
+def validate_organization(organization):
+    """Validates an organization name (letters, numbers, spaces, and punctuation)."""
+    validate_length(organization, "Organization", 1, 255)
+    validate_common_pattern(organization, "Organization")
+    
+def validate_publisher(publisher):
+    """Validates a publisher name (letters, numbers, spaces, and punctuation)."""
+    validate_length(publisher, "Publisher", 1, 255)
+    validate_common_pattern(publisher, "Publisher")
+
+def validate_editor(editor):
+    """Validates an editor's name (letters, spaces, and dashes)."""
+    validate_length(editor, "Editor name", 2, 100)
+    pattern = r"^[a-zA-Z\- ]+$"
+    if not re.match(pattern, editor):
+        raise ValueError("Editor name can only contain letters, spaces, and dashes.")
