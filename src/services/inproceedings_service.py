@@ -4,9 +4,15 @@ from validators import (
     validate_numeric,
     validate_author,
     validate_title,
+    validate_booktitle,
     validate_year,
+    validate_series,
     validate_pages,
+    validate_address,
     validate_month,
+    validate_organization,
+    validate_publisher,
+    validate_editor
 )
 
 class UserInputError(Exception):
@@ -36,7 +42,7 @@ def validate_inproceedings(author, title, booktitle, year, editor=None, volume=N
         UserInputError: If any field fails validation.
 
     Returns:
-        int: The ID of the created article.
+        int: The ID of the created inproceedings.
     """
     try:
         # Month mapping for numeric and abbreviated month inputs
@@ -57,24 +63,24 @@ def validate_inproceedings(author, title, booktitle, year, editor=None, volume=N
         validate_title(title)
         
         validate_required_field(booktitle, "Booktitle")
-        validate_title(booktitle)
+        validate_booktitle(booktitle)
         
         validate_required_field(year, "Year")
         validate_year(year)
         
         # Validate optional fields
         if editor:
-            validate_author(editor)
+            validate_editor(editor)
         if volume:
             validate_numeric(volume, "Volume")
         if number:
             validate_numeric(number, "Issue")
         if series:
-            validate_title(series)
+            validate_series(series)
         if pages:
             validate_pages(pages)
         if address:
-            validate_title(address)
+            validate_address(address)
         if month:
             # Normalize month input
             if month.isdigit():
@@ -96,9 +102,9 @@ def validate_inproceedings(author, title, booktitle, year, editor=None, volume=N
             validate_month(month)  # Validate the normalized month
         
         if organization:
-            validate_title(organization)
+            validate_organization(organization)
         if publisher:
-            validate_title(publisher)
+            validate_publisher(publisher)
 
         # Delegate to repository for database operations
         return inproceedings_repository.create_inproceedings(
