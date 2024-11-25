@@ -197,9 +197,9 @@ def delete_citation(citation_type, id):
             flash("Invalid citation type", "error")
             return redirect(url_for("index"))
         
-        flash("Citation deleted successfully!", "success")
+        flash("Reference deleted successfully!", "success")
     except Exception as e:
-        flash(f"Error deleting citation: {str(e)}", "error")
+        flash(f"Error deleting reference: {str(e)}", "error")
     
     return redirect(url_for("index"))
 
@@ -218,7 +218,7 @@ def edit_citation(citation_type, id):
         citation = inproceedings_repository.get_inproceeding_by_id(id)
         form = AddInproceedingsForm(obj=citation)
     else:
-        flash("Invalid citation type", "error")
+        flash("Invalid reference type", "error")
         return redirect(url_for("index"))
 
     if form.validate_on_submit():
