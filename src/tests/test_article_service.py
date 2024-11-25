@@ -174,7 +174,6 @@ def test_validate_article_invalid_numeric_month():
             month="13"  # Invalid month
         )
 
-
 def test_validate_valid_abbreviated_month():
     """Test that a valid article passes validation and is created."""
     with patch("services.article_service.article_repository.create_article") as mock_create:
