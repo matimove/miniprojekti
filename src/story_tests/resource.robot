@@ -7,6 +7,8 @@ ${DELAY}      0.5 seconds
 ${HOME_URL}   http://${SERVER}
 ${RESET_URL}  http://${SERVER}/reset_db
 ${ADD_ARTICLE_URL}  http://${SERVER}/add-article
+${ADD_BOOK_URL}  http://${SERVER}/add-book
+${ADD_INPROCEEDING_URL}  http://${SERVER}/add-inproceedings
 ${BROWSER}    chrome
 ${HEADLESS}   false
 
@@ -30,3 +32,9 @@ Reset Articles
 
 Go To Add Article Page
     Go To  ${ADD_ARTICLE_URL}
+
+Go To Add Book Page
+    Go To  ${ADD_BOOK_URL}
+
+Go To Add Inproceeding Page
+    Go To  ${ADD_INPROCEEDING_URL}
