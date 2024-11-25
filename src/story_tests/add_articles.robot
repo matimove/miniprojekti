@@ -21,6 +21,13 @@ Add Article With Too Short Title
     Submit Article
     Page Should Contain  Title must be between 5 and 255 characters. 
 
+Add Article With Not All Required Fields Filled
+    Set Title  joku
+    Set Author  Matti Meikalainen
+    Submit Article
+    Page Should Not Contain    Article added successfully!
+
+
 *** Keywords ***
 Set Title
       [Arguments]  ${title}
