@@ -252,7 +252,7 @@ def edit_citation(citation_type, id):
             elif citation_type == "inproceedings":
                 inproceedings_repository.delete_inproceeding(id)
             
-            flash("Citation updated successfully!", "success")
+            flash("Reference updated successfully!", "success")
             return redirect(url_for("index"))
         except (ArticleUserInputError, UserInputError, InproceedingsUserInputError) as e:
             flash(str(e), "error")
