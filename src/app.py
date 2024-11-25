@@ -13,7 +13,7 @@ from repositories import article_repository, book_repository, inproceedings_repo
 
 @app.route("/")
 def index():
-    articles_list = article_repository.get_articles() 
+    articles_list = article_repository.get_articles()
     if not articles_list:
         message_articles = "You have no articles saved"
     else:
@@ -34,7 +34,6 @@ def index():
     return render_template("index.html", articles=articles_list, message_articles=message_articles,
                             books_list=books_list, message_books=message_books,
                             inproceedings_list=inproceedings_list, message_inproceedings=message_inproceedings)
-
 
 
 @app.route("/add-article", methods=["POST", "GET"])
