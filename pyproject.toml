@@ -18,6 +18,7 @@ requests = "^2.32.3"
 flask-wtf = "^1.2.2"
 wtforms = "^3.2.1"
 pytest-cov = "^6.0.0"
+pylint = "^3.3.1"
 
 
 [tool.poetry.group.dev.dependencies]
