@@ -194,13 +194,6 @@ Reference app
         <div class="modal-body">
           <h4>{{ misc.title }}</h4>
           <p>
-            form.author.data = ""
-            form.title.data = ""
-            form.year.data = ""
-            form.month.data = ""
-            form.howpublished.data = ""
-            form.note.data = ""
-
             <b>Author(s):</b>  {{ misc.author }}</br>
             <b>Book title:</b>  {{ misc.title }} </br>
             <b>Published:</b>  {% if misc.month %}{{ misc.month }}{% endif %} {{ misc.year }}</br>

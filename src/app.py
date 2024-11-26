@@ -226,6 +226,8 @@ def delete_citation(citation_type, id):
             book_repository.delete_book(id)
         elif citation_type == "inproceedings":
             inproceedings_repository.delete_inproceeding(id)
+        elif citation_type == "misc":
+            misc_repository.delete_misc(id)
         else:
             flash("Invalid citation type", "error")
             return redirect(url_for("index"))
@@ -250,6 +252,9 @@ def edit_citation(citation_type, id):
     elif citation_type == "inproceedings":
         citation = inproceedings_repository.get_inproceeding_by_id(id)
         form = AddInproceedingsForm(obj=citation)
+    elif citation_type == "misc":
+        citation = misc_repository.get_misc_by_id(id)
+        form = AddMiscForm(obj=citation)
     else:
         flash("Invalid reference type", "error")
         return redirect(url_for("index"))
@@ -277,6 +282,11 @@ def edit_citation(citation_type, id):
                     form.address.data, form.month.data, form.organization.data,
                     form.publisher.data
                 )
+            elif citation_type == "misc":
+                validate_misc(
+                    form.author.data, form.title.data, form.year.data,
+                    form.month.data, form.howpublished.data, form.note.data,
+                )
 
             if citation_type == "article":
                 article_repository.delete_article(id)
@@ -284,6 +294,8 @@ def edit_citation(citation_type, id):
                 book_repository.delete_book(id)
             elif citation_type == "inproceedings":
                 inproceedings_repository.delete_inproceeding(id)
+            elif citation_type == "misc":
+                misc_repository.delete_misc(id)
             
             flash("Reference updated successfully!", "success")
             return redirect(url_for("index"))
