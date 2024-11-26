@@ -9,6 +9,7 @@ ${RESET_URL}  http://${SERVER}/reset_db
 ${ADD_ARTICLE_URL}  http://${SERVER}/add-article
 ${ADD_BOOK_URL}  http://${SERVER}/add-book
 ${ADD_INPROCEEDING_URL}  http://${SERVER}/add-inproceedings
+${ADD_MISC_URL}  http://${SERVER}/add-misc
 ${BROWSER}    chrome
 ${HEADLESS}   false
 
@@ -38,3 +39,6 @@ Go To Add Book Page
 
 Go To Add Inproceeding Page
     Go To  ${ADD_INPROCEEDING_URL}
+
+Go To Add Misc Page
+    Go To  ${ADD_MISC_URL}
