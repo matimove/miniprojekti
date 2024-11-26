@@ -2,11 +2,12 @@ from flask import redirect, render_template, request, jsonify, flash, url_for
 from db_helper import reset_db
 from config import app, test_env
 
-from forms import AddArticleForm, AddBookForm, AddInproceedingsForm
+from forms import AddArticleForm, AddBookForm, AddInproceedingsForm, AddMiscForm 
 from services.article_service import validate_article, UserInputError as ArticleUserInputError
 from services.book_service import validate_book, UserInputError
 from services.inproceedings_service import validate_inproceedings, UserInputError as InproceedingsUserInputError
-from repositories import article_repository, book_repository, inproceedings_repository
+from services.misc_service import validate_misc, UserInputError
+from repositories import article_repository, book_repository, inproceedings_repository, misc_repository
 
 
 #Pieni muutos
@@ -31,9 +32,16 @@ def index():
     else:
         message_inproceedings = None
 
+    misc_list = misc_repository.get_misc()
+    if not inproceedings_list:
+        message_misc = "You have no misc saved"
+    else:
+        message_misc = None
+
     return render_template("index.html", articles=articles_list, message_articles=message_articles,
                             books_list=books_list, message_books=message_books,
-                            inproceedings_list=inproceedings_list, message_inproceedings=message_inproceedings)
+                            inproceedings_list=inproceedings_list, message_inproceedings=message_inproceedings,
+                            misc_list=misc_list, message_misc=message_misc)
 
 
 @app.route("/add-article", methods=["POST", "GET"])
@@ -171,17 +179,42 @@ def add_book():
     # Render the form again (with error messages if any)
     return render_template("book.html", form=form)
 
-@app.route("/add-conference", methods=["POST", "GET"])
-def add_conference():
-    # toistaiseksi ohjaa vain takaisin etusivulle
-    return redirect(url_for("index"))
-
-
 
 @app.route("/add-misc", methods=["POST", "GET"])
 def add_misc():
-    # toistaiseksi ohjaa vain takaisin etusivulle
-    return redirect(url_for("index"))
+    form = AddMiscForm()
+
+    if form.validate_on_submit():
+        # Extract form data
+        author = form.author.data 
+        title = form.title.data
+        year = form.year.data
+
+        month = form.month.data if form.month.data else None
+        howpublished = form.howpublished.data if form.howpublished.data else None
+        note = form.note.data if form.note.data else None
+
+        try:
+            # Validate and create the article
+            validate_misc(author, title, year, month, howpublished, note)
+            flash("Misc added successfully!", "success")  # Success message
+
+            # Clear form fields after data extraction
+            form.author.data = ""
+            form.title.data = ""
+            form.year.data = ""
+            form.month.data = ""
+            form.howpublished.data = ""
+            form.note.data = ""
+
+            return redirect(url_for("index"))
+
+        except UserInputError as e:
+            # Pass the error message to the template
+            flash(str(e), "error")  # Error message
+
+
+    return render_template("misc.html", form=form)
 
 
 @app.route("/delete/<citation_type>/<int:id>", methods=["POST"])
@@ -193,13 +226,15 @@ def delete_citation(citation_type, id):
             book_repository.delete_book(id)
         elif citation_type == "inproceedings":
             inproceedings_repository.delete_inproceeding(id)
+        elif citation_type == "misc":
+            misc_repository.delete_misc(id)
         else:
             flash("Invalid citation type", "error")
             return redirect(url_for("index"))
         
-        flash("Citation deleted successfully!", "success")
+        flash("Reference deleted successfully!", "success")
     except Exception as e:
-        flash(f"Error deleting citation: {str(e)}", "error")
+        flash(f"Error deleting reference: {str(e)}", "error")
     
     return redirect(url_for("index"))
 
@@ -217,8 +252,11 @@ def edit_citation(citation_type, id):
     elif citation_type == "inproceedings":
         citation = inproceedings_repository.get_inproceeding_by_id(id)
         form = AddInproceedingsForm(obj=citation)
+    elif citation_type == "misc":
+        citation = misc_repository.get_misc_by_id(id)
+        form = AddMiscForm(obj=citation)
     else:
-        flash("Invalid citation type", "error")
+        flash("Invalid reference type", "error")
         return redirect(url_for("index"))
 
     if form.validate_on_submit():
@@ -244,6 +282,11 @@ def edit_citation(citation_type, id):
                     form.address.data, form.month.data, form.organization.data,
                     form.publisher.data
                 )
+            elif citation_type == "misc":
+                validate_misc(
+                    form.author.data, form.title.data, form.year.data,
+                    form.month.data, form.howpublished.data, form.note.data,
+                )
 
             if citation_type == "article":
                 article_repository.delete_article(id)
@@ -251,8 +294,10 @@ def edit_citation(citation_type, id):
                 book_repository.delete_book(id)
             elif citation_type == "inproceedings":
                 inproceedings_repository.delete_inproceeding(id)
+            elif citation_type == "misc":
+                misc_repository.delete_misc(id)
             
-            flash("Citation updated successfully!", "success")
+            flash("Reference updated successfully!", "success")
             return redirect(url_for("index"))
         except (ArticleUserInputError, UserInputError, InproceedingsUserInputError) as e:
             flash(str(e), "error")

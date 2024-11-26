@@ -108,3 +108,15 @@ def validate_editor(editor):
     pattern = r"^[a-zA-Z\- ]+$"
     if not re.match(pattern, editor):
         raise ValueError("Editor name can only contain letters, spaces, and dashes.")
+
+def validate_howpublished(howpublished):
+    validate_length(howpublished, "How Published", 2, 100)
+    pattern = r"^[a-zA-Z\- ]+$"
+    if not re.match(pattern, howpublished):
+        raise ValueError("How published can only contain letters, spaces, and dashes.")
+
+def validate_note(note):
+    validate_common_pattern(note, "Note")
+    pattern = r"^[a-zA-Z\- ]+$"
+    if not re.match(pattern, note):
+        raise ValueError("Note can only contain letters, spaces, and dashes.")

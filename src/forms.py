@@ -40,3 +40,13 @@ class AddInproceedingsForm(FlaskForm):
     organization = StringField("Organization")
     publisher = StringField("Publisher")
     submit = SubmitField("Submit")
+
+class AddMiscForm(FlaskForm):
+    title = StringField("Title", validators=[DataRequired()])
+    author = StringField("Author", validators=[DataRequired()])  
+    year = StringField("Year", validators=[DataRequired()])  
+    month = StringField("Month")
+    howpublished = StringField("How Published") 
+    note = StringField("Note")
+    submit = SubmitField("Submit")
+
