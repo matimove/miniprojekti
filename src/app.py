@@ -33,7 +33,7 @@ def index():
         message_inproceedings = None
 
     misc_list = misc_repository.get_misc()
-    if not inproceedings_list:
+    if not misc_list:
         message_misc = "You have no misc saved"
     else:
         message_misc = None
