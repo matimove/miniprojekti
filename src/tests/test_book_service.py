@@ -38,7 +38,7 @@ def test_validate_book_invalid_title():
     with pytest.raises(UserInputError, match="Title must be between 5 and 255 characters."):
         validate_book(author="Kirjailija", title="t", year="2023")
 
-def test_validate_article_invalid_pages():
+def test_validate_book_invalid_pages():
     """Test that invalid pages raise UserInputError."""
     with pytest.raises(UserInputError, match="Pages must be a number or range."):
         validate_book(
