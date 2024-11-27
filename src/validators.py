@@ -30,7 +30,7 @@ def validate_common_pattern(string, name):
 
 def validate_year(year):
     """Validates that the year is numeric and within a realistic range."""
-    if not year.isdigit() or not (1500 <= int(year) <= 2100):
+    if not year.isdigit() or not 1500 <= int(year) <= 2100:
         raise ValueError("Year must be a valid number between 1500 and 2100.")
 
 
@@ -40,14 +40,6 @@ def validate_author(author):
     if not re.match(pattern, author):
         raise ValueError("Author name can only contain letters, spaces, and dashes.")
     validate_length(author, "Author name", 2, 100)
-
-
-def validate_publisher(publisher):
-    """Validates an publisher's name (letters, spaces, and dashes)."""
-    pattern = r"^[a-zA-Z\- ]+$"
-    if not re.match(pattern, publisher):
-        raise ValueError("Publisher name can only contain letters, spaces, and dashes.")
-    validate_length(publisher, "Publisher name", 2, 100)
 
 
 def validate_title(title):
