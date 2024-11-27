@@ -19,6 +19,7 @@ flask-wtf = "^1.2.2"
 wtforms = "^3.2.1"
 pytest-cov = "^6.0.0"
 pylint = "^3.3.1"
+black = "^24.10.0"
 
 
 [tool.poetry.group.dev.dependencies]

@@ -15,6 +15,7 @@ class AddArticleForm(FlaskForm):
     doi = StringField("doi")
     submit = SubmitField("Submit")
 
+
 class AddBookForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired()])
     author = StringField("Author", validators=[DataRequired()])
@@ -24,6 +25,7 @@ class AddBookForm(FlaskForm):
     pages = StringField("Pages")
     doi = StringField("doi")
     submit = SubmitField("Submit")
+
 
 class AddInproceedingsForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired()])
@@ -41,12 +43,12 @@ class AddInproceedingsForm(FlaskForm):
     publisher = StringField("Publisher")
     submit = SubmitField("Submit")
 
+
 class AddMiscForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired()])
-    author = StringField("Author", validators=[DataRequired()])  
-    year = StringField("Year", validators=[DataRequired()])  
+    author = StringField("Author", validators=[DataRequired()])
+    year = StringField("Year", validators=[DataRequired()])
     month = StringField("Month")
-    howpublished = StringField("How Published") 
+    howpublished = StringField("How Published")
     note = StringField("Note")
     submit = SubmitField("Submit")
-

@@ -3,13 +3,14 @@ from sqlalchemy import text
 
 table_names = ["articles", "books", "inproceedings", "misc"]
 
+
 def table_exists(name):
     sql_table_existence = text(
-    "SELECT EXISTS ("
-    "  SELECT 1"
-    "  FROM information_schema.tables"
-    f" WHERE table_name = '{name}'"
-    ")"
+        "SELECT EXISTS ("
+        "  SELECT 1"
+        "  FROM information_schema.tables"
+        f" WHERE table_name = '{name}'"
+        ")"
     )
 
     print(f"Checking if table {name} exists")
@@ -18,6 +19,7 @@ def table_exists(name):
     result = db.session.execute(sql_table_existence)
     return result.fetchall()[0][0]
 
+
 def reset_db():
     for table_name in table_names:
         if table_exists(table_name):
@@ -25,6 +27,7 @@ def reset_db():
             sql = text(f"DROP TABLE {table_name}")
             db.session.execute(sql)
             db.session.commit()
+
 
 def setup_db():
 
@@ -45,14 +48,13 @@ def setup_db():
         "  month TEXT,"
         "  doi TEXT"
         ");"
-
     )
 
     db.session.execute(sql)
     db.session.commit()
 
     print(f"Creating table: books")
-    
+
     sql = text(
         f"CREATE TABLE books ("
         "  id SERIAL PRIMARY KEY,"
@@ -88,14 +90,13 @@ def setup_db():
         "  organization TEXT,"
         "  publisher TEXT"
         ");"
-
     )
 
     db.session.execute(sql)
     db.session.commit()
 
     print(f"Creating table: misc")
-    
+
     sql = text(
         f"CREATE TABLE misc ("
         "  id SERIAL PRIMARY KEY,"
