@@ -1,5 +1,5 @@
-from config import db, app
 from sqlalchemy import text
+from config import db, app
 
 table_names = ["articles", "books", "inproceedings", "misc"]
 
