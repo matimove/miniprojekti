@@ -3,10 +3,7 @@ from db_helper import reset_db
 from config import app, test_env
 
 from forms import AddArticleForm, AddBookForm, AddInproceedingsForm, AddMiscForm 
-from services.article_service import validate_article, UserInputError as ArticleUserInputError
-from services.book_service import validate_book, UserInputError
-from services.inproceedings_service import validate_inproceedings, UserInputError as InproceedingsUserInputError
-from services.misc_service import validate_misc, UserInputError
+from services.citation_service import validate_article, validate_inproceedings, validate_book, validate_misc, UserInputError
 from repositories import article_repository, book_repository, inproceedings_repository, misc_repository
 
 
@@ -80,7 +77,7 @@ def add_article():
 
             return redirect(url_for("index"))
 
-        except ArticleUserInputError as e:
+        except UserInputError as e:
             # Pass the error message to the template
             flash(str(e), "error")  # Error message
 
@@ -132,7 +129,7 @@ def add_inproceedings():
 
             return redirect(url_for("index"))
 
-        except InproceedingsUserInputError as e:
+        except UserInputError as e:
             # Pass the error message to the template
             flash(str(e), "error")  # Error message
 
@@ -299,7 +296,7 @@ def edit_citation(citation_type, id):
             
             flash("Reference updated successfully!", "success")
             return redirect(url_for("index"))
-        except (ArticleUserInputError, UserInputError, InproceedingsUserInputError) as e:
+        except (UserInputError) as e:
             flash(str(e), "error")
     
     return render_template(f"{citation_type}.html", form=form, editing=True)

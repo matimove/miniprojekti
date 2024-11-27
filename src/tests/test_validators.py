@@ -1,5 +1,4 @@
 import pytest
-import re
 
 from validators import (
     validate_author,

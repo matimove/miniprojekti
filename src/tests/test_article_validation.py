@@ -1,10 +1,10 @@
 import pytest
-from services.article_service import validate_article, UserInputError
+from services.citation_service import validate_article, UserInputError
 from unittest.mock import patch
 
 def test_validate_article_valid():
     """Test that a valid article passes validation and is created."""
-    with patch("services.article_service.article_repository.create_article") as mock_create:
+    with patch("services.citation_service.article_repository.create_article") as mock_create:
         mock_create.return_value = 1
 
         result = validate_article(
@@ -24,7 +24,7 @@ def test_validate_article_valid():
 
 def test_validate_article_missing_optional_fields():
     """Test that an article can be created without optional fields."""
-    with patch("services.article_service.article_repository.create_article") as mock_create:
+    with patch("services.citation_service.article_repository.create_article") as mock_create:
         mock_create.return_value = 1
 
         result = validate_article(
@@ -55,7 +55,7 @@ def test_validate_article_invalid_volume():
 
 def test_validate_article_repository_failure():
     """Test that repository failure raises an exception."""
-    with patch("services.article_service.article_repository.create_article", side_effect=Exception("DB Error")):
+    with patch("services.citation_service.article_repository.create_article", side_effect=Exception("DB Error")):
         with pytest.raises(Exception, match="DB Error"):
             validate_article(
                 author="Joulupukki",
@@ -96,7 +96,7 @@ def test_validate_article_invalid_title():
 
 def test_validate_article_missing_optional_fields():
     """Test that an article can be created without optional fields."""
-    with patch("services.article_service.article_repository.create_article") as mock_create:
+    with patch("services.citation_service.article_repository.create_article") as mock_create:
         mock_create.return_value = 1
 
         # Call validate_article with only required fields
@@ -145,7 +145,7 @@ def test_validate_article_invalid_month():
 
 def test_validate_valid_numeric_month():
     """Test that a valid article passes validation and is created."""
-    with patch("services.article_service.article_repository.create_article") as mock_create:
+    with patch("services.citation_service.article_repository.create_article") as mock_create:
         mock_create.return_value = 1
 
         result = validate_article(
@@ -176,7 +176,7 @@ def test_validate_article_invalid_numeric_month():
 
 def test_validate_valid_abbreviated_month():
     """Test that a valid article passes validation and is created."""
-    with patch("services.article_service.article_repository.create_article") as mock_create:
+    with patch("services.citation_service.article_repository.create_article") as mock_create:
         mock_create.return_value = 1
 
         result = validate_article(
@@ -207,7 +207,7 @@ def test_validate_article_invalid_abbreviated_month():
 
 def test_validate_article_repository_failure():
     """Test that repository failure raises an exception."""
-    with patch("services.article_service.article_repository.create_article", side_effect=Exception("DB Error")):
+    with patch("services.citation_service.article_repository.create_article", side_effect=Exception("DB Error")):
         with pytest.raises(Exception, match="DB Error"):
             validate_article(
                 author="Joulupukki",
@@ -218,7 +218,7 @@ def test_validate_article_repository_failure():
 
 def test_validate_article_author_boundary():
     """Test author field boundary values."""
-    with patch("services.article_service.article_repository.create_article") as mock_create:
+    with patch("services.citation_service.article_repository.create_article") as mock_create:
         mock_create.return_value = 1
 
         # Minimum valid length

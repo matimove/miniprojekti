@@ -1,10 +1,10 @@
 import pytest
-from services.book_service import validate_book, UserInputError
+from services.citation_service import validate_book, UserInputError
 from unittest.mock import patch
 
 def test_validate_book_valid():
     """Test that a valid book passes validation and is created."""
-    with patch("services.book_service.book_repository.create_book") as mock_create:
+    with patch("services.citation_service.book_repository.create_book") as mock_create:
         mock_create.return_value = 1
 
         result = validate_book(
@@ -21,7 +21,7 @@ def test_validate_book_valid():
 
 def test_validate_book_missing_optional_fields():
     """Test that an book can be created without optional fields."""
-    with patch("services.book_service.book_repository.create_book") as mock_create:
+    with patch("services.citation_service.book_repository.create_book") as mock_create:
         mock_create.return_value = 1
 
         result = validate_book(
