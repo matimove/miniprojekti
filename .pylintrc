@@ -19,3 +19,4 @@ disable=missing-module-docstring,
 max-args=18
 max-positional-arguments=18
 max-locals=18
+max-branches=18
