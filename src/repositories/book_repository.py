@@ -33,13 +33,13 @@ def get_books():
     return articles
 
 
-def delete_book(id):
+def delete_book(book_id):
     sql = text("DELETE FROM books WHERE id = :id")
-    db.session.execute(sql, {"id": id})
+    db.session.execute(sql, {"id": book_id})
     db.session.commit()
 
 
-def get_book_by_id(id):
+def get_book_by_id(book_id):
     sql = text("SELECT * FROM books WHERE id = :id")
-    result = db.session.execute(sql, {"id": id})
+    result = db.session.execute(sql, {"id": book_id})
     return result.fetchone()

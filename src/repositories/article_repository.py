@@ -35,13 +35,13 @@ def get_articles():
     return articles
 
 
-def delete_article(id):
+def delete_article(article_id):
     sql = text("DELETE FROM articles WHERE id = :id")
-    db.session.execute(sql, {"id": id})
+    db.session.execute(sql, {"id": article_id})
     db.session.commit()
 
 
-def get_article_by_id(id):
+def get_article_by_id(article_id):
     sql = text("SELECT * FROM articles WHERE id = :id")
-    result = db.session.execute(sql, {"id": id})
+    result = db.session.execute(sql, {"id": article_id})
     return result.fetchone()

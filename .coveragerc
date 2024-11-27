@@ -1,5 +1,7 @@
 [run]
+source = src
 omit =
+	src/app.py
 	src/tests/*
 	src/story_tests/*
 	src/db_helper.py

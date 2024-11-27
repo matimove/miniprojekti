@@ -4,26 +4,19 @@ ignore=tests
 
 [MESSAGE CONTROL]
 
-disable=raw-checker-failed,
-        bad-inline-option,
-        locally-disabled,
-        file-ignored,
-        suppressed-message,
-        useless-suppression,
-        deprecated-pragma,
-        use-symbolic-message-instead,
-        missing-module-docstring,
+disable=missing-module-docstring,
         missing-function-docstring,
         missing-class-docstring,
         unnecessary-pass,
-        f-string-without-interpolation,
-	too-many-arguments,
-        too-many-positional-arguments
+        f-string-without-interpolation
 
 [FORMAT]
-
-max-line-length=125
 
 [REFACTORING]
 
 [DESIGN]
+
+max-args=18
+max-positional-arguments=18
+max-locals=18
+max-branches=18

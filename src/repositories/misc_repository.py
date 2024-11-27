@@ -32,13 +32,13 @@ def get_misc():
     return articles
 
 
-def delete_misc(id):
+def delete_misc(misc_id):
     sql = text("DELETE FROM misc WHERE id = :id")
-    db.session.execute(sql, {"id": id})
+    db.session.execute(sql, {"id": misc_id})
     db.session.commit()
 
 
-def get_misc_by_id(id):
+def get_misc_by_id(misc_id):
     sql = text("SELECT * FROM misc WHERE id = :id")
-    result = db.session.execute(sql, {"id": id})
+    result = db.session.execute(sql, {"id": misc_id})
     return result.fetchone()

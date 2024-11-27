@@ -7,4 +7,5 @@ output.xml
 report.html
 *.png
 .coverage
+htmlcov
 *screenshot

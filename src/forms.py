@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import TextAreaField, StringField, SubmitField, PasswordField
-from wtforms.validators import DataRequired, EqualTo, Length, Email
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired
 
 
 class AddArticleForm(FlaskForm):
