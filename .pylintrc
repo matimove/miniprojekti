@@ -14,9 +14,15 @@ disable=raw-checker-failed,
         use-symbolic-message-instead,
         missing-module-docstring,
         missing-function-docstring,
-        missing-class-docstring
+        missing-class-docstring,
+        unnecessary-pass,
+        f-string-without-interpolation,
+	too-many-arguments,
+        too-many-positional-arguments
 
 [FORMAT]
+
+max-line-length=125
 
 [REFACTORING]
 
