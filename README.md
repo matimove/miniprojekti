@@ -1,6 +1,8 @@
 # miniprojekti
 Ohtu miniprojekti - Ryhmä: OhtuWarriors
 
+[![CI](https://github.com/matimove/miniprojekti/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/matimove/miniprojekti/actions/workflows/ci.yaml)
+
 [Backlog](https://helsinkifi-my.sharepoint.com/:x:/g/personal/toniemin_ad_helsinki_fi/EYYROFDfQ69EogVpHdGNgz4BX9Zb_ViC6bIx5EghfRbXNg?e=fH4cX5)
 
 ## Definition of done
