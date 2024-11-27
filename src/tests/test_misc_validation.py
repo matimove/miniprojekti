@@ -1,10 +1,10 @@
 import pytest
-from services.misc_service import validate_misc, UserInputError
+from services.citation_service import validate_misc, UserInputError
 from unittest.mock import patch
 
 def test_validate_misc_valid():
     """Test that a valid misc passes validation and is created."""
-    with patch("services.misc_service.misc_repository.create_misc") as mock_create:
+    with patch("services.citation_service.misc_repository.create_misc") as mock_create:
         mock_create.return_value = 1
 
         result = validate_misc(
@@ -21,7 +21,7 @@ def test_validate_misc_valid():
 
 def test_validate_misc_missing_optional_fields():
     """Test that an misc can be created without optional fields."""
-    with patch("services.misc_service.misc_repository.create_misc") as mock_create:
+    with patch("services.citation_service.misc_repository.create_misc") as mock_create:
         mock_create.return_value = 1
 
         result = validate_misc(
