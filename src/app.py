@@ -2,12 +2,24 @@ from flask import redirect, render_template, request, jsonify, flash, url_for
 from db_helper import reset_db
 from config import app, test_env
 
-from forms import AddArticleForm, AddBookForm, AddInproceedingsForm, AddMiscForm 
-from services.citation_service import validate_article, validate_inproceedings, validate_book, validate_misc, UserInputError
-from repositories import article_repository, book_repository, inproceedings_repository, misc_repository
+from forms import AddArticleForm, AddBookForm, AddInproceedingsForm, AddMiscForm
+from services.citation_service import (
+    validate_article,
+    validate_inproceedings,
+    validate_book,
+    validate_misc,
+    UserInputError,
+)
+from repositories import (
+    article_repository,
+    book_repository,
+    inproceedings_repository,
+    misc_repository,
+)
 
 
-#Pieni muutos
+# Pieni muutos
+
 
 @app.route("/")
 def index():
@@ -35,10 +47,17 @@ def index():
     else:
         message_misc = None
 
-    return render_template("index.html", articles=articles_list, message_articles=message_articles,
-                            books_list=books_list, message_books=message_books,
-                            inproceedings_list=inproceedings_list, message_inproceedings=message_inproceedings,
-                            misc_list=misc_list, message_misc=message_misc)
+    return render_template(
+        "index.html",
+        articles=articles_list,
+        message_articles=message_articles,
+        books_list=books_list,
+        message_books=message_books,
+        inproceedings_list=inproceedings_list,
+        message_inproceedings=message_inproceedings,
+        misc_list=misc_list,
+        message_misc=message_misc,
+    )
 
 
 @app.route("/add-article", methods=["POST", "GET"])
@@ -47,7 +66,7 @@ def add_article():
 
     if form.validate_on_submit():
         # Extract form data
-        author = form.author.data 
+        author = form.author.data
         title = form.title.data
         journal = form.journal.data
         year = form.year.data
@@ -58,10 +77,12 @@ def add_article():
         pages = form.pages.data if form.pages.data else None
         month = form.month.data if form.month.data else None
         doi = form.doi.data if form.doi.data else None
-        
+
         try:
             # Validate and create the article
-            validate_article(author, title, journal, year, volume, number, pages, month, doi)
+            validate_article(
+                author, title, journal, year, volume, number, pages, month, doi
+            )
             flash("Article added successfully!", "success")  # Success message
 
             # Clear form fields after data extraction
@@ -82,7 +103,7 @@ def add_article():
             flash(str(e), "error")  # Error message
 
     # Render the form again (with error messages if any)
-    return render_template("article.html", form=form) 
+    return render_template("article.html", form=form)
 
 
 @app.route("/add-inproceedings", methods=["POST", "GET"])
@@ -109,7 +130,21 @@ def add_inproceedings():
 
         try:
             # Validate and create the article
-            validate_inproceedings(author, title, booktitle, year, editor, volume, number, series, pages, address, month, organization, publisher)
+            validate_inproceedings(
+                author,
+                title,
+                booktitle,
+                year,
+                editor,
+                volume,
+                number,
+                series,
+                pages,
+                address,
+                month,
+                organization,
+                publisher,
+            )
             flash("Inproceedings added successfully!", "success")  # Success message
 
             # Clear form fields after data extraction
@@ -136,13 +171,14 @@ def add_inproceedings():
     # Render the form again (with error messages if any)
     return render_template("inproceedings.html", form=form)
 
+
 @app.route("/add-book", methods=["POST", "GET"])
 def add_book():
     form = AddBookForm()
 
     if form.validate_on_submit():
         # Extract form data
-        author = form.author.data 
+        author = form.author.data
         title = form.title.data
         year = form.year.data
 
@@ -172,7 +208,6 @@ def add_book():
             # Pass the error message to the template
             flash(str(e), "error")  # Error message
 
-
     # Render the form again (with error messages if any)
     return render_template("book.html", form=form)
 
@@ -183,7 +218,7 @@ def add_misc():
 
     if form.validate_on_submit():
         # Extract form data
-        author = form.author.data 
+        author = form.author.data
         title = form.title.data
         year = form.year.data
 
@@ -210,7 +245,6 @@ def add_misc():
             # Pass the error message to the template
             flash(str(e), "error")  # Error message
 
-
     return render_template("misc.html", form=form)
 
 
@@ -228,12 +262,13 @@ def delete_citation(citation_type, id):
         else:
             flash("Invalid citation type", "error")
             return redirect(url_for("index"))
-        
+
         flash("Reference deleted successfully!", "success")
     except Exception as e:
         flash(f"Error deleting reference: {str(e)}", "error")
-    
+
     return redirect(url_for("index"))
+
 
 @app.route("/edit/<citation_type>/<int:id>", methods=["GET", "POST"])
 def edit_citation(citation_type, id):
@@ -261,28 +296,50 @@ def edit_citation(citation_type, id):
             # Update based on type
             if citation_type == "article":
                 validate_article(
-                    form.author.data, form.title.data, form.journal.data,
-                    form.year.data, form.volume.data, form.number.data,
-                    form.pages.data, form.month.data, form.doi.data
+                    form.author.data,
+                    form.title.data,
+                    form.journal.data,
+                    form.year.data,
+                    form.volume.data,
+                    form.number.data,
+                    form.pages.data,
+                    form.month.data,
+                    form.doi.data,
                 )
             elif citation_type == "book":
                 validate_book(
-                    form.author.data, form.title.data, form.year.data,
-                    form.publisher.data, form.edition.data, form.pages.data,
-                    form.doi.data
+                    form.author.data,
+                    form.title.data,
+                    form.year.data,
+                    form.publisher.data,
+                    form.edition.data,
+                    form.pages.data,
+                    form.doi.data,
                 )
             elif citation_type == "inproceedings":
                 validate_inproceedings(
-                    form.author.data, form.title.data, form.booktitle.data,
-                    form.year.data, form.editor.data, form.volume.data,
-                    form.number.data, form.series.data, form.pages.data,
-                    form.address.data, form.month.data, form.organization.data,
-                    form.publisher.data
+                    form.author.data,
+                    form.title.data,
+                    form.booktitle.data,
+                    form.year.data,
+                    form.editor.data,
+                    form.volume.data,
+                    form.number.data,
+                    form.series.data,
+                    form.pages.data,
+                    form.address.data,
+                    form.month.data,
+                    form.organization.data,
+                    form.publisher.data,
                 )
             elif citation_type == "misc":
                 validate_misc(
-                    form.author.data, form.title.data, form.year.data,
-                    form.month.data, form.howpublished.data, form.note.data,
+                    form.author.data,
+                    form.title.data,
+                    form.year.data,
+                    form.month.data,
+                    form.howpublished.data,
+                    form.note.data,
                 )
 
             if citation_type == "article":
@@ -293,21 +350,19 @@ def edit_citation(citation_type, id):
                 inproceedings_repository.delete_inproceeding(id)
             elif citation_type == "misc":
                 misc_repository.delete_misc(id)
-            
+
             flash("Reference updated successfully!", "success")
             return redirect(url_for("index"))
-        except (UserInputError) as e:
+        except UserInputError as e:
             flash(str(e), "error")
-    
+
     return render_template(f"{citation_type}.html", form=form, editing=True)
 
 
 # testausta varten oleva reitti
 if test_env:
+
     @app.route("/reset_db")
     def reset_database():
         reset_db()
-        return jsonify({ 'message': "db reset" })
-    
-
-
+        return jsonify({"message": "db reset"})

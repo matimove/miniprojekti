@@ -16,7 +16,7 @@ def create_misc(author, title, year, month, note, howpublished):
         "year": year,
         "month": month,
         "howpublished": howpublished,
-        "note": note
+        "note": note,
     }
 
     misc_id = db.session.execute(text(sql), params).fetchone()[0]
@@ -31,10 +31,12 @@ def get_misc():
     articles = result.fetchall()
     return articles
 
+
 def delete_misc(id):
     sql = text("DELETE FROM misc WHERE id = :id")
     db.session.execute(sql, {"id": id})
     db.session.commit()
+
 
 def get_misc_by_id(id):
     sql = text("SELECT * FROM misc WHERE id = :id")
