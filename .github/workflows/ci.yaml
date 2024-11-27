@@ -50,5 +50,4 @@ jobs:
         run: bash run_robot_tests.sh
         
       - name: Lint
-        run: poetry run pylint src
-        continue-on-error: true
+        run: poetry run pylint src  --fail-under=9.5
