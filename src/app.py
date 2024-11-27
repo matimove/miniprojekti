@@ -1,4 +1,4 @@
-from flask import redirect, render_template, request, jsonify, flash, url_for
+from flask import redirect, render_template, jsonify, flash, url_for
 from db_helper import reset_db
 from config import app, test_env
 
@@ -249,16 +249,16 @@ def add_misc():
 
 
 @app.route("/delete/<citation_type>/<int:id>", methods=["POST"])
-def delete_citation(citation_type, id):
+def delete_citation(citation_type, citation_id):
     try:
         if citation_type == "article":
-            article_repository.delete_article(id)
+            article_repository.delete_article(citation_id)
         elif citation_type == "book":
-            book_repository.delete_book(id)
+            book_repository.delete_book(citation_id)
         elif citation_type == "inproceedings":
-            inproceedings_repository.delete_inproceeding(id)
+            inproceedings_repository.delete_inproceeding(citation_id)
         elif citation_type == "misc":
-            misc_repository.delete_misc(id)
+            misc_repository.delete_misc(citation_id)
         else:
             flash("Invalid citation type", "error")
             return redirect(url_for("index"))
@@ -271,21 +271,21 @@ def delete_citation(citation_type, id):
 
 
 @app.route("/edit/<citation_type>/<int:id>", methods=["GET", "POST"])
-def edit_citation(citation_type, id):
+def edit_citation(citation_type, citation_id):
     form = None
     citation = None
 
     if citation_type == "article":
-        citation = article_repository.get_article_by_id(id)
+        citation = article_repository.get_article_by_id(citation_id)
         form = AddArticleForm(obj=citation)
     elif citation_type == "book":
-        citation = book_repository.get_book_by_id(id)
+        citation = book_repository.get_book_by_id(citation_id)
         form = AddBookForm(obj=citation)
     elif citation_type == "inproceedings":
-        citation = inproceedings_repository.get_inproceeding_by_id(id)
+        citation = inproceedings_repository.get_inproceeding_by_id(citation_id)
         form = AddInproceedingsForm(obj=citation)
     elif citation_type == "misc":
-        citation = misc_repository.get_misc_by_id(id)
+        citation = misc_repository.get_misc_by_id(citation_id)
         form = AddMiscForm(obj=citation)
     else:
         flash("Invalid reference type", "error")
@@ -343,13 +343,13 @@ def edit_citation(citation_type, id):
                 )
 
             if citation_type == "article":
-                article_repository.delete_article(id)
+                article_repository.delete_article(citation_id)
             elif citation_type == "book":
-                book_repository.delete_book(id)
+                book_repository.delete_book(citation_id)
             elif citation_type == "inproceedings":
-                inproceedings_repository.delete_inproceeding(id)
+                inproceedings_repository.delete_inproceeding(citation_id)
             elif citation_type == "misc":
-                misc_repository.delete_misc(id)
+                misc_repository.delete_misc(citation_id)
 
             flash("Reference updated successfully!", "success")
             return redirect(url_for("index"))
