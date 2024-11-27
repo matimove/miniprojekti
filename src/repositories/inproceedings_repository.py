@@ -53,13 +53,13 @@ def get_inproceedings():
     return inproceedings
 
 
-def delete_inproceeding(id):
+def delete_inproceeding(inproceeding_id):
     sql = text("DELETE FROM inproceedings WHERE id = :id")
-    db.session.execute(sql, {"id": id})
+    db.session.execute(sql, {"id": inproceeding_id})
     db.session.commit()
 
 
-def get_inproceeding_by_id(id):
+def get_inproceeding_by_id(inproceeding_id):
     sql = text("SELECT * FROM inproceedings WHERE id = :id")
-    result = db.session.execute(sql, {"id": id})
+    result = db.session.execute(sql, {"id": inproceeding_id})
     return result.fetchone()
