@@ -18,7 +18,10 @@ from repositories import (
 )
 
 
-# Pieni muutos
+class DeletionError(Exception):
+    """Custom exception for citation deletion operations."""
+
+    pass
 
 
 @app.route("/")
@@ -264,7 +267,7 @@ def delete_citation(citation_type, citation_id):
             return redirect(url_for("index"))
 
         flash("Reference deleted successfully!", "success")
-    except Exception as e:
+    except DeletionError as e:
         flash(f"Error deleting reference: {str(e)}", "error")
 
     return redirect(url_for("index"))
