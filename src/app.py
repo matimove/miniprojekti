@@ -237,7 +237,7 @@ def add_misc():
     return render_template("misc.html", form=form)
 
 
-@app.route("/delete/<citation_type>/<int:id>", methods=["POST"])
+@app.route("/delete/<citation_type>/<int:citation_id>", methods=["POST"])
 def delete_citation(citation_type, citation_id):
     try:
         if citation_type == "article":
@@ -259,7 +259,7 @@ def delete_citation(citation_type, citation_id):
     return redirect(url_for("index"))
 
 
-@app.route("/edit/<citation_type>/<int:id>", methods=["GET", "POST"])
+@app.route("/edit/<citation_type>/<int:citation_id>", methods=["GET", "POST"])
 def edit_citation(citation_type, citation_id):
     form = None
     citation = None
@@ -289,56 +289,52 @@ def edit_citation(citation_type, citation_id):
                     form.title.data,
                     form.journal.data,
                     form.year.data,
-                    form.volume.data,
-                    form.number.data,
-                    form.pages.data,
-                    form.month.data,
-                    form.doi.data,
+                    form.volume.data if form.volume.data else None,
+                    form.number.data if form.number.data else None,
+                    form.pages.data if form.pages.data else None,
+                    form.month.data if form.month.data else None,
+                    form.doi.data if form.doi.data else None,
                 )
+
             elif citation_type == "book":
                 validate_book(
                     form.author.data,
                     form.title.data,
                     form.year.data,
-                    form.publisher.data,
-                    form.edition.data,
-                    form.pages.data,
-                    form.doi.data,
+                    form.publisher.data if form.publisher.data else None,
+                    form.edition.data if form.edition.data else None,
+                    form.pages.data if form.pages.data else None,
+                    form.doi.data if form.doi.data else None,
                 )
+
             elif citation_type == "inproceedings":
                 validate_inproceedings(
                     form.author.data,
                     form.title.data,
                     form.booktitle.data,
                     form.year.data,
-                    form.editor.data,
-                    form.volume.data,
-                    form.number.data,
-                    form.series.data,
-                    form.pages.data,
-                    form.address.data,
-                    form.month.data,
-                    form.organization.data,
-                    form.publisher.data,
+                    form.editor.data if form.editor.data else None,
+                    form.volume.data if form.volume.data else None,
+                    form.number.data if form.number.data else None,
+                    form.series.data if form.series.data else None,
+                    form.pages.data if form.pages.data else None,
+                    form.address.data if form.address.data else None,
+                    form.month.data if form.month.data else None,
+                    form.organization.data if form.organization.data else None,
+                    form.publisher.data if form.publisher.data else None,
                 )
+
             elif citation_type == "misc":
                 validate_misc(
                     form.author.data,
                     form.title.data,
                     form.year.data,
-                    form.month.data,
-                    form.howpublished.data,
-                    form.note.data,
+                    form.month.data if form.month.data else None,
+                    form.howpublished.data if form.howpublished.data else None,
+                    form.note.data if form.note.data else None,
                 )
 
-            if citation_type == "article":
-                article_repository.delete_article(citation_id)
-            elif citation_type == "book":
-                book_repository.delete_book(citation_id)
-            elif citation_type == "inproceedings":
-                inproceedings_repository.delete_inproceeding(citation_id)
-            elif citation_type == "misc":
-                misc_repository.delete_misc(citation_id)
+            delete_citation(citation_type, citation_id)
 
             flash("Reference updated successfully!", "success")
             return redirect(url_for("index"))
