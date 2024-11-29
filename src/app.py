@@ -1,21 +1,22 @@
-from flask import redirect, render_template, jsonify, flash, url_for
-from db_helper import reset_db
-from config import app, test_env
+from flask import flash, jsonify, redirect, render_template, url_for
 
+from config import app, test_env
+from db_helper import reset_db
 from forms import AddArticleForm, AddBookForm, AddInproceedingsForm, AddMiscForm
-from services.citation_service import (
-    validate_article,
-    validate_inproceedings,
-    validate_book,
-    validate_misc,
-    UserInputError,
-)
 from repositories import (
     article_repository,
     book_repository,
     inproceedings_repository,
     misc_repository,
 )
+from services.citation_service import (
+    UserInputError,
+    validate_article,
+    validate_book,
+    validate_inproceedings,
+    validate_misc,
+)
+from services.reference_service import ReferenceService
 
 
 class DeletionError(Exception):
@@ -26,41 +27,58 @@ class DeletionError(Exception):
 
 @app.route("/")
 def index():
-    articles_list = article_repository.get_articles()
-    if not articles_list:
-        message_articles = "You have no articles saved"
-    else:
-        message_articles = None
+    # Possibly could be called at start once to avoid unnecessary database calls
+    reference_service = ReferenceService()
+    reference_service.add_references()
+    reference_service.sort_references_by_title()
+    print(reference_service.references)
 
-    books_list = book_repository.get_books()
-    if not books_list:
-        message_books = "You have no books saved"
+    if not reference_service.references:
+        message_references = "You have no references saved"
     else:
-        message_books = None
-
-    inproceedings_list = inproceedings_repository.get_inproceedings()
-    if not inproceedings_list:
-        message_inproceedings = "You have no inproceedings saved"
-    else:
-        message_inproceedings = None
-
-    misc_list = misc_repository.get_misc()
-    if not misc_list:
-        message_misc = "You have no misc saved"
-    else:
-        message_misc = None
+        message_references = None
 
     return render_template(
         "index.html",
-        articles=articles_list,
-        message_articles=message_articles,
-        books_list=books_list,
-        message_books=message_books,
-        inproceedings_list=inproceedings_list,
-        message_inproceedings=message_inproceedings,
-        misc_list=misc_list,
-        message_misc=message_misc,
+        references=reference_service.references,
+        message_references=message_references,
     )
+
+    # articles_list = article_repository.get_articles()
+    # if not articles_list:
+    #     message_articles = "You have no articles saved"
+    # else:
+    #     message_articles = None
+    #
+    # books_list = book_repository.get_books()
+    # if not books_list:
+    #     message_books = "You have no books saved"
+    # else:
+    #     message_books = None
+    #
+    # inproceedings_list = inproceedings_repository.get_inproceedings()
+    # if not inproceedings_list:
+    #     message_inproceedings = "You have no inproceedings saved"
+    # else:
+    #     message_inproceedings = None
+    #
+    # misc_list = misc_repository.get_misc()
+    # if not misc_list:
+    #     message_misc = "You have no misc saved"
+    # else:
+    #     message_misc = None
+    #
+    # return render_template(
+    #     "index.html",
+    #     articles=articles_list,
+    #     message_articles=message_articles,
+    #     books_list=books_list,
+    #     message_books=message_books,
+    #     inproceedings_list=inproceedings_list,
+    #     message_inproceedings=message_inproceedings,
+    #     misc_list=misc_list,
+    #     message_misc=message_misc,
+    # )
 
 
 @app.route("/add-article", methods=["POST", "GET"])
