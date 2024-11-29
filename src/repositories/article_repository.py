@@ -29,7 +29,7 @@ def create_article(author, title, journal, year, volume, number, pages, month, d
 
 
 def get_articles():
-    sql = "SELECT id, author, title, journal, year, volume, number, pages, month, doi FROM articles"
+    sql = "SELECT id, category, author, title, journal, year, volume, number, pages, month, doi FROM articles"
     result = db.session.execute(text(sql))
     articles = result.fetchall()
     return articles
