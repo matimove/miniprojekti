@@ -1,4 +1,4 @@
-from flask import flash, jsonify, redirect, render_template, url_for
+from flask import flash, jsonify, redirect, render_template, request, url_for
 
 from config import app, test_env
 from db_helper import reset_db
@@ -25,13 +25,16 @@ class DeletionError(Exception):
     pass
 
 
-@app.route("/")
+@app.route("/", methods=["POST", "GET"])
 def index():
     # Possibly could be called at start once to avoid unnecessary database calls
     reference_service = ReferenceService()
     reference_service.add_references()
-    reference_service.sort_references_by_title()
-    print(reference_service.references)
+
+    sort_by = request.form.get("sort_by")
+
+    if sort_by == "title" or sort_by == None:
+        reference_service.sort_references_by_title()
 
     if not reference_service.references:
         message_references = "You have no references saved"
@@ -42,43 +45,8 @@ def index():
         "index.html",
         references=reference_service.references,
         message_references=message_references,
+        selected_value=sort_by,
     )
-
-    # articles_list = article_repository.get_articles()
-    # if not articles_list:
-    #     message_articles = "You have no articles saved"
-    # else:
-    #     message_articles = None
-    #
-    # books_list = book_repository.get_books()
-    # if not books_list:
-    #     message_books = "You have no books saved"
-    # else:
-    #     message_books = None
-    #
-    # inproceedings_list = inproceedings_repository.get_inproceedings()
-    # if not inproceedings_list:
-    #     message_inproceedings = "You have no inproceedings saved"
-    # else:
-    #     message_inproceedings = None
-    #
-    # misc_list = misc_repository.get_misc()
-    # if not misc_list:
-    #     message_misc = "You have no misc saved"
-    # else:
-    #     message_misc = None
-    #
-    # return render_template(
-    #     "index.html",
-    #     articles=articles_list,
-    #     message_articles=message_articles,
-    #     books_list=books_list,
-    #     message_books=message_books,
-    #     inproceedings_list=inproceedings_list,
-    #     message_inproceedings=message_inproceedings,
-    #     misc_list=misc_list,
-    #     message_misc=message_misc,
-    # )
 
 
 @app.route("/add-article", methods=["POST", "GET"])

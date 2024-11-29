@@ -13,9 +13,9 @@ Reference app
     <label for="sort_by" class="form-label col-sm-2">Sort by</label>
     <div class="col-sm-10">
       <select id="sort_by" name="sort_by" onchange="this.form.submit()" class="form-select" aria-label="Sort by">
-        <option value="title">Title</option>
-        <option value="author">Author</option>
-        <option value="year">Year</option>
+        <option value="title" {% if selected_value == "title" %}selected{% endif %}>Title</option>
+        <option value="author" {% if selected_value == "author" %}selected{% endif %}>Author</option>
+        <option value="year" {% if selected_value == "year" %}selected{% endif %}>Year</option>
       </select>
     </div>
   </div>
