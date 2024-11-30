@@ -1,7 +1,6 @@
 [MASTER]
 
-ignore=tests,
-       validators.py
+ignore=tests
 
 [MESSAGE CONTROL]
 
@@ -13,6 +12,7 @@ disable=missing-module-docstring,
 	broad-exception-caught
 
 [FORMAT]
+max-line-length=120
 
 [REFACTORING]
 
