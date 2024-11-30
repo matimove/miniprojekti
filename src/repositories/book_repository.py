@@ -27,7 +27,7 @@ def create_book(author, title, year, publisher, edition, pages, doi):
 
 
 def get_books():
-    sql = "SELECT id, author, title, year, publisher, edition, pages, doi FROM books"
+    sql = "SELECT id, category, author, title, year, publisher, edition, pages, doi FROM books"
     result = db.session.execute(text(sql))
     articles = result.fetchall()
     return articles

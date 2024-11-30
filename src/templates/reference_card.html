@@ -1,0 +1,145 @@
+{% if reference.category == "article" %}
+  <div class="card w-75 mb-3">
+    <div class="card-body">
+      <h5 class="card-title">{{ reference.title }}</h5>
+      <h6 class="card-subtitle mb-2 text-body-secondary">Article</h6>
+      <p class="card-text">by {{ reference.author }} ({{ reference.year }})</p>
+      <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#Modal{{ loop_index }}">View</button>
+      <a href="/edit/article/{{ reference.id }}" class="btn btn-outline-dark">Edit</a>
+      <a href="#" onclick="event.preventDefault(); document.getElementById('delete-form-article-{{ reference.id }}').submit();" class="btn btn-danger">Delete</a>
+      <form id="delete-form-article-{{ reference.id }}" action="/delete/article/{{ reference.id }}" method="POST" style="display: none;">
+      </form>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="Modal{{ loop_index }}" tabindex="-1" aria-labelledby="Reference information" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header ">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h4>{{ reference.title }}</h4>
+          <p>
+            <b>Author:</b>  {{ reference.author }}</br>
+            <b>Published:</b>  {% if reference.month %}{{ reference.month }}{% endif %} {% if reference.year %}{{ reference.year}}{% endif %}</br>
+            <b>Journal:</b>  {% if reference.journal %}{{ reference.journal }}{% endif %} </br>
+            <b>Volume:</b>  {% if reference.volume %}{{ reference.volume }}{% endif %} </br>
+            <b>Number:</b>  {% if reference.number %}{{ reference.number }}{% endif %} </br>
+            <b>Pages:</b> {% if reference.pages %}{{ reference.pages }}{% endif %} </br>
+            <b>doi:</b>  {% if reference.doi %}{{ reference.doi }}{% endif %} </br>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% elif reference.category == "book" %}
+  <div class="card w-75 mb-3">
+      <div class="card-body">
+        <h5 class="card-title">{{ reference.title }}</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">Book</h6>
+        <p class="card-text"> by {{ reference.author }} ({{ reference.year }})</p></br>
+        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#Modal{{ loop_index }}">View</button>
+        <a href="/edit/book/{{ reference.id }}" class="btn btn-outline-dark">Edit</a>
+        <a href="#" onclick="event.preventDefault(); document.getElementById('delete-form-book-{{ reference.id }}').submit();" class="btn btn-danger">Delete</a>
+        <form id="delete-form-book-{{ reference.id }}" action="/delete/book/{{ reference.id }}" method="POST" style="display: none;">
+        </form>
+      </div>
+    </div>
+
+    <div class="modal fade" id="Modal{{loop_index}}" tabindex="-1" aria-labelledby="Reference information" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header ">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <h4>{{ reference.title }}</h4>
+            <p>
+              <b>Author:</b>  {{ reference.author }}</br>
+              <b>Published:</b>  {{ reference.year }}</br>
+              <b>Publisher:</b>  {% if reference.publisher %}{{ reference.publisher }}{% endif %} </br>
+              <b>Edition:</b> {% if reference.edition %}{{ reference.edition }}{% endif %} </br>
+              <b>Pages:</b>  {% if reference.pages %}{{ reference.pages }}{% endif %} </br>
+              <b>Doi:</b>  {% if reference.doi %}{{ reference.doi }}{% endif %} </br>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% elif reference.category == "inproceedings" %}
+  <div class="card w-75 mb-3">
+      <div class="card-body">
+        <h5 class="card-title">{{ reference.title }}</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">Inproceedings</h6>
+        <p class="card-text"> by {{ reference.author }} ({{ reference.year }})</p></br>
+        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#Modal{{loop_index}}">View</button>
+        <a href="/edit/inproceedings/{{ reference.id }}" class="btn btn-outline-dark">Edit</a>
+        <a href="#" onclick="event.preventDefault(); document.getElementById('delete-form-inproceedings-{{ reference.id }}').submit();" class="btn btn-danger">Delete</a>
+        <form id="delete-form-inproceedings-{{ reference.id }}" action="/delete/inproceedings/{{ reference.id }}" method="POST" style="display: none;">
+        </form>
+      </div>
+    </div>
+    
+    <div class="modal fade" id="Modal{{loop_index}}" tabindex="-1" aria-labelledby="Reference information" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header ">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <h4>{{ reference.title }}</h4>
+            <p>
+              <b>Author(s):</b>  {{ reference.author }}</br>
+              <b>Published:</b>  {% if reference.month %}{{ reference.month }}{% endif %} {{ reference.year }}</br>
+              <b>Book title:</b>  {{ reference.booktitle }} </br>
+              <b>Editor(s):</b>  {% if reference.editor %}{{ reference.editor }}{% endif %} </br>
+              <b>Volume:</b>  {% if reference.volume %}{{ reference.volume }}{% endif %} </br>
+              <b>Number:</b>  {% if reference.number %}{{ reference.number }}{% endif %} </br>
+              <b>Pages:</b> {% if reference.pages %}{{ reference.pages }}{% endif %} </br>
+              <b>Address:</b>  {% if reference.address %}{{ reference.address }}{% endif %} </br>
+              <b>Organization:</b>  {% if reference.organization %}{{ reference.organization }}{% endif %} </br>
+              <b>Publisher:</b>  {% if reference.publisher %}{{ reference.publisher }}{% endif %} </br>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% elif reference.category == "misc" %}
+  <div class="card w-75 mb-3">
+      <div class="card-body">
+        <h5 class="card-title">{{ reference.title }}</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">Misc</h6>
+        <p class="card-text"> by {{ reference.author }} ({{ reference.year }})</p></br>
+        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#Modal{{loop_index}}">View</button>
+        <a href="/edit/misc/{{ reference.id }}" class="btn btn-outline-dark">Edit</a>
+        <a href="#" onclick="event.preventDefault(); document.getElementById('delete-form-misc-{{ reference.id }}').submit();" class="btn btn-danger">Delete</a>
+        <form id="delete-form-misc-{{ reference.id }}" action="/delete/misc/{{ reference.id }}" method="POST" style="display: none;">
+        </form>
+      </div>
+    </div>
+    
+    <div class="modal fade" id="Modal{{loop_index}}" tabindex="-1" aria-labelledby="Reference information" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header ">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <h4>{{ reference.title }}</h4>
+            <p>
+              <b>Author(s):</b>  {{ reference.author }}</br>
+              <b>Book title:</b>  {{ reference.title }} </br>
+              <b>Published:</b>  {% if reference.month %}{{ reference.month }}{% endif %} {{ reference.year }}</br>
+              <b>How Published:</b>  {% if reference.howpublished %}{{ reference.howpublished }}{% endif %} </br>
+              <b>Note:</b>  {% if reference.note %}{{ reference.note }}{% endif %} </br>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endif %}
