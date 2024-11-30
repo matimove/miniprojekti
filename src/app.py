@@ -35,6 +35,10 @@ def index():
 
     if sort_by == "title":
         reference_service.sort_references_by_title()
+    elif sort_by == "author":
+        reference_service.sort_references_by_author()
+    elif sort_by == "year":
+        reference_service.sort_references_by_year()
 
     if not reference_service.references:
         message_references = "You have no references saved"

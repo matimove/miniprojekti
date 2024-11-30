@@ -15,10 +15,24 @@ class ReferenceService:
         books = book_repository.get_books()
         inproceedings = inproceedings_repository.get_inproceedings()
         misc = misc_repository.get_misc()
+        print(misc)
 
         self.references = self.references + articles + books + inproceedings + misc
 
     def sort_references_by_title(self):
+        # secondary sort by author
         self.references.sort(key=lambda ref: (ref.title, ref.author))
+
+        return self.references
+
+    def sort_references_by_author(self):
+        # secondary sort by title
+        self.references.sort(key=lambda ref: (ref.author, ref.title))
+
+        return self.references
+
+    def sort_references_by_year(self):
+        # secondary sort by author
+        self.references.sort(key=lambda ref: (ref.year, ref.author))
 
         return self.references
