@@ -31,8 +31,9 @@ Reference app
   {% if messages %}
     <div>
       {% for category, message in messages %}
-        <div class="alert alert-{{ category }}">
+        <div class="alert alert-{{ category }} alert-dismissible">
           {{ message }}
+          <button type="button" class="text-end btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
       {% endfor %}
     </div>
