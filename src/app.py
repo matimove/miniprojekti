@@ -25,15 +25,15 @@ class DeletionError(Exception):
     pass
 
 
-@app.route("/", methods=["POST", "GET"])
+@app.route("/", methods=["GET"])
 def index():
     # Possibly could be called at start once to avoid unnecessary database calls
     reference_service = ReferenceService()
     reference_service.add_references()
 
-    sort_by = request.form.get("sort_by")
+    sort_by = request.args.get("sort_by", "title")
 
-    if sort_by == "title" or sort_by == None:
+    if sort_by == "title":
         reference_service.sort_references_by_title()
 
     if not reference_service.references:
