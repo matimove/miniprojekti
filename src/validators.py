@@ -3,7 +3,7 @@ import re
 
 def validate_required_field(value, field_name):
     """Ensures that a required field is not empty or just whitespace."""
-    if not value or not value.strip():
+    if not value or (isinstance(value, str) and not value.strip()):
         raise ValueError(f"{field_name} is required.")
 
 
@@ -30,29 +30,37 @@ def validate_common_pattern(string, name):
 
 def validate_year(year):
     """Validates that the year is numeric and within a realistic range."""
-    if not year.isdigit() or not 1500 <= int(year) <= 2100:
-        raise ValueError("Year must be a valid number between 1500 and 2100.")
+    if isinstance(year, str):
+        if not year.isdigit() or not 0 <= int(year) <= 2100:
+            raise ValueError("Year must be a valid number between 0 and 2100.")
+    elif isinstance(year, int):
+        if not 1500 <= year <= 2100:
+            raise ValueError("Year must be a valid number between 0 and 2100.")
+    else:
+        raise ValueError("Year must be a valid number between 0 and 2100.")
 
 
 def validate_author(author):
-    """Validates an author's name (letters, spaces, and dashes)."""
-    pattern = r"^[a-zA-Z\- ]+$"
+    """Validates an author's name (or multiple names) (letters, spaces, dashes, commas, periods, and Finnish characters)."""
+    pattern = r"^[a-zA-ZäöåÄÖÅ.,\- ]+$"
     if not re.match(pattern, author):
-        raise ValueError("Author name can only contain letters, spaces, and dashes.")
+        raise ValueError(
+            "Author name can only contain letters, spaces, dashes, commas, periods, and Finnish characters."
+        )
+
     validate_length(author, "Author name", 2, 100)
 
 
 def validate_title(title):
-    """Validates an article title (letters, numbers, spaces, and punctuation)."""
+    """Validates a title (letters, numbers, spaces, punctuation, and Finnish characters)."""
     validate_length(title, "Title", 5, 255)
-    pattern = r"^[a-zA-Z0-9 .,\-?!:;'()\"@]+$"
+    pattern = r"^[a-zA-ZäöåÄÖÅ0-9 .,\-?!:;'()\"@]+$"
     if not re.match(pattern, title):
         raise ValueError("Title contains invalid characters.")
 
 
 def validate_journal(journal):
     """Validates a journal name (letters, numbers, spaces, and punctuation)."""
-    validate_required_field(journal, "Journal")
     validate_length(journal, "Journal", 2, 255)
     pattern = r"^[a-zA-Z0-9 .,\-:]+$"
     if not re.match(pattern, journal):
