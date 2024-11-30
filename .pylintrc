@@ -1,6 +1,7 @@
 [MASTER]
 
-ignore=tests
+ignore=tests,
+       validators.py
 
 [MESSAGE CONTROL]
 
