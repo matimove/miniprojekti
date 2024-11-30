@@ -8,7 +8,8 @@ disable=missing-module-docstring,
         missing-function-docstring,
         missing-class-docstring,
         unnecessary-pass,
-        f-string-without-interpolation
+        f-string-without-interpolation,
+	broad-exception-caught
 
 [FORMAT]
 
