@@ -15,6 +15,16 @@ def test_validate_author_valid():
     assert validate_author("Joulupukki") is None  # Should pass without error
 
 
+def test_validate_multiple_authors_valid():
+    """Test a valid author input with multiple differing authors containing special characters, separated by commas."""
+    assert (
+        validate_author(
+            "Joulupukki, Joulumuori, Tonttu T. Toljanteri, Petteri Punakuono, Iso-Tonttu, Ääkkösmies Öökkölä"
+        )
+        is None
+    )  # Should pass without error
+
+
 def test_validate_author_invalid():
     """Test an invalid author."""
     with pytest.raises(
@@ -23,7 +33,8 @@ def test_validate_author_invalid():
         validate_author("j")  # Too short
 
     with pytest.raises(
-        ValueError, match="Author name can only contain letters, spaces, and dashes."
+        ValueError,
+        match="Author name can only contain letters, spaces, dashes, commas, periods, and Finnish characters.",
     ):
         validate_author("Joulupukki123")  # Contains invalid characters
 
@@ -32,6 +43,13 @@ def test_validate_title_valid():
     """Test a valid title."""
     assert (
         validate_title("Toimitusketjujen optimointi") is None
+    )  # Should pass without error
+
+
+def test_validate_title_with_finnish_characters_valid():
+    """Test a valid title."""
+    assert (
+        validate_title("Ääkköstitle: Plussana ruotsalainen Å") is None
     )  # Should pass without error
 
 
@@ -68,7 +86,7 @@ def test_validate_year_valid():
 def test_validate_year_invalid():
     """Test an invalid year."""
     with pytest.raises(
-        ValueError, match="Year must be a valid number between 1500 and 2100."
+        ValueError, match="Year must be a valid number between 0 and 2100."
     ):
         validate_year("abcd")  # Non-numeric
 

@@ -58,6 +58,6 @@ def test_validate_misc_note_forbidden_characters():
 def test_validate_misc_invalid_year():
     """Test that an invalid misc title raises UserInputError."""
     with pytest.raises(
-        UserInputError, match="Year must be a valid number between 1500 and 2100."
+        UserInputError, match="Year must be a valid number between 0 and 2100."
     ):
         validate_misc(author="Kirjailija", title="Otsikko", year="3000")

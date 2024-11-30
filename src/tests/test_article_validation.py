@@ -98,7 +98,7 @@ def test_validate_article_missing_author():
 def test_validate_article_invalid_year():
     """Test that an invalid year raises UserInputError."""
     with pytest.raises(
-        UserInputError, match="Year must be a valid number between 1500 and 2100."
+        UserInputError, match="Year must be a valid number between 0 and 2100."
     ):
         validate_article(
             author="Joulupukki",
