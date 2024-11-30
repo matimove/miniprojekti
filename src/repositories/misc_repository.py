@@ -26,7 +26,7 @@ def create_misc(author, title, year, month, note, howpublished):
 
 
 def get_misc():
-    sql = "SELECT id, author, title, year, month, howpublished, note FROM misc"
+    sql = "SELECT id, category, author, title, year, month, howpublished, note FROM misc"
     result = db.session.execute(text(sql))
     articles = result.fetchall()
     return articles

@@ -49,7 +49,7 @@ def create_inproceedings(
 def get_inproceedings():
     sql = """
         SELECT
-            id, title, author, booktitle, year, editor, volume, number, series, pages, address, month, organization, publisher
+            id, category, title, author, booktitle, year, editor, volume, number, series, pages, address, month, organization, publisher
         FROM inproceedings
     """
     result = db.session.execute(text(sql))

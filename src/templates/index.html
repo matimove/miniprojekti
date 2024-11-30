@@ -6,7 +6,24 @@ Reference app
 
 {% block body %}
 </br>
-<h2>Saved references:</h2></br>
+
+<div class="container text-left">
+  <div class="row">
+    <div class="col-sm-8"><h2>Saved references:</h2></div>
+    <div class="col-sm-2">
+      <!-- Sort by form -->
+      <form method="GET" class="d-flex align-items-center">
+        <label for="sort_by" class="me-2"><b>Sort by</b></label>
+          <select id="sort_by" name="sort_by" onchange="this.form.submit()" class="form-select w-auto" aria-label="Sort by">
+            <option value="title" {% if selected_value == "title" %}selected{% endif %}>Title</option>
+            <option value="author" {% if selected_value == "author" %}selected{% endif %}>Author</option>
+            <option value="year" {% if selected_value == "year" %}selected{% endif %}>Year</option>
+          </select>
+      </form>
+    </div>
+  </div>
+
+</div>
 
 <!-- Flash message for validation success -->
 
@@ -22,187 +39,15 @@ Reference app
   {% endif %}
 {% endwith %}
 
-<h5>Articles</h5>
 
-{% if message_articles %}
-    <p>{{ message_articles }}</p>
+{% if message_references %}
+    <p>{{ message_references }}</p>
 {% endif %}
 
-{% for article in articles %}
-  <div class="card w-75 mb-3">
-    <div class="card-body">
-      <h5 class="card-title">{{ article.title }}</h5>
-      <p class="card-text">by {{ article.author }} ({{ article.year }})</p>
-      <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#Modal{{ article.id }}">View</button>
-      <a href="/edit/article/{{ article.id }}" class="btn btn-outline-dark">Edit</a>
-      <a href="#" onclick="event.preventDefault(); document.getElementById('delete-form-article-{{ article.id }}').submit();" class="btn btn-danger">Delete</a>
-      <form id="delete-form-article-{{ article.id }}" action="/delete/article/{{ article.id }}" method="POST" style="display: none;">
-      </form>
-    </div>
-  </div>
-
-
-  <div class="modal fade" id="Modal{{article.id}}" tabindex="-1" aria-labelledby="Reference information" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header ">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <h4>{{ article.title }}</h4>
-          <p>
-            <b>Author:</b>  {{ article.author }}</br>
-            <b>Published:</b>  {% if article.month %}{{ article.month }}{% endif %} {% if article.year %}{{ article.year}}{% endif %}</br>
-            <b>Journal:</b>  {% if article.journal %}{{ article.journal }}{% endif %} </br>
-            <b>Volume:</b>  {% if article.volume %}{{ article.volume }}{% endif %} </br>
-            <b>Number:</b>  {% if article.number %}{{ article.number }}{% endif %} </br>
-            <b>Pages:</b> {% if article.pages %}{{ article.pages }}{% endif %} </br>
-            <b>doi:</b>  {% if article.doi %}{{ article.doi }}{% endif %} </br>
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-
+{% for reference in references %}
+  {% with reference=reference, loop_index=loop.index0 %}
+    {% include "reference_card.html" %}
+  {% endwith %}
 {% endfor %}
-
-<h5>Books</h5>
-
-{% if message_books %}
-    <p>{{ message_books }}</p>
-{% endif %}
-
-{% for book in books_list %}
-  <div class="card w-75 mb-3">
-    <div class="card-body">
-      <h5 class="card-title">{{ book.title }}</h5>
-      <p class="card-text"> by {{ book.author }} ({{ book.year }})</p></br>
-      <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#Modal{{book.id}}">View</button>
-      <a href="/edit/book/{{ book.id }}" class="btn btn-outline-dark">Edit</a>
-      <a href="#" onclick="event.preventDefault(); document.getElementById('delete-form-book-{{ book.id }}').submit();" class="btn btn-danger">Delete</a>
-      <form id="delete-form-book-{{ book.id }}" action="/delete/book/{{ book.id }}" method="POST" style="display: none;">
-      </form>
-    </div>
-  </div>
-
-  <div class="modal fade" id="Modal{{book.id}}" tabindex="-1" aria-labelledby="Reference information" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header ">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <h4>{{ book.title }}</h4>
-          <p>
-            <b>Author:</b>  {{ book.author }}</br>
-            <b>Published:</b>  {{ book.year }}</br>
-            <b>Publisher:</b>  {% if book.publisher %}{{ book.publisher }}{% endif %} </br>
-            <b>Edition:</b> {% if book.edition %}{{ book.edition }}{% endif %} </br>
-            <b>Pages:</b>  {% if book.pages %}{{ book.pages }}{% endif %} </br>
-            <b>Doi:</b>  {% if book.doi %}{{ book.doi }}{% endif %} </br>
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  {% endfor %}
-
-<h5>Inproceedings</h5>
-
-{% if message_inproceedings %}
-    <p>{{ message_inproceedings }}</p>
-{% endif %}
-
-{% for inproceedings in inproceedings_list %}
-  <div class="card w-75 mb-3">
-    <div class="card-body">
-      <h5 class="card-title">{{ inproceedings.title }}</h5>
-      <p class="card-text"> by {{ inproceedings.author }} ({{ inproceedings.year }})</p></br>
-      <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#Modal{{inproceedings.id}}">View</button>
-      <a href="/edit/inproceedings/{{ inproceedings.id }}" class="btn btn-outline-dark">Edit</a>
-      <a href="#" onclick="event.preventDefault(); document.getElementById('delete-form-inproceedings-{{ inproceedings.id }}').submit();" class="btn btn-danger">Delete</a>
-      <form id="delete-form-inproceedings-{{ inproceedings.id }}" action="/delete/inproceedings/{{ inproceedings.id }}" method="POST" style="display: none;">
-      </form>
-    </div>
-  </div>
-  
-  <div class="modal fade" id="Modal{{inproceedings.id}}" tabindex="-1" aria-labelledby="Reference information" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header ">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <h4>{{ inproceedings.title }}</h4>
-          <p>
-            <b>Author(s):</b>  {{ inproceedings.author }}</br>
-            <b>Published:</b>  {% if inproceedings.month %}{{ inproceedings.month }}{% endif %} {{ inproceedings.year }}</br>
-            <b>Book title:</b>  {{ inproceedings.booktitle }} </br>
-            <b>Editor(s):</b>  {% if inproceedings.editor %}{{ inproceedings.editor }}{% endif %} </br>
-            <b>Volume:</b>  {% if inproceedings.volume %}{{ inproceedings.volume }}{% endif %} </br>
-            <b>Number:</b>  {% if inproceedings.number %}{{ inproceedings.number }}{% endif %} </br>
-            <b>Pages:</b> {% if inproceedings.pages %}{{ inproceedings.pages }}{% endif %} </br>
-            <b>Address:</b>  {% if inproceedings.address %}{{ inproceedings.address }}{% endif %} </br>
-            <b>Organization:</b>  {% if inproceedings.organization %}{{ inproceedings.organization }}{% endif %} </br>
-            <b>Publisher:</b>  {% if inproceedings.publisher %}{{ inproceedings.publisher }}{% endif %} </br>
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-{% endfor %}
-
-
-<h5>Misc</h5>
-
-{% if message_misc %}
-    <p>{{ message_misc }}</p>
-{% endif %}
-
-{% for misc in misc_list %}
-  <div class="card w-75 mb-3">
-    <div class="card-body">
-      <h5 class="card-title">{{ misc.title }}</h5>
-      <p class="card-text"> by {{ misc.author }} ({{ misc.year }})</p></br>
-      <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#Modal{{misc.id}}">View</button>
-      <a href="/edit/misc/{{ misc.id }}" class="btn btn-outline-dark">Edit</a>
-      <a href="#" onclick="event.preventDefault(); document.getElementById('delete-form-misc-{{ misc.id }}').submit();" class="btn btn-danger">Delete</a>
-      <form id="delete-form-misc-{{ misc.id }}" action="/delete/misc/{{ misc.id }}" method="POST" style="display: none;">
-      </form>
-    </div>
-  </div>
-  
-  <div class="modal fade" id="Modal{{misc.id}}" tabindex="-1" aria-labelledby="Reference information" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header ">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <h4>{{ misc.title }}</h4>
-          <p>
-            form.author.data = ""
-            form.title.data = ""
-            form.year.data = ""
-            form.month.data = ""
-            form.howpublished.data = ""
-            form.note.data = ""
-
-            <b>Author(s):</b>  {{ misc.author }}</br>
-            <b>Book title:</b>  {{ misc.title }} </br>
-            <b>Published:</b>  {% if misc.month %}{{ misc.month }}{% endif %} {{ misc.year }}</br>
-            <b>How Published:</b>  {% if misc.howpublished %}{{ misc.howpublished }}{% endif %} </br>
-            <b>Note:</b>  {% if misc.note %}{{ misc.note }}{% endif %} </br>
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-{% endfor %}
-
-
 
 {% endblock %}
