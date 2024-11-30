@@ -41,7 +41,7 @@ def validate_year(year):
 
 
 def validate_author(author):
-    """Validates an author's name (or multiple names) (letters, spaces, dashes, commas, periods, and Finnish characters)."""
+    """Validates author name(s) (letters, spaces, dashes, commas, periods, and Finnish characters)."""
     pattern = r"^[a-zA-ZäöåÄÖÅ.,\- ]+$"
     if not re.match(pattern, author):
         raise ValueError(
