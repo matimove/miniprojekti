@@ -67,15 +67,15 @@
           <div class="modal-body">
             <textarea class="form-control" style="max-height: 60vh; min-height: 30vh; height: auto; width: 100%; white-space: pre-wrap;" readonly>
 {% raw %}@article{{% endraw %}{{ reference.id }},
-        author = "{{ reference.author }}",
-        title = "{{ reference.title }}",
-        {% if reference.journal %}journal = "{{ reference.journal }}", {% endif %}
-        year = "{{ reference.year }}",
-        {% if reference.volume %}volume = "{{ reference.volume }}", {% endif %}
-        {% if reference.number %}number = "{{ reference.number }}", {% endif %}
-        {% if reference.pages %}pages = "{{ reference.pages }}", {% endif %}
-        {% if reference.month %}month = "{{ reference.month }}", {% endif %}
-        {% if reference.doi %}doi = "{{ reference.doi }}" {% endif %}
+    author = "{{ reference.author }}",
+    title = "{{ reference.title }}",
+    {% if reference.journal %}journal = "{{ reference.journal }}", {% endif %}
+    year = "{{ reference.year }}",
+    {% if reference.volume %}volume = "{{ reference.volume }}", {% endif %}
+    {% if reference.number %}number = "{{ reference.number }}", {% endif %}
+    {% if reference.pages %}pages = "{{ reference.pages }}", {% endif %}
+    {% if reference.month %}month = "{{ reference.month }}", {% endif %}
+    {% if reference.doi %}doi = "{{ reference.doi }}" {% endif %}
 {% raw %}}{% endraw -%}
             </textarea>
         </div>
