@@ -37,5 +37,6 @@ class ReferenceService:
 
         return self.references
 
-    def search_with_keyword(self, keyword):
-        result = filter(key=lambda ref: keyword.lower() in ref.title.lower())
+    def search_with_keyword(self, search):
+        result = filter(lambda ref: search.lower() in ref.title.lower(), self.references)
+        return list(result)

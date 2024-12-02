@@ -29,7 +29,7 @@ class DeletionError(Exception):
     pass
 
 
-@app.route("/", methods=["GET"])
+@app.route("/", methods=["GET", "POST"])
 def index():
     form = SearchForm()
     # Possibly could be called at start once to avoid unnecessary database calls
@@ -50,6 +50,7 @@ def index():
         form.search.data = ""
         if keyword != "":
             result = reference_service.search_with_keyword(keyword)
+            print(result)
 
     if not reference_service.references:
         message_references = "You have no references saved"
