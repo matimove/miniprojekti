@@ -2,7 +2,11 @@ from flask import flash, jsonify, redirect, render_template, request, url_for
 
 from config import app, test_env
 from db_helper import reset_db
-from forms import AddArticleForm, AddBookForm, AddInproceedingsForm, AddMiscForm
+from forms import (AddArticleForm,
+    AddBookForm,
+    AddInproceedingsForm,
+    AddMiscForm,
+    SearchForm)
 from repositories import (
     article_repository,
     book_repository,
@@ -27,6 +31,7 @@ class DeletionError(Exception):
 
 @app.route("/", methods=["GET"])
 def index():
+    form = SearchForm()
     # Possibly could be called at start once to avoid unnecessary database calls
     reference_service = ReferenceService()
     reference_service.add_references()
@@ -39,6 +44,12 @@ def index():
         reference_service.sort_references_by_author()
     elif sort_by == "year":
         reference_service.sort_references_by_year()
+    
+    if form.validate_on_submit():
+        keyword = form.search.data
+        form.search.data = ""
+        if keyword != "":
+            result = reference_service.search_with_keyword(keyword)
 
     if not reference_service.references:
         message_references = "You have no references saved"
@@ -50,6 +61,7 @@ def index():
         references=reference_service.references,
         message_references=message_references,
         selected_value=sort_by,
+        form=form
     )
 
 
