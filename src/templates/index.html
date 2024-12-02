@@ -8,7 +8,7 @@ Reference app
 </br>
 
 <div class="container">
-  <div class="row">
+  <div class="row" id="saved-references">
     <div class="col text-left"><h2>Saved references:</h2></div>
   </div>
   <div class="row">
@@ -16,7 +16,7 @@ Reference app
       <!-- Search bar -->
       <form method="POST" class="d-flex" role="search">
         {{ form.hidden_tag() }}
-        {{ form.search.label(class="form-label") }}  
+        {{ form.search.label(class="form-label") }}
         {{ form.search(class="form-control") }}
         <button id="search-button" class="btn btn-outline-success" type="submit">Search</button>
       </form>
