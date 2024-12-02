@@ -7,12 +7,25 @@ Reference app
 {% block body %}
 </br>
 
-<div class="container text-left">
+<div class="container">
+  <div class="row" id="saved-references">
+    <div class="col text-left"><h2>Saved references:</h2></div>
+  </div>
   <div class="row">
-    <div class="col-sm-8"><h2>Saved references:</h2></div>
-    <div class="col-sm-2">
-      <!-- Sort by form -->
+    <div class="col">
+      <!-- Search bar -->
+      <form method="POST" class="d-flex" role="search">
+        {{ form.hidden_tag() }}
+        <input type="hidden" name="sort_by" value="{{ selected_value }}">
+        {{ form.search.label(class="form-label") }}
+        {{ form.search(class="form-control") }}
+        <button id="search-button" class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+    <!-- Sort by form -->
+    <div class="col">
       <form method="GET" class="d-flex align-items-center">
+        <input type="hidden" name="search" value="{{ form.search.data }}">
         <label for="sort_by" class="me-2"><b>Sort by</b></label>
           <select id="sort_by" name="sort_by" onchange="this.form.submit()" class="form-select w-auto" aria-label="Sort by">
             <option value="title" {% if selected_value == "title" %}selected{% endif %}>Title</option>
@@ -22,8 +35,7 @@ Reference app
       </form>
     </div>
   </div>
-
-</div>
+</div></br>
 
 <!-- Flash message for validation success -->
 
@@ -44,6 +56,10 @@ Reference app
 {% if message_references %}
     <p>{{ message_references }}</p>
 {% endif %}
+
+{% if message_search %}
+    <h5>{{ message_search }}</h5>
+{% endif %}</br>
 
 {% for reference in references %}
   {% with reference=reference, loop_index=loop.index0 %}

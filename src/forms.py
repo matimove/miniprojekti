@@ -52,3 +52,7 @@ class AddMiscForm(FlaskForm):
     howpublished = StringField("How Published")
     note = StringField("Note")
     submit = SubmitField("Submit")
+
+class SearchForm(FlaskForm):
+    search = StringField("", validators=[DataRequired()])
+    submit = SubmitField("Search")
