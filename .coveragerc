@@ -10,3 +10,4 @@ omit =
 	src/forms.py
 	src/__pycache__/*
 	src/index.py
+
