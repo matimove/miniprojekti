@@ -28,13 +28,17 @@ class DeletionError(Exception):
 
     pass
 
-
 @app.route("/", methods=["GET", "POST"])
 def index():
     form = SearchForm()
     # Possibly could be called at start once to avoid unnecessary database calls
     reference_service = ReferenceService()
     reference_service.add_references()
+
+    if not reference_service.references:
+        message_references = "You have no references saved"
+    else:
+        message_references = None
 
     sort_by = request.args.get("sort_by", "title")
 
@@ -45,26 +49,9 @@ def index():
     elif sort_by == "year":
         reference_service.sort_references_by_year()
 
-    if not reference_service.references:
-        message_references = "You have no references saved"
-    else:
-        message_references = None
-    
     if form.validate_on_submit():
-        keyword = form.search.data
-        form.search.data = ""
-
-        if keyword != "":
-            result = reference_service.search_with_keyword(keyword)
-            message_search = f"({len(result)}) results found for {keyword}"
-            return render_template(
-                "index.html",
-                references=result,
-                message_references=message_references,
-                message_search=message_search,
-                selected_value=sort_by,
-                form=form
-            )   
+        search = form.search.data 
+        return redirect(url_for('search_citations', search=search))
 
     return render_template(
         "index.html",
@@ -74,6 +61,42 @@ def index():
         form=form
     )
 
+@app.route("/search/<search>", methods=["GET", "POST"])
+def search_citations(search):
+    form = SearchForm()
+
+    if form.validate_on_submit():
+        search = form.search.data
+
+    form.search.data = search
+    reference_service = ReferenceService()
+    reference_service.add_references()
+
+    if not reference_service.references:
+        message_references = "You have no references saved"
+    else:
+        message_references = None
+
+    sort_by = request.args.get("sort_by", "title")
+
+    if sort_by == "title":
+        reference_service.sort_references_by_title()
+    elif sort_by == "author":
+        reference_service.sort_references_by_author()
+    elif sort_by == "year":
+        reference_service.sort_references_by_year()
+
+    result = reference_service.search_with_keyword(search)
+    message_search = f"({len(result)}) results found for {search}"
+
+    return render_template(
+        "index.html",
+        references=result,
+        message_references=message_references,
+        message_search=message_search,
+        selected_value=sort_by,
+        form=form
+    )
 
 @app.route("/add-article", methods=["POST", "GET"])
 def add_article():
