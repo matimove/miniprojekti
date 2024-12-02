@@ -79,13 +79,25 @@
 {% raw %}@article{{% endraw %}{{ reference.id }},
     author = "{{ reference.author }}",
     title = "{{ reference.title }}",
-    {% if reference.journal -%}journal = "{{ reference.journal }}", {% endif -%}
+    {% if reference.journal -%}
+    journal = "{{ reference.journal }}",
+    {% endif -%}
     year = "{{ reference.year }}",
-    {% if reference.volume -%}volume = "{{ reference.volume }}", {% endif -%}
-    {% if reference.number -%}number = "{{ reference.number }}", {% endif -%}
-    {% if reference.pages -%}pages = "{{ reference.pages }}", {% endif -%}
-    {% if reference.month -%}month = "{{ reference.month }}", {% endif -%}
-    {% if reference.doi -%}doi = "{{ reference.doi }}" {% endif %}
+    {% if reference.volume -%}
+    volume = "{{ reference.volume }}",
+    {% endif -%}
+    {% if reference.number -%}
+    number = "{{ reference.number }}",
+    {% endif -%}
+    {% if reference.pages -%}
+    pages = "{{ reference.pages }}",
+    {% endif -%}
+    {% if reference.month -%}
+    month = "{{ reference.month }}",
+    {% endif -%}
+    {% if reference.doi -%}
+    doi = "{{ reference.doi }}" 
+    {% endif %}
 {% raw %}}{% endraw -%}
             </textarea>
         </div>
@@ -148,9 +160,15 @@
     title = "{{ reference.title }}",
     year = "{{ reference.year }}",
     publisher = "{{ reference.publisher }}",
-    {% if reference.edition -%}edition = "{{ reference.edition }}", {% endif -%}
-    {% if reference.pages -%}pages = "{{ reference.pages }}", {% endif -%}
-    {% if reference.doi -%}doi = "{{ reference.doi }}" {% endif %}
+    {% if reference.edition -%}
+    edition = "{{ reference.edition }}",
+    {% endif -%}
+    {% if reference.pages -%}
+    pages = "{{ reference.pages }}",
+    {% endif -%}
+    {% if reference.doi -%}
+    doi = "{{ reference.doi }}"
+    {% endif %}
 {% raw %}}{% endraw -%}
             </textarea>
         </div>
@@ -217,15 +235,33 @@
     title = "{{ reference.title }}",
     Booktitle = "{{ reference.booktitle }}",
     year = "{{ reference.year }}",
-    {% if reference.editor -%}editor = "{{ reference.editor }}", {% endif -%}
-    {% if reference.volume -%}volume = "{{ reference.volume }}", {% endif -%}
-    {% if reference.number -%}number = "{{ reference.number }}", {% endif -%}
-    {% if reference.series -%}series = "{{ reference.series }}", {% endif -%}
-    {% if reference.pages -%}pages = "{{ reference.pages }}", {% endif -%}
-    {% if reference.address -%}address = "{{ reference.address }}", {% endif -%}
-    {% if reference.month -%}month = "{{ reference.month }}", {% endif -%}
-    {% if reference.organization -%}organization = "{{ reference.organization }}", {% endif -%}
-    {% if reference.publisher -%}publisher = "{{ reference.publisher }}" {% endif %}
+    {% if reference.editor -%}
+    editor = "{{ reference.editor }}",
+    {% endif -%}
+    {% if reference.volume -%}
+    volume = "{{ reference.volume }}",
+    {% endif -%}
+    {% if reference.number -%}
+    number = "{{ reference.number }}",
+    {% endif -%}
+    {% if reference.series -%}
+    series = "{{ reference.series }}",
+    {% endif -%}
+    {% if reference.pages -%}
+    pages = "{{ reference.pages }}",
+    {% endif -%}
+    {% if reference.address -%}
+    address = "{{ reference.address }}",
+    {% endif -%}
+    {% if reference.month -%}
+    month = "{{ reference.month }}",
+    {% endif -%}
+    {% if reference.organization -%}
+    organization = "{{ reference.organization }}",
+    {% endif -%}
+    {% if reference.publisher -%}
+    publisher = "{{ reference.publisher }}"
+    {% endif %}
 {% raw %}}{% endraw -%}
             </textarea>
         </div>
@@ -286,9 +322,15 @@
     author = "{{ reference.author }}",
     title = "{{ reference.title }}",
     year = "{{ reference.year }}",
-    {% if reference.month -%}month = "{{ reference.month }}", {% endif -%}
-    {% if reference.howpublished -%}How Published = "{{ reference.howpublished }}", {% endif -%}
-    {% if reference.doi -%}doi = "{{ reference.doi }}" {% endif %}
+    {% if reference.month -%}
+    month = "{{ reference.month }}",
+    {% endif -%}
+    {% if reference.howpublished -%}
+    How Published = "{{ reference.howpublished }}",
+    {% endif -%}
+    {% if reference.doi -%}
+    doi = "{{ reference.doi }}"
+    {% endif %}
 {% raw %}}{% endraw -%}
             </textarea>
         </div>
