@@ -79,13 +79,13 @@
 {% raw %}@article{{% endraw %}{{ reference.id }},
     author = "{{ reference.author }}",
     title = "{{ reference.title }}",
-    {% if reference.journal %}journal = "{{ reference.journal }}", {% endif %}
+    {% if reference.journal -%}journal = "{{ reference.journal }}", {% endif -%}
     year = "{{ reference.year }}",
-    {% if reference.volume %}volume = "{{ reference.volume }}", {% endif %}
-    {% if reference.number %}number = "{{ reference.number }}", {% endif %}
-    {% if reference.pages %}pages = "{{ reference.pages }}", {% endif %}
-    {% if reference.month %}month = "{{ reference.month }}", {% endif %}
-    {% if reference.doi %}doi = "{{ reference.doi }}" {% endif %}
+    {% if reference.volume -%}volume = "{{ reference.volume }}", {% endif -%}
+    {% if reference.number -%}number = "{{ reference.number }}", {% endif -%}
+    {% if reference.pages -%}pages = "{{ reference.pages }}", {% endif -%}
+    {% if reference.month -%}month = "{{ reference.month }}", {% endif -%}
+    {% if reference.doi -%}doi = "{{ reference.doi }}" {% endif %}
 {% raw %}}{% endraw -%}
             </textarea>
         </div>
@@ -133,6 +133,35 @@
       </div>
     </div>
 
+<!-- Modal for showing citation in BibTeX format -->
+<div class="modal fade" id="BibTeXModal{{ loop_index }}" tabindex="-1" aria-labelledby="BibTeXModalLabel{{ loop_index }}" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="BibTeXModalLabel{{ loop_index }}">BibTeX for {{ reference.title }}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <textarea class="form-control" style="max-height: 60vh; min-height: 30vh; height: auto; width: 100%; white-space: pre-wrap;" readonly>
+{% raw %}@book{{% endraw %}{{ reference.id }},
+    author = "{{ reference.author }}",
+    title = "{{ reference.title }}",
+    year = "{{ reference.year }}",
+    publisher = "{{ reference.publisher }}",
+    {% if reference.edition -%}edition = "{{ reference.edition }}", {% endif -%}
+    {% if reference.pages -%}pages = "{{ reference.pages }}", {% endif -%}
+    {% if reference.doi -%}doi = "{{ reference.doi }}" {% endif %}
+{% raw %}}{% endraw -%}
+            </textarea>
+        </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" onclick="copyBibTeX('BibTeXModal{{ loop_index }}')">Copy to Clipboard</button>
+          </div>
+      </div>
+  </div>
+</div>
+
 {% elif reference.category == "inproceedings" %}
   <div class="card w-100 mb-3">
       <div class="card-body">
@@ -173,6 +202,41 @@
       </div>
     </div>
 
+<!-- Modal for showing citation in BibTeX format -->
+<div class="modal fade" id="BibTeXModal{{ loop_index }}" tabindex="-1" aria-labelledby="BibTeXModalLabel{{ loop_index }}" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="BibTeXModalLabel{{ loop_index }}">BibTeX for {{ reference.title }}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <textarea class="form-control" style="max-height: 60vh; min-height: 30vh; height: auto; width: 100%; white-space: pre-wrap;" readonly>
+{% raw %}@inproceedings{{% endraw %}{{ reference.id }},
+    author = "{{ reference.author }}",
+    title = "{{ reference.title }}",
+    Booktitle = "{{ reference.booktitle }}",
+    year = "{{ reference.year }}",
+    {% if reference.editor -%}editor = "{{ reference.editor }}", {% endif -%}
+    {% if reference.volume -%}volume = "{{ reference.volume }}", {% endif -%}
+    {% if reference.number -%}number = "{{ reference.number }}", {% endif -%}
+    {% if reference.series -%}series = "{{ reference.series }}", {% endif -%}
+    {% if reference.pages -%}pages = "{{ reference.pages }}", {% endif -%}
+    {% if reference.address -%}address = "{{ reference.address }}", {% endif -%}
+    {% if reference.month -%}month = "{{ reference.month }}", {% endif -%}
+    {% if reference.organization -%}organization = "{{ reference.organization }}", {% endif -%}
+    {% if reference.publisher -%}publisher = "{{ reference.publisher }}" {% endif %}
+{% raw %}}{% endraw -%}
+            </textarea>
+        </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" onclick="copyBibTeX('BibTeXModal{{ loop_index }}')">Copy to Clipboard</button>
+          </div>
+      </div>
+  </div>
+</div>
+
 {% elif reference.category == "misc" %}
   <div class="card w-100 mb-3">
       <div class="card-body">
@@ -207,4 +271,32 @@
         </div>
       </div>
     </div>
+
+<!-- Modal for showing citation in BibTeX format -->
+<div class="modal fade" id="BibTeXModal{{ loop_index }}" tabindex="-1" aria-labelledby="BibTeXModalLabel{{ loop_index }}" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="BibTeXModalLabel{{ loop_index }}">BibTeX for {{ reference.title }}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <textarea class="form-control" style="max-height: 60vh; min-height: 30vh; height: auto; width: 100%; white-space: pre-wrap;" readonly>
+{% raw %}@misc{{% endraw %}{{ reference.id }},
+    author = "{{ reference.author }}",
+    title = "{{ reference.title }}",
+    year = "{{ reference.year }}",
+    {% if reference.month -%}month = "{{ reference.month }}", {% endif -%}
+    {% if reference.howpublished -%}How Published = "{{ reference.howpublished }}", {% endif -%}
+    {% if reference.doi -%}doi = "{{ reference.doi }}" {% endif %}
+{% raw %}}{% endraw -%}
+            </textarea>
+        </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" onclick="copyBibTeX('BibTeXModal{{ loop_index }}')">Copy to Clipboard</button>
+          </div>
+      </div>
+  </div>
+</div>
 {% endif %}
