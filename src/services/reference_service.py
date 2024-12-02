@@ -21,18 +21,18 @@ class ReferenceService:
 
     def sort_references_by_title(self):
         # secondary sort by author
-        self.references.sort(key=lambda ref: (ref.title, ref.author))
+        self.references.sort(key=lambda ref: (ref.title.lower(), ref.author.lower()))
 
         return self.references
 
     def sort_references_by_author(self):
         # secondary sort by title
-        self.references.sort(key=lambda ref: (ref.author, ref.title))
+        self.references.sort(key=lambda ref: (ref.author.lower(), ref.title.lower()))
 
         return self.references
 
     def sort_references_by_year(self):
         # secondary sort by author
-        self.references.sort(key=lambda ref: (ref.year, ref.author))
+        self.references.sort(key=lambda ref: (ref.year, ref.author.lower()))
 
         return self.references
