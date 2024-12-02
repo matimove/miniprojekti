@@ -44,18 +44,24 @@ def index():
         reference_service.sort_references_by_author()
     elif sort_by == "year":
         reference_service.sort_references_by_year()
+
+    if not reference_service.references:
+        message_references = "You have no references saved"
+    else:
+        message_references = None
     
     if form.validate_on_submit():
         keyword = form.search.data
         form.search.data = ""
         if keyword != "":
             result = reference_service.search_with_keyword(keyword)
-            print(result)
-
-    if not reference_service.references:
-        message_references = "You have no references saved"
-    else:
-        message_references = None
+            return render_template(
+                "index.html",
+                references=result,
+                message_references=message_references,
+                selected_value=sort_by,
+                form=form
+            )   
 
     return render_template(
         "index.html",
