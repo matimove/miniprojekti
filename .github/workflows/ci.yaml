@@ -51,3 +51,12 @@ jobs:
         
       - name: Lint
         run: poetry run pylint src  --fail-under=9.5
+
+      - name: Coverage report
+        run: poetry run coverage xml
+        
+      - name: Coverage report to Codecov
+        uses: codecov/codecov-action@v4
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
