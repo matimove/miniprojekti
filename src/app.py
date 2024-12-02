@@ -2,11 +2,13 @@ from flask import flash, jsonify, redirect, render_template, request, url_for
 
 from config import app, test_env
 from db_helper import reset_db
-from forms import (AddArticleForm,
+from forms import (
+    AddArticleForm,
     AddBookForm,
     AddInproceedingsForm,
     AddMiscForm,
-    SearchForm)
+    SearchForm,
+)
 from repositories import (
     article_repository,
     book_repository,
@@ -27,6 +29,7 @@ class DeletionError(Exception):
     """Custom exception for citation deletion operations."""
 
     pass
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -58,8 +61,9 @@ def index():
         references=reference_service.references,
         message_references=message_references,
         selected_value=sort_by,
-        form=form
+        form=form,
     )
+
 
 @app.route("/search/<search>", methods=["GET", "POST"])
 def search_citations(search=None):
@@ -67,9 +71,14 @@ def search_citations(search=None):
 
     if form.validate_on_submit():
         search = form.search.data
-        return redirect(url_for("search_citations", search=search, 
-                        sort_by=request.args.get("sort_by", "title")))
-    
+        return redirect(
+            url_for(
+                "search_citations",
+                search=search,
+                sort_by=request.args.get("sort_by", "title"),
+            )
+        )
+
     search = search or request.args.get("search", "")
     form.search.data = search
     sort_by = request.args.get("sort_by", "title")
@@ -88,7 +97,7 @@ def search_citations(search=None):
         reference_service.sort_references_by_author()
     elif sort_by == "year":
         reference_service.sort_references_by_year()
-    
+
     result = reference_service.search_with_keyword(search)
     message_search = f"({len(result)}) results found for {search}"
 
@@ -98,8 +107,9 @@ def search_citations(search=None):
         message_references=message_references,
         message_search=message_search,
         selected_value=sort_by,
-        form=form
+        form=form,
     )
+
 
 @app.route("/add-article", methods=["POST", "GET"])
 def add_article():
