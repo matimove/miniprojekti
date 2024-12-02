@@ -11,7 +11,11 @@ class MockReference:
 
     def __eq__(self, value: object):
         if isinstance(value, MockReference):
-            return self.title == value.title and self.author == value.author and self.year == value.year
+            return (
+                self.title == value.title
+                and self.author == value.author
+                and self.year == value.year
+            )
         return False
 
 
@@ -34,6 +38,30 @@ class TestReferenceService(unittest.TestCase):
             MockReference("An Analysis of Example", "xyz", 2022),
             MockReference("Classical mechanics", "Leonard Susskind", 2014),
             MockReference("Toimitusketjujen optimointi", "Joulupukki", 2023),
+        ]
+
+        self.assertEqual(result, expected)
+
+    def test_sort_references_by_author(self):
+        result = self.reference_service.sort_references_by_author()
+        expected = [
+            MockReference("An Analysis of Example", "John Smith and Jane Doe", 2022),
+            MockReference("Aamunsarastus", "Joulupukki", 2023),
+            MockReference("Toimitusketjujen optimointi", "Joulupukki", 2023),
+            MockReference("Classical mechanics", "Leonard Susskind", 2014),
+            MockReference("An Analysis of Example", "xyz", 2022),
+        ]
+
+        self.assertEqual(result, expected)
+
+    def test_sort_references_by_year(self):
+        result = self.reference_service.sort_references_by_year()
+        expected = [
+            MockReference("Classical mechanics", "Leonard Susskind", 2014),
+            MockReference("An Analysis of Example", "John Smith and Jane Doe", 2022),
+            MockReference("An Analysis of Example", "xyz", 2022),
+            MockReference("Aamunsarastus", "Joulupukki", 2023),
+            MockReference("Toimitusketjujen optimointi", "Pöllö", 2023),
         ]
 
         self.assertEqual(result, expected)
