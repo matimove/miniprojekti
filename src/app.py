@@ -53,12 +53,15 @@ def index():
     if form.validate_on_submit():
         keyword = form.search.data
         form.search.data = ""
+
         if keyword != "":
             result = reference_service.search_with_keyword(keyword)
+            message_search = f"({len(result)}) results found for {keyword}"
             return render_template(
                 "index.html",
                 references=result,
                 message_references=message_references,
+                message_search=message_search,
                 selected_value=sort_by,
                 form=form
             )   

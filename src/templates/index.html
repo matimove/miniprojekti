@@ -55,6 +55,10 @@ Reference app
     <p>{{ message_references }}</p>
 {% endif %}
 
+{% if message_search %}
+    <h5>{{ message_search }}</h5>
+{% endif %}</br>
+
 {% for reference in references %}
   {% with reference=reference, loop_index=loop.index0 %}
     {% include "reference_card.html" %}
