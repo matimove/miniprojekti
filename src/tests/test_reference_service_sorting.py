@@ -60,8 +60,10 @@ class TestReferenceService(unittest.TestCase):
             MockReference("Classical mechanics", "Leonard Susskind", 2014),
             MockReference("An Analysis of Example", "John Smith and Jane Doe", 2022),
             MockReference("An Analysis of Example", "xyz", 2022),
+            # if primary and secondary sorting values are the same the order is the
+            # default what is given when called from the data base
+            MockReference("Toimitusketjujen optimointi", "Joulupukki", 2023),
             MockReference("Aamunsarastus", "Joulupukki", 2023),
-            MockReference("Toimitusketjujen optimointi", "Pöllö", 2023),
         ]
 
         self.assertEqual(result, expected)
