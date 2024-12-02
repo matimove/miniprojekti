@@ -67,3 +67,31 @@ class TestReferenceService(unittest.TestCase):
         ]
 
         self.assertEqual(result, expected)
+
+    def test_search_references_by_keyword_when_keyword_in_title(self):
+        result = self.reference_service.search_with_keyword("Analysis")
+        expected = [
+            MockReference("An Analysis of Example", "John Smith and Jane Doe", 2022),
+            MockReference("An Analysis of Example", "xyz", 2022),
+        ]
+        self.assertEqual(result, expected)
+
+    def test_search_references_by_keyword_when_keyword_in_author(self):
+        result = self.reference_service.search_with_keyword("John Smith")
+        expected = [
+            MockReference("An Analysis of Example", "John Smith and Jane Doe", 2022)
+        ]
+        self.assertEqual(result, expected)
+
+    def test_search_references_by_keyword_when_keyword_in_year(self):
+        result = self.reference_service.search_with_keyword("2023")
+        expected = [
+            MockReference("Toimitusketjujen optimointi", "Joulupukki", 2023),
+            MockReference("Aamunsarastus", "Joulupukki", 2023),
+        ]
+        self.assertEqual(result, expected)
+
+    def test_search_references_by_keyword_when_keyword_not_in_references(self):
+        result = self.reference_service.search_with_keyword("Testi")
+        expected = []
+        self.assertEqual(result, expected)
