@@ -16,6 +16,7 @@ Reference app
       <!-- Search bar -->
       <form method="POST" class="d-flex" role="search">
         {{ form.hidden_tag() }}
+        <input type="hidden" name="sort_by" value="{{ selected_value }}">
         {{ form.search.label(class="form-label") }}
         {{ form.search(class="form-control") }}
         <button id="search-button" class="btn btn-outline-success" type="submit">Search</button>
@@ -24,6 +25,7 @@ Reference app
     <!-- Sort by form -->
     <div class="col">
       <form method="GET" class="d-flex align-items-center">
+        <input type="hidden" name="search" value="{{ form.search.data }}">
         <label for="sort_by" class="me-2"><b>Sort by</b></label>
           <select id="sort_by" name="sort_by" onchange="this.form.submit()" class="form-select w-auto" aria-label="Sort by">
             <option value="title" {% if selected_value == "title" %}selected{% endif %}>Title</option>

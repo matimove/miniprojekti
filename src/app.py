@@ -50,8 +50,8 @@ def index():
         reference_service.sort_references_by_year()
 
     if form.validate_on_submit():
-        search = form.search.data 
-        return redirect(url_for('search_citations', search=search))
+        search = form.search.data
+        return redirect(url_for("search_citations", search=search))
 
     return render_template(
         "index.html",
@@ -62,13 +62,18 @@ def index():
     )
 
 @app.route("/search/<search>", methods=["GET", "POST"])
-def search_citations(search):
+def search_citations(search=None):
     form = SearchForm()
 
     if form.validate_on_submit():
         search = form.search.data
-
+        return redirect(url_for("search_citations", search=search, 
+                        sort_by=request.args.get("sort_by", "title")))
+    
+    search = search or request.args.get("search", "")
     form.search.data = search
+    sort_by = request.args.get("sort_by", "title")
+
     reference_service = ReferenceService()
     reference_service.add_references()
 
@@ -77,15 +82,13 @@ def search_citations(search):
     else:
         message_references = None
 
-    sort_by = request.args.get("sort_by", "title")
-
     if sort_by == "title":
         reference_service.sort_references_by_title()
     elif sort_by == "author":
         reference_service.sort_references_by_author()
     elif sort_by == "year":
         reference_service.sort_references_by_year()
-
+    
     result = reference_service.search_with_keyword(search)
     message_search = f"({len(result)}) results found for {search}"
 
