@@ -15,7 +15,6 @@ from repositories import (
     inproceedings_repository,
     misc_repository,
 )
-from services import bibtex_service
 from services.citation_service import (
     UserInputError,
     validate_article,
@@ -24,6 +23,7 @@ from services.citation_service import (
     validate_misc,
 )
 from services.reference_service import ReferenceService
+from services.bibtex_service import BibtexService
 
 class DeletionError(Exception):
     """Custom exception for citation deletion operations."""
@@ -404,6 +404,16 @@ def edit_citation(citation_type, citation_id):
             flash(str(e), "error")
 
     return render_template(f"{citation_type}.html", form=form, editing=True)
+
+
+@app.route("/bibtex", methods=["GET"])
+def generate_bibtex_all():
+    reference_service = ReferenceService()
+    reference_service.add_references()
+    bibtex_service = BibtexService(reference_service.references)
+    bibtex_service.generate_bibtex_all()
+    return render_template("bibtex.html", bibtex_string=bibtex_service.bibtex_string)
+
 
 
 # testausta varten oleva reitti

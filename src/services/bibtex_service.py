@@ -4,6 +4,7 @@ from pybtex.database import BibliographyData, Entry
 class BibtexService:
     def __init__(self, references):
         self.references = references
+        self.bibtex_string = ""
 
     def generate_bibtex_all(self):
         entries = {}
@@ -21,7 +22,7 @@ class BibtexService:
                 break
             entries[entry_key] = entry
         bib_data = BibliographyData(entries)
-        print(bib_data.to_string("bibtex"))
+        self.bibtex_string = bib_data.to_string("bibtex") 
 
     def _clean_fields(self, fields):
         return {k: v for k, v in fields.items() if v is not None}

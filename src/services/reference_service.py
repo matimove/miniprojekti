@@ -15,7 +15,6 @@ class ReferenceService:
         books = book_repository.get_books()
         inproceedings = inproceedings_repository.get_inproceedings()
         misc = misc_repository.get_misc()
-        print(misc)
 
         self.references = self.references + articles + books + inproceedings + misc
 

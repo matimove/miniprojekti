@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Reference app
+{% endblock %}
+
+{% block body %}
+<br/><div>
+    <a href="{{ url_for('index') }}" class="btn btn-dark">Return</a>
+</div>
+<div class="container mt-5">
+  <div class="card shadow">
+      <div class="card-header bg-primary text-white">
+          <h3 class="mb-0">BibTeX</h3>
+      </div>
+      <div class="card-body">
+          <textarea class="form-control" rows="20" readonly>{{ bibtex_string }}</textarea>
+      </div>
+      <div class="card-footer text-end">
+          <button class="btn btn-success" onclick="copyBibTeX()">Copy to Clipboard</button>
+      </div>
+  </div>
+</div>
+<script>
+  function copyBibTeX() {
+      const textarea = document.querySelector('textarea');
+      textarea.select();
+      document.execCommand('copy');
+      alert('BibTeX copied to clipboard!');
+  }
+</script>
+{% endblock %}
