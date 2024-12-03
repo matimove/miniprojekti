@@ -15,6 +15,7 @@ Generate BibTeX for Article
     Set Search  D mahtava teksti
     Submit Search
     Click Button  Generate BibTeX
+    Wait Until Element Is Visible  //textarea[@class="form-control" and @readonly]
     Article BibTeX Content Should Be Correct
 
 Generate BibTeX for Book
@@ -26,6 +27,7 @@ Generate BibTeX for Book
     Set Search  C mahtava teksti
     Submit Search
     Click Button  Generate BibTeX
+    Wait Until Element Is Visible  //textarea[@class="form-control" and @readonly]
     Book BibTeX Content Should Be Correct
 
 Generate BibTeX for Inproceedings
@@ -38,6 +40,7 @@ Generate BibTeX for Inproceedings
     Set Search  B mahtava teksti
     Submit Search
     Click Button  Generate BibTeX
+    Wait Until Element Is Visible  //textarea[@class="form-control" and @readonly]
     Inproceedings BibTeX Content Should Be Correct
 
 Generate BibTeX for Misc
@@ -49,6 +52,7 @@ Generate BibTeX for Misc
     Set Search  A mahtava teksti
     Submit Search
     Click Button  Generate BibTeX
+    Wait Until Element Is Visible  //textarea[@class="form-control" and @readonly]
     Misc BibTeX Content Should Be Correct
 
 *** Keywords ***
