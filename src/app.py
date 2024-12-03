@@ -24,7 +24,6 @@ from services.citation_service import (
     validate_misc,
 )
 from services.reference_service import ReferenceService
-from services.bibtex_service import BibtexService
 
 class DeletionError(Exception):
     """Custom exception for citation deletion operations."""
@@ -56,13 +55,6 @@ def index():
     if form.validate_on_submit():
         search = form.search.data
         return redirect(url_for("search_citations", search=search))
-
-    # test
-    articles = article_repository.get_articles()
-    bt = BibtexService()
-    bt.generate_bibtex_all(reference_service.references)
-    
-
 
     return render_template(
         "index.html",

@@ -2,21 +2,21 @@ from pybtex.database import BibliographyData, Entry
 
 
 class BibtexService:
-    def __init__(self):
-        pass
+    def __init__(self, references):
+        self.references = references
 
-    def generate_bibtex_all(self, references):
+    def generate_bibtex_all(self):
         entries = {}
-        for i, reference in enumerate(references):
+        for i, reference in enumerate(self.references):
             entry_key = str(i)
             if reference.category == "article":
-                entry = self.create_entry_article(reference)
+                entry = self._create_entry_article(reference)
             elif reference.category == "book":
-                entry = self.create_entry_book(reference) 
+                entry = self._create_entry_book(reference)
             elif reference.category == "inproceedings":
-                entry = self.create_entry_inproceedings(reference)
+                entry = self._create_entry_inproceedings(reference)
             elif reference.category == "misc":
-                entry = self.create_entry_misc(reference)
+                entry = self._create_entry_misc(reference)
             else:
                 break
             entries[entry_key] = entry
@@ -26,7 +26,7 @@ class BibtexService:
     def _clean_fields(self, fields):
         return {k: v for k, v in fields.items() if v is not None}
 
-    def create_entry_article(self, article):
+    def _create_entry_article(self, article):
         fields = {
             "author": article.author,
             "title": article.title,
@@ -40,8 +40,8 @@ class BibtexService:
         }
         entry = Entry(article.category, fields=self._clean_fields(fields))
         return entry
-    
-    def create_entry_book(self, book):
+
+    def _create_entry_book(self, book):
         fields = {
             "author": book.author,
             "title": book.title,
@@ -53,9 +53,34 @@ class BibtexService:
         }
         entry = Entry(book.category, fields=self._clean_fields(fields))
         return entry
-    
-    def create_entry_inproceedings(self, inproceedings):
-        pass
 
-    def create_entry_misc(self, misc):
-        pass
+    def _create_entry_inproceedings(self, inproceedings):
+        fields = {
+            "author": inproceedings.author,
+            "title": inproceedings.title,
+            "year": str(inproceedings.year),
+            "booktitle": inproceedings.booktitle,
+            "editor": inproceedings.editor,
+            "volume": str(inproceedings.volume) if inproceedings.volume else None,
+            "number": str(inproceedings.number) if inproceedings.number else None,
+            "series": inproceedings.series,
+            "pages": inproceedings.pages,
+            "address": inproceedings.address,
+            "month": inproceedings.month,
+            "organization": inproceedings.organization,
+            "publisher": inproceedings.publisher,
+        }
+        entry = Entry(inproceedings.category, fields=self._clean_fields(fields))
+        return entry
+
+    def _create_entry_misc(self, misc):
+        fields = {
+            "author": misc.author,
+            "title": misc.title,
+            "year": str(misc.year),
+            "month": misc.month,
+            "howpublished": misc.publisher,
+            "note": misc.organization,
+        }
+        entry = Entry(misc.category, fields=self._clean_fields(fields))
+        return entry
