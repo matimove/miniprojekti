@@ -80,8 +80,8 @@ class BibtexService:
             "title": misc.title,
             "year": str(misc.year),
             "month": misc.month,
-            "howpublished": misc.publisher,
-            "note": misc.organization,
+            "howpublished": misc.howpublished,
+            "note": misc.note,
         }
         entry = Entry(misc.category, fields=self._clean_fields(fields))
         return entry
