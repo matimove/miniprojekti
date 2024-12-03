@@ -3,7 +3,7 @@
 __pycache__
 *.log
 log.html
-output.xml
+*output.xml
 report.html
 *.png
 .coverage
