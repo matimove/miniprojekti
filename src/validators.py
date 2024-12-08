@@ -37,6 +37,19 @@ def validate_field(value, field_name, min_length=1, max_length=255):
     validate_common_pattern(value, field_name)
 
 
+def validate_name(name, field_name, min_length=2, max_length=100):
+    """
+    Validates name(s) (Finnish letters, spaces, dashes, commas, and periods).
+    Default min length is 2, default max length is 100.
+    """
+    pattern = r"^[a-zA-Z äöåÄÖÅ.,\- ]+$"
+    if not re.match(pattern, name):
+        raise ValueError(
+            f"{field_name} can only contain letters, spaces, dashes, commas, periods, and Finnish characters."
+        )
+    validate_length(name, field_name, min_length, max_length)
+
+
 def validate_year(year):
     """Validates that the year is numeric and within a realistic range (0-2100)."""
     try:
@@ -48,14 +61,13 @@ def validate_year(year):
 
 
 def validate_author(author):
-    """Validates author name(s) (letters, spaces, dashes, commas, periods, and Finnish characters)."""
-    pattern = r"^[a-zA-ZäöåÄÖÅ.,\- ]+$"
-    if not re.match(pattern, author):
-        raise ValueError(
-            "Author name can only contain letters, spaces, dashes, commas, periods, and Finnish characters."
-        )
+    """Validates author name(s)."""
+    validate_name(author, "Author name")
 
-    validate_length(author, "Author name", 2, 100)
+
+def validate_editor(editor):
+    """Validates editor name(s)."""
+    validate_name(editor, "Editor name")
 
 
 def validate_title(title):
@@ -137,14 +149,6 @@ def validate_organization(organization):
 def validate_publisher(publisher):
     """Validates a publisher name (Finnish letters, numbers, spaces, and punctuation)."""
     validate_field(publisher, "Publisher")
-
-
-def validate_editor(editor):
-    """Validates an editor's name (letters, spaces, and dashes)."""
-    validate_length(editor, "Editor name", 2, 100)
-    pattern = r"^[a-zA-Z\- ]+$"
-    if not re.match(pattern, editor):
-        raise ValueError("Editor name can only contain letters, spaces, and dashes.")
 
 
 def validate_howpublished(howpublished):

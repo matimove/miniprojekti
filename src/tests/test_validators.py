@@ -11,6 +11,7 @@ from validators import (
     validate_pages,
     validate_common_pattern,
     validate_field,
+    validate_name,
 )
 
 
@@ -303,3 +304,94 @@ def test_validate_field_edge_cases():
         validate_field(
             large_input + "a", "Test Field", min_length=1, max_length=255
         )  # Exceeds upper boundary
+
+
+def test_validate_name_valid_inputs():
+    """Test valid name inputs."""
+    # Simple names
+    assert validate_name("John", "Name") is None
+    assert validate_name("Matti Meikäläinen", "Name") is None  # Finnish characters
+    assert validate_name("Åke Öberg", "Name") is None  # Finnish characters with spaces
+    assert validate_name("Anne-Marie", "Name") is None  # Name with dash
+    assert (
+        validate_name("Dr. John Smith", "Name") is None
+    )  # Name with periods and spaces
+    assert validate_name("Smith, John", "Name") is None  # Name with commas
+
+    # Boundary cases
+    assert (
+        validate_name("AB", "Name", min_length=2, max_length=100) is None
+    )  # Minimum valid length
+    assert (
+        validate_name("A" * 100, "Name", min_length=2, max_length=100) is None
+    )  # Maximum valid length
+
+
+def test_validate_name_invalid_inputs():
+    """Test invalid name inputs."""
+    # Too short, default values
+    with pytest.raises(
+        ValueError,
+        match=re.escape("Name must be between 2 and 100 characters."),
+    ):
+        validate_name("t", "Name")
+
+    # Too short
+    with pytest.raises(
+        ValueError,
+        match=re.escape("Name must be between 5 and 20 characters."),
+    ):
+        validate_name("Ann", "Name", min_length=5, max_length=20)
+
+    # Too long
+    with pytest.raises(
+        ValueError,
+        match=re.escape("Name must be between 5 and 20 characters."),
+    ):
+        validate_name("A" * 21, "Name", min_length=5, max_length=20)
+
+    # Invalid characters
+    with pytest.raises(
+        ValueError,
+        match=re.escape(
+            "Name can only contain letters, spaces, dashes, commas, periods, and Finnish characters."
+        ),
+    ):
+        validate_name("Invalid123", "Name")  # Numbers not allowed
+
+    with pytest.raises(
+        ValueError,
+        match=re.escape(
+            "Name can only contain letters, spaces, dashes, commas, periods, and Finnish characters."
+        ),
+    ):
+        validate_name("Invalid@Name", "Name")  # Disallowed symbol
+
+    with pytest.raises(
+        ValueError,
+        match=re.escape(
+            "Name can only contain letters, spaces, dashes, commas, periods, and Finnish characters."
+        ),
+    ):
+        validate_name("🚀", "Name")  # Emoji not allowed
+
+
+def test_validate_name_edge_cases():
+    """Test edge cases for validate_name."""
+    # Names with leading/trailing spaces
+    assert (
+        validate_name("  John Smith  ", "Name") is None
+    )  # Leading/trailing spaces should be stripped
+
+    # Name with special characters in Finnish
+    assert (
+        validate_name("Ääliö Östman Åström", "Name") is None
+    )  # Fully valid Finnish characters
+
+    # Exact boundary lengths
+    assert (
+        validate_name("A" * 2, "Name", min_length=2, max_length=2) is None
+    )  # Minimum length exact
+    assert (
+        validate_name("A" * 100, "Name", min_length=2, max_length=100) is None
+    )  # Maximum length exact
