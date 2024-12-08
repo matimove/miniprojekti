@@ -1,4 +1,5 @@
 from flask import flash, jsonify, redirect, render_template, request, url_for
+from bibtexparser import loads
 
 from config import app, test_env
 from db_helper import reset_db
@@ -427,8 +428,6 @@ def import_bibtex():
 
         try:
             # Parse the BibTeX text into entries
-            from bibtexparser import loads
-
             bibtex_entries = loads(bibtex_text).entries
 
             if not bibtex_entries:
