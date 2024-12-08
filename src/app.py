@@ -8,6 +8,7 @@ from forms import (
     AddInproceedingsForm,
     AddMiscForm,
     SearchForm,
+    ImportBibtexForm,
 )
 from repositories import (
     article_repository,
@@ -24,6 +25,7 @@ from services.citation_service import (
 )
 from services.reference_service import ReferenceService
 from services.bibtex_service import BibtexService
+
 
 class DeletionError(Exception):
     """Custom exception for citation deletion operations."""
@@ -414,6 +416,106 @@ def generate_bibtex_all():
     bibtex_service.generate_bibtex_all()
     return render_template("bibtex.html", bibtex_string=bibtex_service.bibtex_string)
 
+
+@app.route("/import-bibtex", methods=["GET", "POST"])
+def import_bibtex():
+    form = ImportBibtexForm()
+
+    if form.validate_on_submit():
+        # Get the BibTeX text from the form
+        bibtex_text = form.bibtex_text.data
+
+        try:
+            # Parse the BibTeX text into entries
+            from bibtexparser import loads
+
+            bibtex_entries = loads(bibtex_text).entries
+
+            if not bibtex_entries:
+                flash("No valid BibTeX entries found in the text.", "error")
+                return render_template("import_bibtex.html", form=form)
+
+            for entry in bibtex_entries:
+                entry_type = entry.get("ENTRYTYPE", "").lower()
+
+                try:
+                    # Validate based on the entry type
+                    if entry_type == "article":
+                        validate_article(
+                            author=entry.get("author", ""),
+                            title=entry.get("title", ""),
+                            journal=entry.get("journal", ""),
+                            year=entry.get("year", ""),
+                            volume=entry.get("volume"),
+                            number=entry.get("number"),
+                            pages=entry.get("pages"),
+                            month=entry.get("month"),
+                            doi=entry.get("doi"),
+                        )
+                        flash(
+                            f"Article '{entry.get('title')}' imported successfully!",
+                            "success",
+                        )
+                    elif entry_type == "inproceedings":
+                        validate_inproceedings(
+                            author=entry.get("author", ""),
+                            title=entry.get("title", ""),
+                            booktitle=entry.get("booktitle", ""),
+                            year=entry.get("year", ""),
+                            editor=entry.get("editor"),
+                            volume=entry.get("volume"),
+                            number=entry.get("number"),
+                            series=entry.get("series"),
+                            pages=entry.get("pages"),
+                            address=entry.get("address"),
+                            month=entry.get("month"),
+                            organization=entry.get("organization"),
+                            publisher=entry.get("publisher"),
+                        )
+                        flash(
+                            f"Inproceedings '{entry.get('title')}' imported successfully!",
+                            "success",
+                        )
+                    elif entry_type == "book":
+                        validate_book(
+                            author=entry.get("author", ""),
+                            title=entry.get("title", ""),
+                            year=entry.get("year", ""),
+                            publisher=entry.get("publisher"),
+                            edition=entry.get("edition"),
+                            pages=entry.get("pages"),
+                            doi=entry.get("doi"),
+                        )
+                        flash(
+                            f"Book '{entry.get('title')}' imported successfully!",
+                            "success",
+                        )
+                    elif entry_type == "misc":
+                        validate_misc(
+                            author=entry.get("author", ""),
+                            title=entry.get("title", ""),
+                            year=entry.get("year", ""),
+                            month=entry.get("month"),
+                            howpublished=entry.get("howpublished"),
+                            note=entry.get("note"),
+                        )
+                        flash(
+                            f"Misc '{entry.get('title')}' imported successfully!",
+                            "success",
+                        )
+                    else:
+                        flash(f"Unsupported BibTeX entry type: {entry_type}", "error")
+                except UserInputError as e:
+                    flash(
+                        f"Error in {entry_type} entry '{entry.get('title', 'unknown')}': {str(e)}",
+                        "error",
+                    )
+
+        except Exception as e:
+            flash(f"Error parsing BibTeX text: {str(e)}", "error")
+
+    # Render the form with existing input preserved
+    return render_template("import_bibtex.html", form=form)
 
 
 # testausta varten oleva reitti
