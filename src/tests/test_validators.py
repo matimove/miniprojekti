@@ -9,6 +9,7 @@ from validators import (
     validate_doi,
     validate_month,
     validate_pages,
+    validate_common_pattern,
 )
 
 
@@ -152,3 +153,62 @@ def test_validate_pages_single_number_invalid():
         match=re.escape("Pages must be a number or range (e.g., '1-10' or '1–10')."),
     ):
         validate_pages("-1")  # Invalid page range input
+
+
+def test_validate_common_pattern_valid_finnish():
+    """Test valid Finnish inputs."""
+    assert (
+        validate_common_pattern("Tämä on testi!", "Test Input") is None
+    )  # Valid with Finnish characters
+    assert (
+        validate_common_pattern("Ääkköset Överissä Ålandissa", "Test Input") is None
+    )  # Valid mixed case
+    assert (
+        validate_common_pattern("12345 äöåÄÖÅ?!,.-@", "Test Input") is None
+    )  # Valid with numbers and symbols
+    assert (
+        validate_common_pattern("Hello, World!", "Test Input") is None
+    )  # Valid simple input
+    assert (
+        validate_common_pattern("Valid input 123.", "Test Input") is None
+    )  # Valid input with numbers
+
+
+def test_validate_common_pattern_invalid_characters():
+    """Test invalid inputs with unsupported characters."""
+
+    with pytest.raises(
+        ValueError,
+        match=re.escape("Test Input contains invalid characters."),
+    ):
+        validate_common_pattern(
+            "Invalid字符", "Test Input"
+        )  # Invalid non-Latin characters
+
+    with pytest.raises(
+        ValueError,
+        match=re.escape("Test Input contains invalid characters."),
+    ):
+        validate_common_pattern("Invalid<>[]{}", "Test Input")  # Invalid symbols
+
+    with pytest.raises(
+        ValueError,
+        match=re.escape("Test Input contains invalid characters."),
+    ):
+        validate_common_pattern("💡", "Test Input")  # Invalid emoji
+
+
+def test_validate_common_pattern_edge_cases():
+    """Test edge cases for valid and invalid inputs."""
+    with pytest.raises(
+        ValueError,
+        match=re.escape("Test Input contains invalid characters."),
+    ):
+        validate_common_pattern("", "Test Input")  # Empty string (invalid)
+    assert validate_common_pattern(" ", "Test Input") is None  # Space only (valid)
+
+    with pytest.raises(
+        ValueError,
+        match=re.escape("Test Input contains invalid characters."),
+    ):
+        validate_common_pattern("\n", "Test Input")  # Invalid newline character

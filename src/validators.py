@@ -22,8 +22,8 @@ def validate_numeric(value, field_name):
 
 
 def validate_common_pattern(string, name):
-    """Validates that a given string only contains letters, numbers, spaces and punctuation."""
-    pattern = r"^[a-zA-Z0-9 .,\-?!:;'()\"@]+$"
+    """Validates that a given string only contains Finnish letters, numbers, spaces, and punctuation."""
+    pattern = r"^[a-zA-Z0-9 äöåÄÖÅ.,\-?!:;'()\"@]+$"
     if not re.match(pattern, string):
         raise ValueError(f"{name} contains invalid characters.")
 
