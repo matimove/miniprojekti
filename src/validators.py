@@ -22,49 +22,62 @@ def validate_numeric(value, field_name):
 
 
 def validate_common_pattern(string, name):
-    """Validates that a given string only contains letters, numbers, spaces and punctuation."""
-    pattern = r"^[a-zA-Z0-9 .,\-?!:;'()\"@]+$"
+    """Validates that a given string only contains Finnish letters, numbers, spaces, and punctuation."""
+    pattern = r"^[a-zA-Z0-9 äöåÄÖÅ.,\-?!:;'()\"@]+$"
     if not re.match(pattern, string):
         raise ValueError(f"{name} contains invalid characters.")
 
 
+def validate_field(value, field_name, min_length=1, max_length=255):
+    """
+    General-purpose validator for fields with Finnish letters, numbers, spaces, and punctuation.
+    Handles both length and character checks. Default min length is 1, default max length is 255.
+    """
+    validate_length(value, field_name, min_length, max_length)
+    validate_common_pattern(value, field_name)
+
+
+def validate_name(name, field_name, min_length=2, max_length=100):
+    """
+    Validates name(s) (Finnish letters, spaces, dashes, commas, and periods).
+    Default min length is 2, default max length is 100.
+    """
+    pattern = r"^[a-zA-Z äöåÄÖÅ.,\- ]+$"
+    if not re.match(pattern, name):
+        raise ValueError(
+            f"{field_name} can only contain letters, spaces, dashes, commas, periods, and Finnish characters."
+        )
+    validate_length(name, field_name, min_length, max_length)
+
+
 def validate_year(year):
-    """Validates that the year is numeric and within a realistic range."""
-    if isinstance(year, str):
-        if not year.isdigit() or not 0 <= int(year) <= 2100:
-            raise ValueError("Year must be a valid number between 0 and 2100.")
-    elif isinstance(year, int):
-        if not 1500 <= year <= 2100:
-            raise ValueError("Year must be a valid number between 0 and 2100.")
-    else:
-        raise ValueError("Year must be a valid number between 0 and 2100.")
+    """Validates that the year is numeric and within a realistic range (0-2100)."""
+    try:
+        year = int(year)
+        if not 0 <= year <= 2100:
+            raise ValueError
+    except (ValueError, TypeError) as e:
+        raise ValueError("Year must be a valid number between 0 and 2100.") from e
 
 
 def validate_author(author):
-    """Validates author name(s) (letters, spaces, dashes, commas, periods, and Finnish characters)."""
-    pattern = r"^[a-zA-ZäöåÄÖÅ.,\- ]+$"
-    if not re.match(pattern, author):
-        raise ValueError(
-            "Author name can only contain letters, spaces, dashes, commas, periods, and Finnish characters."
-        )
+    """Validates author name(s)."""
+    validate_name(author, "Author name")
 
-    validate_length(author, "Author name", 2, 100)
+
+def validate_editor(editor):
+    """Validates editor name(s)."""
+    validate_name(editor, "Editor name")
 
 
 def validate_title(title):
-    """Validates a title (letters, numbers, spaces, punctuation, and Finnish characters)."""
-    validate_length(title, "Title", 5, 255)
-    pattern = r"^[a-zA-ZäöåÄÖÅ0-9 .,\-?!:;'()\"@]+$"
-    if not re.match(pattern, title):
-        raise ValueError("Title contains invalid characters.")
+    """Validates a title (Finnish letters, numbers, spaces, and punctuation)."""
+    validate_field(title, "Title", min_length=5)
 
 
 def validate_journal(journal):
-    """Validates a journal name (letters, numbers, spaces, and punctuation)."""
-    validate_length(journal, "Journal", 2, 255)
-    pattern = r"^[a-zA-Z0-9 .,\-:]+$"
-    if not re.match(pattern, journal):
-        raise ValueError("Journal name contains invalid characters.")
+    """Validates a journal name (Finnish letters, numbers, spaces, and punctuation)."""
+    validate_field(journal, "Journal", min_length=2)
 
 
 def validate_doi(doi):
@@ -75,10 +88,11 @@ def validate_doi(doi):
 
 
 def validate_pages(pages):
-    """Validates page ranges (e.g., '1-10', '5', or '1-5, 10-15')."""
-    pattern = r"^(\d+(-\d+)?)(,\s*\d+(-\d+)?)*$"
+    """Validates page ranges (e.g., '1-10', '5', or '1-5, 10-15')
+    with support for both short ('-') and long ('–') dashes."""
+    pattern = r"^(\d+([-\u2013]\d+)?)(,\s*\d+([-\u2013]\d+)?)*$"
     if not re.match(pattern, pages):
-        raise ValueError("Pages must be a number or range (e.g., '1-10').")
+        raise ValueError("Pages must be a number or range (e.g., '1-10' or '1–10').")
 
 
 def validate_month(month):
@@ -113,52 +127,33 @@ def validate_month(month):
 
 
 def validate_booktitle(booktitle):
-    """Validates a booktitle (letters, numbers, spaces, and punctuation)."""
-    validate_length(booktitle, "Booktitle", 1, 255)
-    validate_common_pattern(booktitle, "Booktitle")
+    """Validates a booktitle (Finnish letters, numbers, spaces, and punctuation)."""
+    validate_field(booktitle, "Booktitle")
 
 
 def validate_series(series):
-    """Validates a series name (letters, numbers, spaces, and punctuation)."""
-    validate_length(series, "Series", 1, 255)
-    validate_common_pattern(series, "Series")
+    """Validates a series name (Finnish letters, numbers, spaces, and punctuation)."""
+    validate_field(series, "Series")
 
 
 def validate_address(address):
-    """Validates an address (letters, numbers, spaces, and punctuation)."""
-    validate_length(address, "Address", 1, 255)
-    validate_common_pattern(address, "Address")
+    """Validates an address (Finnish letters, numbers, spaces, and punctuation)."""
+    validate_field(address, "Address")
 
 
 def validate_organization(organization):
-    """Validates an organization name (letters, numbers, spaces, and punctuation)."""
-    validate_length(organization, "Organization", 1, 255)
-    validate_common_pattern(organization, "Organization")
+    """Validates an organization name (Finnish letters, numbers, spaces, and punctuation)."""
+    validate_field(organization, "Organization")
 
 
 def validate_publisher(publisher):
-    """Validates a publisher name (letters, numbers, spaces, and punctuation)."""
-    validate_length(publisher, "Publisher", 1, 255)
-    validate_common_pattern(publisher, "Publisher")
-
-
-def validate_editor(editor):
-    """Validates an editor's name (letters, spaces, and dashes)."""
-    validate_length(editor, "Editor name", 2, 100)
-    pattern = r"^[a-zA-Z\- ]+$"
-    if not re.match(pattern, editor):
-        raise ValueError("Editor name can only contain letters, spaces, and dashes.")
+    """Validates a publisher name (Finnish letters, numbers, spaces, and punctuation)."""
+    validate_field(publisher, "Publisher")
 
 
 def validate_howpublished(howpublished):
-    validate_length(howpublished, "How Published", 2, 100)
-    pattern = r"^[a-zA-Z\- ]+$"
-    if not re.match(pattern, howpublished):
-        raise ValueError("How published can only contain letters, spaces, and dashes.")
+    validate_field(howpublished, "How Published")
 
 
 def validate_note(note):
-    validate_common_pattern(note, "Note")
-    pattern = r"^[a-zA-Z\- ]+$"
-    if not re.match(pattern, note):
-        raise ValueError("Note can only contain letters, spaces, and dashes.")
+    validate_field(note, "Note")
