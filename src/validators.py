@@ -29,14 +29,12 @@ def validate_common_pattern(string, name):
 
 
 def validate_year(year):
-    """Validates that the year is numeric and within a realistic range."""
-    if isinstance(year, str):
-        if not year.isdigit() or not 0 <= int(year) <= 2100:
-            raise ValueError("Year must be a valid number between 0 and 2100.")
-    elif isinstance(year, int):
-        if not 1500 <= year <= 2100:
-            raise ValueError("Year must be a valid number between 0 and 2100.")
-    else:
+    """Validates that the year is numeric and within a realistic range (0-2100)."""
+    try:
+        year = int(year)
+        if not 0 <= year <= 2100:
+            raise ValueError
+    except (ValueError, TypeError):
         raise ValueError("Year must be a valid number between 0 and 2100.")
 
 
