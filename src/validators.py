@@ -28,6 +28,15 @@ def validate_common_pattern(string, name):
         raise ValueError(f"{name} contains invalid characters.")
 
 
+def validate_field(value, field_name, min_length=1, max_length=255):
+    """
+    General-purpose validator for fields with Finnish letters, numbers, spaces, and punctuation.
+    Handles both length and character checks. Default min length is 1, default max length is 255.
+    """
+    validate_length(value, field_name, min_length, max_length)
+    validate_common_pattern(value, field_name)
+
+
 def validate_year(year):
     """Validates that the year is numeric and within a realistic range (0-2100)."""
     try:
@@ -50,19 +59,13 @@ def validate_author(author):
 
 
 def validate_title(title):
-    """Validates a title (letters, numbers, spaces, punctuation, and Finnish characters)."""
-    validate_length(title, "Title", 5, 255)
-    pattern = r"^[a-zA-ZäöåÄÖÅ0-9 .,\-?!:;'()\"@]+$"
-    if not re.match(pattern, title):
-        raise ValueError("Title contains invalid characters.")
+    """Validates a title (Finnish letters, numbers, spaces, and punctuation)."""
+    validate_field(title, "Title", min_length=5)
 
 
 def validate_journal(journal):
-    """Validates a journal name (letters, numbers, spaces, and punctuation)."""
-    validate_length(journal, "Journal", 2, 255)
-    pattern = r"^[a-zA-Z0-9 .,\-:]+$"
-    if not re.match(pattern, journal):
-        raise ValueError("Journal name contains invalid characters.")
+    """Validates a journal name (Finnish letters, numbers, spaces, and punctuation)."""
+    validate_field(journal, "Journal", min_length=2)
 
 
 def validate_doi(doi):
@@ -112,33 +115,28 @@ def validate_month(month):
 
 
 def validate_booktitle(booktitle):
-    """Validates a booktitle (letters, numbers, spaces, and punctuation)."""
-    validate_length(booktitle, "Booktitle", 1, 255)
-    validate_common_pattern(booktitle, "Booktitle")
+    """Validates a booktitle (Finnish letters, numbers, spaces, and punctuation)."""
+    validate_field(booktitle, "Booktitle")
 
 
 def validate_series(series):
-    """Validates a series name (letters, numbers, spaces, and punctuation)."""
-    validate_length(series, "Series", 1, 255)
-    validate_common_pattern(series, "Series")
+    """Validates a series name (Finnish letters, numbers, spaces, and punctuation)."""
+    validate_field(series, "Series")
 
 
 def validate_address(address):
-    """Validates an address (letters, numbers, spaces, and punctuation)."""
-    validate_length(address, "Address", 1, 255)
-    validate_common_pattern(address, "Address")
+    """Validates an address (Finnish letters, numbers, spaces, and punctuation)."""
+    validate_field(address, "Address")
 
 
 def validate_organization(organization):
-    """Validates an organization name (letters, numbers, spaces, and punctuation)."""
-    validate_length(organization, "Organization", 1, 255)
-    validate_common_pattern(organization, "Organization")
+    """Validates an organization name (Finnish letters, numbers, spaces, and punctuation)."""
+    validate_field(organization, "Organization")
 
 
 def validate_publisher(publisher):
-    """Validates a publisher name (letters, numbers, spaces, and punctuation)."""
-    validate_length(publisher, "Publisher", 1, 255)
-    validate_common_pattern(publisher, "Publisher")
+    """Validates a publisher name (Finnish letters, numbers, spaces, and punctuation)."""
+    validate_field(publisher, "Publisher")
 
 
 def validate_editor(editor):
@@ -150,14 +148,8 @@ def validate_editor(editor):
 
 
 def validate_howpublished(howpublished):
-    validate_length(howpublished, "How Published", 2, 100)
-    pattern = r"^[a-zA-Z\- ]+$"
-    if not re.match(pattern, howpublished):
-        raise ValueError("How published can only contain letters, spaces, and dashes.")
+    validate_field(howpublished, "How Published")
 
 
 def validate_note(note):
-    validate_common_pattern(note, "Note")
-    pattern = r"^[a-zA-Z\- ]+$"
-    if not re.match(pattern, note):
-        raise ValueError("Note can only contain letters, spaces, and dashes.")
+    validate_field(note, "Note")
