@@ -75,10 +75,11 @@ def validate_doi(doi):
 
 
 def validate_pages(pages):
-    """Validates page ranges (e.g., '1-10', '5', or '1-5, 10-15')."""
-    pattern = r"^(\d+(-\d+)?)(,\s*\d+(-\d+)?)*$"
+    """Validates page ranges (e.g., '1-10', '5', or '1-5, 10-15')
+    with support for both short ('-') and long ('–') dashes."""
+    pattern = r"^(\d+([-\u2013]\d+)?)(,\s*\d+([-\u2013]\d+)?)*$"
     if not re.match(pattern, pages):
-        raise ValueError("Pages must be a number or range (e.g., '1-10').")
+        raise ValueError("Pages must be a number or range (e.g., '1-10' or '1–10').")
 
 
 def validate_month(month):
