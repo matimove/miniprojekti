@@ -10,6 +10,7 @@ from validators import (
     validate_month,
     validate_pages,
     validate_common_pattern,
+    validate_field,
 )
 
 
@@ -64,6 +65,9 @@ def test_validate_title_invalid():
     with pytest.raises(ValueError, match="Title must be between 5 and 255 characters."):
         validate_title("Ab")  # Too short
 
+    with pytest.raises(ValueError, match="Title must be between 5 and 255 characters."):
+        validate_title("B" * 256)  # Too long
+
 
 def test_validate_journal_valid():
     """Test a valid journal."""
@@ -72,13 +76,18 @@ def test_validate_journal_valid():
 
 def test_validate_journal_invalid():
     """Test an invalid journal."""
-    with pytest.raises(ValueError, match="Journal name contains invalid characters."):
+    with pytest.raises(ValueError, match="Journal contains invalid characters."):
         validate_journal("Journal|Name")  # Contains invalid character '|'
 
     with pytest.raises(
         ValueError, match="Journal must be between 2 and 255 characters."
     ):
         validate_journal("J")  # Too short
+
+    with pytest.raises(
+        ValueError, match="Journal must be between 2 and 255 characters."
+    ):
+        validate_journal("A" * 256)  # Too long
 
 
 def test_validate_year_valid():
@@ -212,3 +221,85 @@ def test_validate_common_pattern_edge_cases():
         match=re.escape("Test Input contains invalid characters."),
     ):
         validate_common_pattern("\n", "Test Input")  # Invalid newline character
+
+
+def test_validate_field_valid_inputs():
+    """Test valid inputs for validate_field."""
+    # Valid general inputs
+    assert validate_field("Hello World!", "Test Field") is None
+    assert validate_field("Ääkköset Överissä Ålandissa", "Test Field") is None
+    assert validate_field("12345 äöåÄÖÅ?!,.-@", "Test Field") is None
+    assert (
+        validate_field("Simple title", "Test Field", min_length=5, max_length=20)
+        is None
+    )
+    assert (
+        validate_field("1", "Test Field", min_length=1, max_length=255) is None
+    )  # Minimum valid length
+
+
+def test_validate_field_invalid_inputs():
+    """Test invalid inputs for validate_field."""
+    # Test empty input when not allowed
+    with pytest.raises(
+        ValueError,
+        match=re.escape("Test Field must be between 1 and 255 characters."),
+    ):
+        validate_field("", "Test Field")  # Empty input is not valid by default
+
+    # Test too short
+    with pytest.raises(
+        ValueError,
+        match=re.escape("Test Field must be between 5 and 10 characters."),
+    ):
+        validate_field("Hi", "Test Field", min_length=5, max_length=10)
+
+    # Test too long
+    with pytest.raises(
+        ValueError,
+        match=re.escape("Test Field must be between 5 and 10 characters."),
+    ):
+        validate_field(
+            "This is way too long", "Test Field", min_length=5, max_length=10
+        )
+
+    # Test invalid characters
+    with pytest.raises(
+        ValueError,
+        match=re.escape("Test Field contains invalid characters."),
+    ):
+        validate_field("Invalid 🚀 input", "Test Field")  # Emoji is not allowed
+
+    with pytest.raises(
+        ValueError,
+        match=re.escape("Test Field contains invalid characters."),
+    ):
+        validate_field("Invalid<>[]{}", "Test Field")  # Disallowed symbols
+
+
+def test_validate_field_edge_cases():
+    """Test edge cases for validate_field."""
+    # Test exact boundary conditions
+    assert (
+        validate_field("Valid", "Test Field", min_length=5, max_length=5) is None
+    )  # Exact length match
+
+    # Input with only whitespace
+    with pytest.raises(
+        ValueError,
+        match=re.escape("Test Field must be between 1 and 255 characters."),
+    ):
+        validate_field("    ", "Test Field")  # Whitespace-only is invalid
+
+    # Large input at upper boundary
+    large_input = "a" * 255
+    assert (
+        validate_field(large_input, "Test Field", min_length=1, max_length=255) is None
+    )  # Valid upper boundary
+    with pytest.raises(
+        ValueError,
+        match=re.escape("Test Field must be between 1 and 255 characters."),
+    ):
+        validate_field(
+            large_input + "a", "Test Field", min_length=1, max_length=255
+        )  # Exceeds upper boundary
