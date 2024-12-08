@@ -55,7 +55,7 @@ class AddMiscForm(FlaskForm):
 
 
 class AddDoiForm(FlaskForm):
-    doi = StringField("doi", validators=[DataRequired()])
+    doi = StringField("DOI", validators=[DataRequired()])
     submit = SubmitField("Submit")
 
 

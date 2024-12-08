@@ -10,7 +10,7 @@ Reference app
 </div><br/><br/>
 <div class="col d-flex justify-content-center">
     <div class="shadow p-3 mb-5 bg-white rounded" style="width: 60rem;">
-        <h2 class="text-center">Add Reference With DOI/h2><br/>
+        <h2 class="text-center">Add Reference With DOI</h2><br/>
 
         <!-- Flash messages for validation errors or success -->
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -33,7 +33,7 @@ Reference app
             <div class="mb-3">
                 {{ form.doi.label(class="form-label") }} *
                 {{ form.doi(class="form-control") }}
-            <div class="text-center">
+            </br><div class="text-center">
                 {{ form.submit(class="btn btn-dark") }}
             </div>
         </form>

@@ -9,6 +9,7 @@ def get_bibtex_with_doi(doi):
 
     try:
         validate_doi(doi)
+        print(doi)
     except ValueError as e:
         raise UserInputError(str(e)) from e
 
@@ -17,7 +18,7 @@ def get_bibtex_with_doi(doi):
     req.add_header("Accept", "application/x-bibtex")
 
     try:
-        with urllib.request.urlopen(req) as f:
+        with urllib.request.urlopen(req, timeout=10) as f:
             bibtex = f.read().decode()
         return bibtex
     except HTTPError as e:
