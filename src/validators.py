@@ -56,8 +56,8 @@ def validate_year(year):
         year = int(year)
         if not 0 <= year <= 2100:
             raise ValueError
-    except (ValueError, TypeError):
-        raise ValueError("Year must be a valid number between 0 and 2100.")
+    except (ValueError, TypeError) as e:
+        raise ValueError("Year must be a valid number between 0 and 2100.") from e
 
 
 def validate_author(author):
