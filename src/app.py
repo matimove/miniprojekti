@@ -8,12 +8,14 @@ from forms import (
     AddInproceedingsForm,
     AddMiscForm,
     SearchForm,
+    AddDoiForm,
 )
 from repositories import (
     article_repository,
     book_repository,
     inproceedings_repository,
     misc_repository,
+    doi_repository,
 )
 from services.citation_service import (
     UserInputError,
@@ -24,6 +26,7 @@ from services.citation_service import (
 )
 from services.reference_service import ReferenceService
 from services.bibtex_service import BibtexService
+
 
 class DeletionError(Exception):
     """Custom exception for citation deletion operations."""
@@ -414,6 +417,22 @@ def generate_bibtex_all():
     bibtex_service.generate_bibtex_all()
     return render_template("bibtex.html", bibtex_string=bibtex_service.bibtex_string)
 
+
+@app.route("/add-doi", methods=["GET", "POST"])
+def add_doi():
+    form = AddDoiForm()
+
+    if form.validate_on_submit():
+        doi = form.doi.data
+        print(doi)
+        try:
+            result = doi_repository.get_bibtex_with_doi(doi)
+            flash(result, "success")
+            return redirect(url_for("index"))
+        except UserInputError as e:
+            flash(str(e), "error")
+
+    return render_template("doi.html", form=form)
 
 
 # testausta varten oleva reitti
