@@ -1,4 +1,5 @@
 import pytest
+import re
 
 from validators import (
     validate_author,
@@ -7,6 +8,7 @@ from validators import (
     validate_year,
     validate_doi,
     validate_month,
+    validate_pages,
 )
 
 
@@ -117,3 +119,36 @@ def test_validate_month_missing():
     """Test an invalid month."""
     with pytest.raises(ValueError, match="Month must be a valid name or abbreviation."):
         validate_month("")  # Missing month input
+
+
+def test_validate_pages_short_dash_valid():
+    """Test a valid pages input with a short dash."""
+    assert validate_pages("451-475") is None  # Should pass without error
+
+
+def test_validate_pages_long_dash_valid():
+    """Test a valid pages input with a long dash."""
+    assert validate_pages("451–475") is None  # Should pass without error
+
+
+def test_validate_pages_single_number_valid():
+    """Test a valid single number pages input."""
+    assert validate_pages("0") is None  # Should pass without error
+
+
+def test_validate_pages_invalid():
+    """Test an invalid pages input."""
+    with pytest.raises(
+        ValueError,
+        match=re.escape("Pages must be a number or range (e.g., '1-10' or '1–10')."),
+    ):
+        validate_pages("OHO–HUPS")  # Invalid page range input
+
+
+def test_validate_pages_single_number_invalid():
+    """Test an invalid single number pages input."""
+    with pytest.raises(
+        ValueError,
+        match=re.escape("Pages must be a number or range (e.g., '1-10' or '1–10')."),
+    ):
+        validate_pages("-1")  # Invalid page range input
