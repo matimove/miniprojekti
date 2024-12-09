@@ -10,6 +10,7 @@ ${ADD_ARTICLE_URL}  http://${SERVER}/add-article
 ${ADD_BOOK_URL}  http://${SERVER}/add-book
 ${ADD_INPROCEEDING_URL}  http://${SERVER}/add-inproceedings
 ${ADD_MISC_URL}  http://${SERVER}/add-misc
+${IMPORT_BIBTEX_URL}  http://${SERVER}/import-bibtex
 ${BROWSER}    chrome
 ${HEADLESS}   false
 
@@ -42,3 +43,6 @@ Go To Add Inproceeding Page
 
 Go To Add Misc Page
     Go To  ${ADD_MISC_URL}
+
+Go To Import BibTeX Page
+    Go To  ${IMPORT_BIBTEX_URL}
