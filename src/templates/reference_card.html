@@ -60,6 +60,7 @@
             <b>Number:</b>  {% if reference.number %}{{ reference.number }}{% endif %} </br>
             <b>Pages:</b> {% if reference.pages %}{{ reference.pages }}{% endif %} </br>
             <b>doi:</b>  {% if reference.doi %}{{ reference.doi }}{% endif %} </br>
+            <b>Key:</b> {% if reference.key %}{{ reference.key }}{% endif %} </br>
           </p>
         </div>
       </div>
@@ -76,7 +77,7 @@
           </div>
           <div class="modal-body">
             <textarea class="form-control" style="max-height: 60vh; min-height: 30vh; height: auto; width: 100%; white-space: pre-wrap;" readonly>
-{% raw %}@article{{% endraw %}{{ reference.id }},
+{% raw %}@article{{% endraw %}{{ reference.key }},
     author = "{{ reference.author }}",
     title = "{{ reference.title }}",
     {% if reference.journal -%}
@@ -139,6 +140,7 @@
               <b>Edition:</b> {% if reference.edition %}{{ reference.edition }}{% endif %} </br>
               <b>Pages:</b>  {% if reference.pages %}{{ reference.pages }}{% endif %} </br>
               <b>Doi:</b>  {% if reference.doi %}{{ reference.doi }}{% endif %} </br>
+              <b>Key:</b> {% if reference.key %}{{ reference.key }}{% endif %} </br>
             </p>
           </div>
         </div>
@@ -155,7 +157,7 @@
           </div>
           <div class="modal-body">
             <textarea class="form-control" style="max-height: 60vh; min-height: 30vh; height: auto; width: 100%; white-space: pre-wrap;" readonly>
-{% raw %}@book{{% endraw %}{{ reference.id }},
+{% raw %}@book{{% endraw %}{{ reference.key }},
     author = "{{ reference.author }}",
     title = "{{ reference.title }}",
     year = "{{ reference.year }}",
@@ -214,6 +216,7 @@
               <b>Address:</b>  {% if reference.address %}{{ reference.address }}{% endif %} </br>
               <b>Organization:</b>  {% if reference.organization %}{{ reference.organization }}{% endif %} </br>
               <b>Publisher:</b>  {% if reference.publisher %}{{ reference.publisher }}{% endif %} </br>
+              <b>Key:</b> {% if reference.key %}{{ reference.key }}{% endif %} </br>
             </p>
           </div>
         </div>
@@ -230,7 +233,7 @@
           </div>
           <div class="modal-body">
             <textarea class="form-control" style="max-height: 60vh; min-height: 30vh; height: auto; width: 100%; white-space: pre-wrap;" readonly>
-{% raw %}@inproceedings{{% endraw %}{{ reference.id }},
+{% raw %}@inproceedings{{% endraw %}{{ reference.key }},
     author = "{{ reference.author }}",
     title = "{{ reference.title }}",
     Booktitle = "{{ reference.booktitle }}",
@@ -302,6 +305,7 @@
               <b>Published:</b>  {% if reference.month %}{{ reference.month }}{% endif %} {{ reference.year }}</br>
               <b>How Published:</b>  {% if reference.howpublished %}{{ reference.howpublished }}{% endif %} </br>
               <b>Note:</b>  {% if reference.note %}{{ reference.note }}{% endif %} </br>
+              <b>Key:</b> {% if reference.key %}{{ reference.key }}{% endif %} </br>
             </p>
           </div>
         </div>
@@ -318,7 +322,7 @@
           </div>
           <div class="modal-body">
             <textarea class="form-control" style="max-height: 60vh; min-height: 30vh; height: auto; width: 100%; white-space: pre-wrap;" readonly>
-{% raw %}@misc{{% endraw %}{{ reference.id }},
+{% raw %}@misc{{% endraw %}{{ reference.key }},
     author = "{{ reference.author }}",
     title = "{{ reference.title }}",
     year = "{{ reference.year }}",

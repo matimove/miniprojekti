@@ -2,12 +2,12 @@ from sqlalchemy import text
 from config import db
 
 
-def create_book(author, title, year, publisher, edition, pages, doi):
+def create_book(author, title, year, publisher, edition, pages, doi, key):
     sql = """
         INSERT INTO books
-            (author, title, year, publisher, edition, pages, doi)
+            (author, title, year, publisher, edition, pages, doi, key)
         VALUES
-            (:author, :title, :year, :publisher, :edition, :pages, :doi)
+            (:author, :title, :year, :publisher, :edition, :pages, :doi, :key)
         RETURNING id
     """
     params = {
@@ -18,6 +18,7 @@ def create_book(author, title, year, publisher, edition, pages, doi):
         "edition": edition,
         "pages": pages,
         "doi": doi,
+        "key": key,
     }
 
     book_id = db.session.execute(text(sql), params).fetchone()[0]
@@ -27,7 +28,7 @@ def create_book(author, title, year, publisher, edition, pages, doi):
 
 
 def get_books():
-    sql = "SELECT id, category, author, title, year, publisher, edition, pages, doi FROM books"
+    sql = "SELECT id, category, author, title, year, publisher, edition, pages, doi, key FROM books"
     result = db.session.execute(text(sql))
     articles = result.fetchall()
     return articles
@@ -43,3 +44,9 @@ def get_book_by_id(book_id):
     sql = text("SELECT * FROM books WHERE id = :id")
     result = db.session.execute(sql, {"id": book_id})
     return result.fetchone()
+
+
+def is_key_unique(key):
+    sql = "SELECT COUNT(*) FROM books WHERE key = :key"
+    result = db.session.execute(text(sql), {"key": key}).fetchone()[0]
+    return result == 0

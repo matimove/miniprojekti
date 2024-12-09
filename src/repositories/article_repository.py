@@ -2,12 +2,14 @@ from sqlalchemy import text
 from config import db
 
 
-def create_article(author, title, journal, year, volume, number, pages, month, doi):
+def create_article(
+    author, title, journal, year, volume, number, pages, month, doi, key
+):
     sql = """
         INSERT INTO articles
-            (author, title, journal, year, volume, number, pages, month, doi)
+            (author, title, journal, year, volume, number, pages, month, doi, key)
         VALUES
-            (:author, :title, :journal, :year, :volume, :number, :pages, :month, :doi)
+            (:author, :title, :journal, :year, :volume, :number, :pages, :month, :doi, :key)
         RETURNING id
     """
     params = {
@@ -20,6 +22,7 @@ def create_article(author, title, journal, year, volume, number, pages, month, d
         "pages": pages,
         "month": month,
         "doi": doi,
+        "key": key,
     }
 
     article_id = db.session.execute(text(sql), params).fetchone()[0]
@@ -29,7 +32,7 @@ def create_article(author, title, journal, year, volume, number, pages, month, d
 
 
 def get_articles():
-    sql = "SELECT id, category, author, title, journal, year, volume, number, pages, month, doi FROM articles"
+    sql = "SELECT id, category, author, title, journal, year, volume, number, pages, month, doi, key FROM articles"
     result = db.session.execute(text(sql))
     articles = result.fetchall()
     return articles
@@ -45,3 +48,9 @@ def get_article_by_id(article_id):
     sql = text("SELECT * FROM articles WHERE id = :id")
     result = db.session.execute(sql, {"id": article_id})
     return result.fetchone()
+
+
+def is_key_unique(key):
+    sql = "SELECT COUNT(*) FROM articles WHERE key = :key"
+    result = db.session.execute(text(sql), {"key": key}).fetchone()[0]
+    return result == 0

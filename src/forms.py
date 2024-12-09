@@ -13,6 +13,7 @@ class AddArticleForm(FlaskForm):
     pages = StringField("Pages")
     month = StringField("Month")
     doi = StringField("doi")
+    key = StringField("key")
     submit = SubmitField("Submit")
 
 
@@ -24,6 +25,7 @@ class AddBookForm(FlaskForm):
     edition = StringField("edition")
     pages = StringField("Pages")
     doi = StringField("doi")
+    key = StringField("key")
     submit = SubmitField("Submit")
 
 
@@ -41,6 +43,7 @@ class AddInproceedingsForm(FlaskForm):
     month = StringField("Month")
     organization = StringField("Organization")
     publisher = StringField("Publisher")
+    key = StringField("key")
     submit = SubmitField("Submit")
 
 
@@ -51,6 +54,7 @@ class AddMiscForm(FlaskForm):
     month = StringField("Month")
     howpublished = StringField("How Published")
     note = StringField("Note")
+    key = StringField("key")
     submit = SubmitField("Submit")
 
 

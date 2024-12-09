@@ -16,12 +16,13 @@ def create_inproceedings(
     month,
     organization,
     publisher,
+    key,
 ):
     sql = """
         INSERT INTO inproceedings
-            (author, title, booktitle, year, editor, volume, number, series, pages, address, month, organization, publisher)
+            (author, title, booktitle, year, editor, volume, number, series, pages, address, month, organization, publisher, key)
         VALUES
-            (:author, :title, :booktitle, :year, :editor, :volume, :number, :series, :pages, :address, :month, :organization, :publisher)
+            (:author, :title, :booktitle, :year, :editor, :volume, :number, :series, :pages, :address, :month, :organization, :publisher, :key)
         RETURNING id
     """
     params = {
@@ -38,6 +39,7 @@ def create_inproceedings(
         "month": month,
         "organization": organization,
         "publisher": publisher,
+        "key": key,
     }
 
     inproceedings_id = db.session.execute(text(sql), params).fetchone()[0]
@@ -49,7 +51,7 @@ def create_inproceedings(
 def get_inproceedings():
     sql = """
         SELECT
-            id, category, title, author, booktitle, year, editor, volume, number, series, pages, address, month, organization, publisher
+            id, category, title, author, booktitle, year, editor, volume, number, series, pages, address, month, organization, publisher, key
         FROM inproceedings
     """
     result = db.session.execute(text(sql))
@@ -67,3 +69,9 @@ def get_inproceeding_by_id(inproceeding_id):
     sql = text("SELECT * FROM inproceedings WHERE id = :id")
     result = db.session.execute(sql, {"id": inproceeding_id})
     return result.fetchone()
+
+
+def is_key_unique(key):
+    sql = "SELECT COUNT(*) FROM inproceedings WHERE key = :key"
+    result = db.session.execute(text(sql), {"key": key}).fetchone()[0]
+    return result == 0
