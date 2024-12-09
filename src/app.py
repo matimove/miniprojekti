@@ -1,4 +1,3 @@
-from flask import flash, jsonify, redirect, render_template, request, url_for
 from bibtexparser import loads
 import json
 from flask import flash, jsonify, redirect, render_template, request, url_for, session
@@ -21,6 +20,7 @@ from repositories import (
     misc_repository,
     doi_repository,
 )
+from services.bibtex_service import BibtexService
 from services.citation_service import (
     UserInputError,
     validate_article,
@@ -29,7 +29,7 @@ from services.citation_service import (
     validate_misc,
 )
 from services.reference_service import ReferenceService
-from services.bibtex_service import BibtexService
+
 
 
 class DeletionError(Exception):
@@ -52,12 +52,12 @@ def index():
 
     sort_by = request.args.get("sort_by", "title")
     secondary = session.get("sort_history", "author")
-    
+
     # TODO: if page is refreshed primary == secondary
-    reference_service.sort_by_primary_and_secondary_key(primary=sort_by, secondary=secondary)
-
-    session["sort_history"] = sort_by 
-
+    reference_service.sort_by_primary_and_secondary_key(
+        primary=sort_by, secondary=secondary
+    )
+    session["sort_history"] = sort_by
 
     if form.validate_on_submit():
         search = form.search.data
@@ -68,6 +68,7 @@ def index():
         references=reference_service.references,
         message_references=message_references,
         selected_value=sort_by,
+        secondary_sort=secondary,
         form=form,
     )
 
@@ -673,7 +674,6 @@ def add_book_from_doi():
 
     # Render the form again (with error messages if any)
     return render_template("book.html", form=form)
-
 
 # testausta varten oleva reitti
 if test_env:
