@@ -1,6 +1,7 @@
 from flask import flash, jsonify, redirect, render_template, request, url_for
 from bibtexparser import loads
 import json
+from flask import flash, jsonify, redirect, render_template, request, url_for, session
 
 from config import app, test_env
 from db_helper import reset_db
@@ -50,15 +51,13 @@ def index():
         message_references = None
 
     sort_by = request.args.get("sort_by", "title")
+    secondary = session.get("sort_history", "author")
+    
+    # TODO: if page is refreshed primary == secondary
+    reference_service.sort_by_primary_and_secondary_key(primary=sort_by, secondary=secondary)
 
-    reference_service.sort_by_primary_and_secondary_key(primary=sort_by, secondary="year")
-    #
-    # if sort_by == "title":
-    #     reference_service.sort_references_by_title("title", "author")
-    # elif sort_by == "author":
-    #     reference_service.sort_references_by_author()
-    # elif sort_by == "year":
-    #     reference_service.sort_references_by_year()
+    session["sort_history"] = sort_by 
+
 
     if form.validate_on_submit():
         search = form.search.data
