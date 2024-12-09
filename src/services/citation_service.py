@@ -31,6 +31,12 @@ class UserInputError(Exception):
     pass
 
 
+class KeyGenerationError(Exception):
+    """Custom exception for key generation errors."""
+
+    pass
+
+
 def normalize_month_input(month):
     month_mapping = {
         1: "January",
@@ -78,7 +84,17 @@ def normalize_month_input(month):
     return month
 
 
-def generate_citation_key(author, year):
+def get_existing_keys():
+    existing_keys = set()
+
+    article_keys = article_repository.get_keys()
+    for key in article_keys:
+        existing_keys.add(key[0])
+
+    return existing_keys
+
+
+def generate_citation_key(author, year, existing_keys):
     """
     Generates a citation key based on the first author's initials and the year.
 
@@ -98,15 +114,23 @@ def generate_citation_key(author, year):
 
     if len(names) == 1:
         # Handle single-word names like "Joulupukki"
-        return f"{names[0].capitalize()}{year}"
+        base_key = f"{names[0].capitalize()}{year}"
     elif len(names) > 1:
         # Handle standard first and last name cases
         first_initial = names[0][0].upper()
         last_name = names[-1].capitalize()
-        return f"{first_initial}{last_name}{year}"
+        base_key = f"{first_initial}{last_name}{year}"
 
-    # Fallback for catching errors
-    raise UserInputError("Could not generate a citation key for the provided author.")
+    # Ensure that key is unique
+    unique_key = base_key
+    suffix = 1
+    while unique_key in existing_keys:
+        unique_key = f"{base_key}{chr(96 + suffix)}"  # Append 'a', 'b', 'c', ...
+        suffix += 1
+        if suffix > 26:  # If still not unique, add numeric suffix
+            unique_key = f"{base_key}_{suffix}"
+
+    return unique_key
 
 
 def validate_article(
@@ -170,8 +194,12 @@ def validate_article(
         if doi:
             validate_doi(doi)
 
+        existing_keys = get_existing_keys()
+
         if not key:
-            key = generate_citation_key(author, year)
+            key = generate_citation_key(author, year, existing_keys)
+        elif key and key in existing_keys:
+            key = generate_citation_key(author, year, existing_keys)
 
         return article_repository.create_article(
             author=author,

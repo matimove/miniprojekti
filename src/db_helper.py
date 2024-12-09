@@ -48,7 +48,7 @@ def setup_db():
         "  pages TEXT,"
         "  month TEXT,"
         "  doi TEXT,"
-        "  key TEXT"
+        "  key TEXT NOT NULL UNIQUE"
         ");"
     )
 

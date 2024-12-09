@@ -48,3 +48,10 @@ def get_article_by_id(article_id):
     sql = text("SELECT * FROM articles WHERE id = :id")
     result = db.session.execute(sql, {"id": article_id})
     return result.fetchone()
+
+
+def get_keys():
+    sql = "SELECT key FROM articles"
+    result = db.session.execute(text(sql))
+    keys = result.fetchall()
+    return keys
