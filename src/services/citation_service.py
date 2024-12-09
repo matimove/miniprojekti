@@ -31,12 +31,6 @@ class UserInputError(Exception):
     pass
 
 
-class KeyGenerationError(Exception):
-    """Custom exception for key generation errors."""
-
-    pass
-
-
 def normalize_month_input(month):
     month_mapping = {
         1: "January",
