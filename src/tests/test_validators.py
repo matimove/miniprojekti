@@ -33,7 +33,7 @@ def test_validate_multiple_authors_valid():
 def test_validate_author_invalid():
     """Test an invalid author."""
     with pytest.raises(
-        ValueError, match="Author name must be between 2 and 100 characters."
+        ValueError, match="Author name must be between 2 and 500 characters."
     ):
         validate_author("j")  # Too short
 
@@ -332,7 +332,7 @@ def test_validate_name_invalid_inputs():
     # Too short, default values
     with pytest.raises(
         ValueError,
-        match=re.escape("Name must be between 2 and 100 characters."),
+        match=re.escape("Name must be between 2 and 500 characters."),
     ):
         validate_name("t", "Name")
 
