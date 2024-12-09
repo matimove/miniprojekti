@@ -47,7 +47,7 @@ def test_validate_article_missing_optional_fields():
 def test_validate_article_invalid_author():
     """Test that an invalid author raises UserInputError."""
     with pytest.raises(
-        UserInputError, match="Author name must be between 2 and 100 characters."
+        UserInputError, match="Author name must be between 2 and 500 characters."
     ):
         validate_article(
             author="j",
@@ -293,7 +293,7 @@ def test_validate_article_author_boundary():
 
     # Invalid lengths
     with pytest.raises(
-        UserInputError, match="Author name must be between 2 and 100 characters."
+        UserInputError, match="Author name must be between 2 and 500 characters."
     ):
         validate_article(
             author="J",  # Too short
@@ -303,10 +303,10 @@ def test_validate_article_author_boundary():
         )
 
     with pytest.raises(
-        UserInputError, match="Author name must be between 2 and 100 characters."
+        UserInputError, match="Author name must be between 2 and 500 characters."
     ):
         validate_article(
-            author="J" * 101,  # Too long
+            author="J" * 501,  # Too long
             title="Toimitusketjujen optimointi",
             journal="Joulutiede Journal",
             year="2023",

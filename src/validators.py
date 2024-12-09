@@ -37,7 +37,7 @@ def validate_field(value, field_name, min_length=1, max_length=255):
     validate_common_pattern(value, field_name)
 
 
-def validate_name(name, field_name, min_length=2, max_length=100):
+def validate_name(name, field_name, min_length=2, max_length=500):
     """
     Validates name(s) (Finnish letters, spaces, dashes, commas, and periods).
     Default min length is 2, default max length is 100.
