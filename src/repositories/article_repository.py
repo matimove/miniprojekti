@@ -2,12 +2,14 @@ from sqlalchemy import text
 from config import db
 
 
-def create_article(author, title, journal, year, volume, number, pages, month, doi):
+def create_article(
+    author, title, journal, year, volume, number, pages, month, doi, key
+):
     sql = """
         INSERT INTO articles
-            (author, title, journal, year, volume, number, pages, month, doi)
+            (author, title, journal, year, volume, number, pages, month, doi, key)
         VALUES
-            (:author, :title, :journal, :year, :volume, :number, :pages, :month, :doi)
+            (:author, :title, :journal, :year, :volume, :number, :pages, :month, :doi, :key)
         RETURNING id
     """
     params = {
@@ -20,6 +22,7 @@ def create_article(author, title, journal, year, volume, number, pages, month, d
         "pages": pages,
         "month": month,
         "doi": doi,
+        "key": key,
     }
 
     article_id = db.session.execute(text(sql), params).fetchone()[0]
@@ -29,7 +32,7 @@ def create_article(author, title, journal, year, volume, number, pages, month, d
 
 
 def get_articles():
-    sql = "SELECT id, category, author, title, journal, year, volume, number, pages, month, doi FROM articles"
+    sql = "SELECT id, category, author, title, journal, year, volume, number, pages, month, doi, key FROM articles"
     result = db.session.execute(text(sql))
     articles = result.fetchall()
     return articles

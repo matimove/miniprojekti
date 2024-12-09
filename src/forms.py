@@ -13,6 +13,7 @@ class AddArticleForm(FlaskForm):
     pages = StringField("Pages")
     month = StringField("Month")
     doi = StringField("doi")
+    key = StringField("key")
     submit = SubmitField("Submit")
 
 

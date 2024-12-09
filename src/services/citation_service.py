@@ -78,6 +78,37 @@ def normalize_month_input(month):
     return month
 
 
+def generate_citation_key(author, year):
+    """
+    Generates a citation key based on the first author's initials and the year.
+
+    Parameters:
+        author (str): The author string (e.g., "John Doe and Jane Smith" or "John Doe, Jane Smith").
+        year (str): The year of publication.
+
+    Returns:
+        str: A generated citation key (e.g., "JD2023" or "Joulupukki2023").
+    """
+    if not author or not year:
+        raise UserInputError("Author and year are required to generate a citation key.")
+
+    # Split authors using both "and" and "," as separators
+    first_author = author.split(" and ")[0].split(",")[0].strip()
+    names = first_author.split()
+
+    if len(names) == 1:
+        # Handle single-word names like "Joulupukki"
+        return f"{names[0].capitalize()}{year}"
+    elif len(names) > 1:
+        # Handle standard first and last name cases
+        first_initial = names[0][0].upper()
+        last_name = names[-1].capitalize()
+        return f"{first_initial}{last_name}{year}"
+
+    # Fallback for catching errors
+    raise UserInputError("Could not generate a citation key for the provided author.")
+
+
 def validate_article(
     author,
     title,
@@ -88,6 +119,7 @@ def validate_article(
     pages=None,
     month=None,
     doi=None,
+    key=None,
 ):
     """
     Validates an article's input fields and delegates creation to the repository.
@@ -102,6 +134,8 @@ def validate_article(
         pages (str, optional): Page range.
         month (str, optional): Month of publication.
         doi (str, optional): Digital Object Identifier.
+        key (str, optional): User-provided citation key.
+
 
     Raises:
         UserInputError: If any field fails validation.
@@ -136,6 +170,9 @@ def validate_article(
         if doi:
             validate_doi(doi)
 
+        if not key:
+            key = generate_citation_key(author, year)
+
         return article_repository.create_article(
             author=author,
             title=title,
@@ -146,6 +183,7 @@ def validate_article(
             pages=pages,
             month=month,
             doi=doi,
+            key=key,
         )
 
     except ValueError as e:

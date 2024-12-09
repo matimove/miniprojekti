@@ -132,11 +132,12 @@ def add_article():
         pages = form.pages.data if form.pages.data else None
         month = form.month.data if form.month.data else None
         doi = form.doi.data if form.doi.data else None
+        key = form.key.data if form.key.data else None
 
         try:
             # Validate and create the article
             validate_article(
-                author, title, journal, year, volume, number, pages, month, doi
+                author, title, journal, year, volume, number, pages, month, doi, key
             )
             flash("Article added successfully!", "success")  # Success message
 
@@ -150,6 +151,7 @@ def add_article():
             form.pages.data = ""
             form.month.data = ""
             form.doi.data = ""
+            form.key.data = ""
 
             return redirect(url_for("index"))
 
@@ -360,6 +362,7 @@ def edit_citation(citation_type, citation_id):
                     form.pages.data if form.pages.data else None,
                     form.month.data if form.month.data else None,
                     form.doi.data if form.doi.data else None,
+                    form.key.data if form.key.data else None,
                 )
 
             elif citation_type == "book":

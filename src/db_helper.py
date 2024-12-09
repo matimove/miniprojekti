@@ -47,7 +47,8 @@ def setup_db():
         "  number INTEGER,"
         "  pages TEXT,"
         "  month TEXT,"
-        "  doi TEXT"
+        "  doi TEXT,"
+        "  key TEXT"
         ");"
     )
 
