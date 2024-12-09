@@ -1,8 +1,9 @@
 import urllib.request
-from urllib.error import HTTPError
+from urllib.error import HTTPError, URLError
 import bibtexparser
 from validators import validate_doi
 from services.citation_service import UserInputError
+from flask import flash
 
 
 def get_bibtex_with_doi(doi):
@@ -21,15 +22,22 @@ def get_bibtex_with_doi(doi):
     try:
         with urllib.request.urlopen(req, timeout=10) as f:
             bibtex = f.read().decode()
-
         bib_database = bibtexparser.loads(bibtex)
-        # Extract the entry
+        if not bib_database.entries:
+            flash("No entries found in BibTeX response.", "error")
         entry = bib_database.entries[0]
-        print(entry)
         return entry
-
     except HTTPError as e:
         if e.code == 404:
-            raise "DOI not found."
+            flash(str(e), "error")
         else:
-            raise "Service unavailable. Try again"
+            raise ConnectionError(
+                flash("HTTP error occurred: {e.code}. Please try again later.", "error")
+            ) from e
+    except URLError as e:
+        flash(
+            f"Network error occurred: {e.reason}. Please check your connection.",
+            "error",
+        )
+    except Exception as e:
+        flash(f"An unexpected error occurred: {e}", "error")

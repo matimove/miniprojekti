@@ -428,16 +428,16 @@ def add_doi():
 
         try:
             reference = doi_repository.get_bibtex_with_doi(doi)
-
-            if reference["ENTRYTYPE"] == "article":
-                return redirect(url_for("add_article_from_doi", **reference))
-            elif reference["ENTRYTYPE"] == "book":
-                return redirect(url_for("add_book_from_doi", **reference))
-            else:
-                flash(
-                    f"Entry type {reference['ENTRYTYPE']} is currently not supported",
-                    "error",
-                )
+            if reference:
+                if reference["ENTRYTYPE"] == "article":
+                    return redirect(url_for("add_article_from_doi", **reference))
+                elif reference["ENTRYTYPE"] == "book":
+                    return redirect(url_for("add_book_from_doi", **reference))
+                else:
+                    flash(
+                        f"Entry type {reference['ENTRYTYPE']} is currently not supported",
+                        "error",
+                    )
 
         except UserInputError as e:
             flash(str(e), "error")
