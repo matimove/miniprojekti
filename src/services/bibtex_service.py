@@ -9,7 +9,7 @@ class BibtexService:
     def generate_bibtex_all(self):
         entries = {}
         for i, reference in enumerate(self.references):
-            entry_key = str(i)
+            entry_key = reference.key
             if reference.category == "article":
                 entry = self._create_entry_article(reference)
             elif reference.category == "book":
@@ -22,7 +22,7 @@ class BibtexService:
                 break
             entries[entry_key] = entry
         bib_data = BibliographyData(entries)
-        self.bibtex_string = bib_data.to_string("bibtex") 
+        self.bibtex_string = bib_data.to_string("bibtex")
 
     def _clean_fields(self, fields):
         return {k: v for k, v in fields.items() if v is not None}
