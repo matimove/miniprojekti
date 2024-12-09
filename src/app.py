@@ -51,12 +51,14 @@ def index():
 
     sort_by = request.args.get("sort_by", "title")
 
-    if sort_by == "title":
-        reference_service.sort_references_by_title()
-    elif sort_by == "author":
-        reference_service.sort_references_by_author()
-    elif sort_by == "year":
-        reference_service.sort_references_by_year()
+    reference_service.sort_by_primary_and_secondary_key(primary=sort_by, secondary="year")
+    #
+    # if sort_by == "title":
+    #     reference_service.sort_references_by_title("title", "author")
+    # elif sort_by == "author":
+    #     reference_service.sort_references_by_author()
+    # elif sort_by == "year":
+    #     reference_service.sort_references_by_year()
 
     if form.validate_on_submit():
         search = form.search.data
