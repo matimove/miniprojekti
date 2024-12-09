@@ -84,17 +84,36 @@ def normalize_month_input(month):
     return month
 
 
-def get_existing_keys():
-    existing_keys = set()
+def is_key_unique(key):
+    """
+    Checks if a given citation key is unique across all citation types.
 
-    article_keys = article_repository.get_keys()
-    for key in article_keys:
-        existing_keys.add(key[0])
+    Parameters:
+        key (str): The citation key to check.
 
-    return existing_keys
+    Returns:
+        bool: True if the key is unique, False otherwise.
+    """
+    # Check in articles
+    if article_repository.is_key_unique(key) is False:
+        return False
+
+    # Check in inproceedings
+    if inproceedings_repository.is_key_unique(key) is False:
+        return False
+
+    # Check in books
+    if book_repository.is_key_unique(key) is False:
+        return False
+
+    # Check in misc
+    if misc_repository.is_key_unique(key) is False:
+        return False
+
+    return True
 
 
-def generate_citation_key(author, year, existing_keys):
+def generate_citation_key(author, year):
     """
     Generates a citation key based on the first author's initials and the year.
 
@@ -103,7 +122,7 @@ def generate_citation_key(author, year, existing_keys):
         year (str): The year of publication.
 
     Returns:
-        str: A generated citation key (e.g., "JD2023" or "Joulupukki2023").
+        str: A generated citation key (e.g., "JDoe2023" or "Joulupukki2023").
     """
     if not author or not year:
         raise UserInputError("Author and year are required to generate a citation key.")
@@ -121,14 +140,15 @@ def generate_citation_key(author, year, existing_keys):
         last_name = names[-1].capitalize()
         base_key = f"{first_initial}{last_name}{year}"
 
-    # Ensure that key is unique
+    # Ensure the key is unique by querying all repositories
     unique_key = base_key
     suffix = 1
-    while unique_key in existing_keys:
-        unique_key = f"{base_key}{chr(96 + suffix)}"  # Append 'a', 'b', 'c', ...
+    while not is_key_unique(unique_key):
+        if suffix <= 26:
+            unique_key = f"{base_key}{chr(96 + suffix)}"  # Append 'a', 'b', 'c', ...
+        else:
+            unique_key = f"{base_key}_{suffix}"  # Append numeric suffix
         suffix += 1
-        if suffix > 26:  # If still not unique, add numeric suffix
-            unique_key = f"{base_key}_{suffix}"
 
     return unique_key
 
@@ -159,7 +179,6 @@ def validate_article(
         month (str, optional): Month of publication.
         doi (str, optional): Digital Object Identifier.
         key (str, optional): User-provided citation key.
-
 
     Raises:
         UserInputError: If any field fails validation.
@@ -194,12 +213,8 @@ def validate_article(
         if doi:
             validate_doi(doi)
 
-        existing_keys = get_existing_keys()
-
-        if not key:
-            key = generate_citation_key(author, year, existing_keys)
-        elif key and key in existing_keys:
-            key = generate_citation_key(author, year, existing_keys)
+        if not key or not is_key_unique(key):
+            key = generate_citation_key(author, year)
 
         return article_repository.create_article(
             author=author,
@@ -232,6 +247,7 @@ def validate_inproceedings(
     month=None,
     organization=None,
     publisher=None,
+    key=None,
 ):
     """
     Validates an inproceedings's input fields and delegates creation to the repository.
@@ -250,6 +266,7 @@ def validate_inproceedings(
         month (str, optional): The month the conference was held.
         organization (str, optional): Sponsor organization of the conference proceedings.
         publisher (str, optional): Publisher of the conference proceedings.
+        key (str, optional): User-provided citation key.
 
     Raises:
         UserInputError: If any field fails validation.
@@ -293,6 +310,9 @@ def validate_inproceedings(
         if publisher:
             validate_publisher(publisher)
 
+        if not key or not is_key_unique(key):
+            key = generate_citation_key(author, year)
+
         return inproceedings_repository.create_inproceedings(
             author=author,
             title=title,
@@ -307,6 +327,7 @@ def validate_inproceedings(
             month=month,
             organization=organization,
             publisher=publisher,
+            key=key,
         )
 
     except ValueError as e:
@@ -314,7 +335,7 @@ def validate_inproceedings(
 
 
 def validate_book(
-    author, title, year, publisher=None, edition=None, pages=None, doi=None
+    author, title, year, publisher=None, edition=None, pages=None, doi=None, key=None
 ):
     """
     Parameters:
@@ -325,6 +346,13 @@ def validate_book(
         edition (str, optional): Addredd.
         pages (str, optional): Page range.
         doi (str, optional): Digital Object Identifier.
+        key (str, optional): User-provided citation key.
+
+    Raises:
+        UserInputError: If any field fails validation.
+
+    Returns:
+        int: The ID of the created book.
     """
     try:
         validate_required_field(author, "Author")
@@ -345,6 +373,9 @@ def validate_book(
         if doi:
             validate_doi(doi)
 
+        if not key or not is_key_unique(key):
+            key = generate_citation_key(author, year)
+
         return book_repository.create_book(
             author=author,
             title=title,
@@ -353,21 +384,30 @@ def validate_book(
             edition=edition,
             pages=pages,
             doi=doi,
+            key=key,
         )
 
     except ValueError as e:
         raise UserInputError(str(e)) from e
 
 
-def validate_misc(author, title, year, month=None, howpublished=None, note=None):
+def validate_misc(
+    author, title, year, month=None, howpublished=None, note=None, key=None
+):
     """
     Parameters:
-    author (str): Author's name.
-    title (str): Title of the article.
-    year (str): Year of publication.
-    month (str, optional): Month of publication.
-    howpublished (str, optional): How published.
-    note (str, optional): Note.
+        author (str): Author's name.
+        title (str): Title of the article.
+        year (str): Year of publication.
+        month (str, optional): Month of publication.
+        howpublished (str, optional): How published.
+        key (str, optional): User-provided citation key.
+
+    Raises:
+        UserInputError: If any field fails validation.
+
+    Returns:
+        int: The ID of the created misc.
     """
 
     try:
@@ -390,6 +430,9 @@ def validate_misc(author, title, year, month=None, howpublished=None, note=None)
             month = normalize_month_input(month)
             validate_month(month)
 
+        if not key or not is_key_unique(key):
+            key = generate_citation_key(author, year)
+
         return misc_repository.create_misc(
             author=author,
             title=title,
@@ -397,6 +440,7 @@ def validate_misc(author, title, year, month=None, howpublished=None, note=None)
             month=month,
             note=note,
             howpublished=howpublished,
+            key=key,
         )
 
     except ValueError as e:

@@ -50,8 +50,7 @@ def get_article_by_id(article_id):
     return result.fetchone()
 
 
-def get_keys():
-    sql = "SELECT key FROM articles"
-    result = db.session.execute(text(sql))
-    keys = result.fetchall()
-    return keys
+def is_key_unique(key):
+    sql = "SELECT COUNT(*) FROM articles WHERE key = :key"
+    result = db.session.execute(text(sql), {"key": key}).fetchone()[0]
+    return result == 0

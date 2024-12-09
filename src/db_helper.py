@@ -67,7 +67,8 @@ def setup_db():
         "  publisher TEXT ,"
         "  edition TEXT,"
         "  pages TEXT,"
-        "  doi TEXT"
+        "  doi TEXT,"
+        "  key TEXT NOT NULL UNIQUE"
         ");"
     )
 
@@ -92,7 +93,8 @@ def setup_db():
         "  address TEXT,"
         "  month TEXT,"
         "  organization TEXT,"
-        "  publisher TEXT"
+        "  publisher TEXT,"
+        "  key TEXT NOT NULL UNIQUE"
         ");"
     )
 
@@ -109,8 +111,9 @@ def setup_db():
         "  author TEXT NOT NULL,"
         "  year INTEGER NOT NULL,"
         "  month TEXT,"
-        "  howpublished TEXT ,"
-        "  note TEXT"
+        "  howpublished TEXT,"
+        "  note TEXT,"
+        "  key TEXT NOT NULL UNIQUE"
         ");"
     )
 

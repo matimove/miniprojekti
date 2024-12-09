@@ -186,6 +186,7 @@ def add_inproceedings():
         month = form.month.data if form.month.data else None
         organization = form.organization.data if form.organization.data else None
         publisher = form.publisher.data if form.publisher.data else None
+        key = form.key.data if form.key.data else None
 
         try:
             # Validate and create the article
@@ -203,6 +204,7 @@ def add_inproceedings():
                 month,
                 organization,
                 publisher,
+                key,
             )
             flash("Inproceedings added successfully!", "success")  # Success message
 
@@ -220,6 +222,7 @@ def add_inproceedings():
             form.month.data = ""
             form.organization.data = ""
             form.publisher.data = ""
+            form.key.data = ""
 
             return redirect(url_for("index"))
 
@@ -246,10 +249,11 @@ def add_book():
         edition = form.edition.data if form.edition.data else None
         pages = form.pages.data if form.pages.data else None
         doi = form.doi.data if form.doi.data else None
+        key = form.key.data if form.key.data else None
 
         try:
             # Validate and create the article
-            validate_book(author, title, year, publisher, edition, pages, doi)
+            validate_book(author, title, year, publisher, edition, pages, doi, key)
             flash("Book added successfully!", "success")  # Success message
 
             # Clear form fields after data extraction
@@ -260,6 +264,7 @@ def add_book():
             form.edition.data = ""
             form.pages.data = ""
             form.doi.data = ""
+            form.key.data = ""
 
             return redirect(url_for("index"))
 
@@ -284,10 +289,11 @@ def add_misc():
         month = form.month.data if form.month.data else None
         howpublished = form.howpublished.data if form.howpublished.data else None
         note = form.note.data if form.note.data else None
+        key = form.key.data if form.key.data else None
 
         try:
             # Validate and create the article
-            validate_misc(author, title, year, month, howpublished, note)
+            validate_misc(author, title, year, month, howpublished, note, key)
             flash("Misc added successfully!", "success")  # Success message
 
             # Clear form fields after data extraction
@@ -297,6 +303,7 @@ def add_misc():
             form.month.data = ""
             form.howpublished.data = ""
             form.note.data = ""
+            form.key.data = ""
 
             return redirect(url_for("index"))
 
@@ -376,6 +383,7 @@ def edit_citation(citation_type, citation_id):
                     form.edition.data if form.edition.data else None,
                     form.pages.data if form.pages.data else None,
                     form.doi.data if form.doi.data else None,
+                    form.key.data if form.key.data else None,
                 )
 
             elif citation_type == "inproceedings":
@@ -393,6 +401,7 @@ def edit_citation(citation_type, citation_id):
                     form.month.data if form.month.data else None,
                     form.organization.data if form.organization.data else None,
                     form.publisher.data if form.publisher.data else None,
+                    form.key.data if form.key.data else None,
                 )
 
             elif citation_type == "misc":
@@ -403,6 +412,7 @@ def edit_citation(citation_type, citation_id):
                     form.month.data if form.month.data else None,
                     form.howpublished.data if form.howpublished.data else None,
                     form.note.data if form.note.data else None,
+                    form.key.data if form.key.data else None,
                 )
 
             delete_citation(citation_type, citation_id)
