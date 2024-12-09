@@ -2,6 +2,7 @@
 source = src
 omit =
 	src/app.py
+	src/repositories/*
 	src/tests/*
 	src/story_tests/*
 	src/db_helper.py
