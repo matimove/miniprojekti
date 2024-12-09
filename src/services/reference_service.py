@@ -28,28 +28,6 @@ class ReferenceService:
 
         return self.references
 
-    def sort_references_by_title(self, primary, secondary):
-        self.references.sort(
-            key=lambda ref: (getattr(ref, primary), getattr(ref, secondary))
-        )
-
-        # secondary sort by author
-        # self.references.sort(key=lambda ref: (ref.title.lower(), ref.author.lower()))
-
-        return self.references
-
-    def sort_references_by_author(self):
-        # secondary sort by title
-        self.references.sort(key=lambda ref: (ref.author.lower(), ref.title.lower()))
-
-        return self.references
-
-    def sort_references_by_year(self):
-        # secondary sort by author
-        self.references.sort(key=lambda ref: (ref.year, ref.author.lower()))
-
-        return self.references
-
     def search_with_keyword(self, search):
         search = search.lower().strip()
         result = filter(
