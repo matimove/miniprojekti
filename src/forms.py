@@ -54,6 +54,11 @@ class AddMiscForm(FlaskForm):
     submit = SubmitField("Submit")
 
 
+class AddDoiForm(FlaskForm):
+    doi = StringField("DOI", validators=[DataRequired()])
+    submit = SubmitField("Submit")
+
+
 class SearchForm(FlaskForm):
     search = StringField("", validators=[DataRequired()])
     submit = SubmitField("Search")

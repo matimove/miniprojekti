@@ -1,5 +1,6 @@
 from flask import flash, jsonify, redirect, render_template, request, url_for
 from bibtexparser import loads
+import json
 
 from config import app, test_env
 from db_helper import reset_db
@@ -10,12 +11,14 @@ from forms import (
     AddMiscForm,
     SearchForm,
     ImportBibtexForm,
+    AddDoiForm,
 )
 from repositories import (
     article_repository,
     book_repository,
     inproceedings_repository,
     misc_repository,
+    doi_repository,
 )
 from services.citation_service import (
     UserInputError,
@@ -515,6 +518,147 @@ def import_bibtex():
 
     # Render the form with existing input preserved
     return render_template("import_bibtex.html", form=form)
+
+
+@app.route("/add-doi", methods=["GET", "POST"])
+def add_doi():
+    form = AddDoiForm()
+
+    if form.validate_on_submit():
+        doi = form.doi.data
+
+        try:
+            reference = doi_repository.get_bibtex_with_doi(doi)
+            if reference:
+                if reference["ENTRYTYPE"] == "article":
+                    return redirect(url_for("add_article_from_doi", **reference))
+                elif reference["ENTRYTYPE"] == "book":
+                    return redirect(url_for("add_book_from_doi", **reference))
+                else:
+                    flash(
+                        f"Entry type {reference['ENTRYTYPE']} is currently not supported",
+                        "error",
+                    )
+
+        except UserInputError as e:
+            flash(str(e), "error")
+
+    return render_template("doi.html", form=form)
+
+
+# /add-article-doi/<title>/<author>/<journal>/<year>/<volume>/<number>/<pages>/<month>/<doi>
+@app.route("/add-article-doi", methods=["POST", "GET"])
+def add_article_from_doi():
+    form = AddArticleForm()
+
+    entry = request.args
+    reference = dict(entry)
+
+    if request.method == "GET":
+        # Assign form data
+        form.doi.data = reference.get("doi", "")
+        form.title.data = reference.get("title", "")
+        form.author.data = reference.get("author", "")
+        form.year.data = reference.get("year", "")
+        form.journal.data = reference.get("journal", "")
+        form.volume.data = reference.get("volume", "")
+        form.number.data = reference.get("number", "")
+        form.pages.data = reference.get("pages", "")
+        form.month.data = reference.get("month", "")
+
+    if form.validate_on_submit():
+        # Extract form data
+        author = form.author.data
+        title = form.title.data
+        journal = form.journal.data
+        year = form.year.data
+
+        # Non-required fields are replaced with None if empty
+        volume = form.volume.data if form.volume.data else None
+        number = form.number.data if form.number.data else None
+        pages = form.pages.data if form.pages.data else None
+        month = form.month.data if form.month.data else None
+        doi = form.doi.data if form.doi.data else None
+
+        try:
+            # Validate and create the article
+            validate_article(
+                author, title, journal, year, volume, number, pages, month, doi
+            )
+            flash("Article added successfully!", "success")  # Success message
+
+            # Clear form fields after data extraction
+            form.author.data = ""
+            form.title.data = ""
+            form.journal.data = ""
+            form.year.data = ""
+            form.volume.data = ""
+            form.number.data = ""
+            form.pages.data = ""
+            form.month.data = ""
+            form.doi.data = ""
+
+            return redirect(url_for("index"))
+
+        except UserInputError as e:
+            # Pass the error message to the template
+            flash(str(e), "error")  # Error message
+
+    # Render the form again (with error messages if any)
+    return render_template("article.html", form=form)
+
+
+@app.route("/add-book-doi", methods=["POST", "GET"])
+def add_book_from_doi():
+    form = AddBookForm()
+
+    entry = request.args
+    reference = dict(entry)
+
+    if request.method == "GET":
+        # Assign form data
+        form.doi.data = reference.get("doi", "")
+        form.title.data = reference.get("title", "")
+        form.author.data = reference.get("author", "")
+        form.year.data = reference.get("year", "")
+        form.publisher.data = reference.get("publisher", "")
+        form.edition.data = reference.get("edition", "")
+        form.pages.data = reference.get("pages", "")
+
+    if form.validate_on_submit():
+        # Extract form data
+        author = form.author.data
+        title = form.title.data
+        year = form.year.data
+
+        # Non-required fields are replaced with None if empty
+        publisher = form.publisher.data if form.publisher.data else None
+        edition = form.edition.data if form.edition.data else None
+        pages = form.pages.data if form.pages.data else None
+        doi = form.doi.data if form.doi.data else None
+
+        try:
+            # Validate and create the article
+            validate_book(author, title, year, publisher, edition, pages, doi)
+            flash("Book added successfully!", "success")  # Success message
+
+            # Clear form fields after data extraction
+            form.author.data = ""
+            form.title.data = ""
+            form.year.data = ""
+            form.publisher.data = ""
+            form.edition.data = ""
+            form.pages.data = ""
+            form.doi.data = ""
+
+            return redirect(url_for("index"))
+
+        except UserInputError as e:
+            # Pass the error message to the template
+            flash(str(e), "error")  # Error message
+
+    # Render the form again (with error messages if any)
+    return render_template("book.html", form=form)
 
 
 # testausta varten oleva reitti
