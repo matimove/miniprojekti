@@ -53,11 +53,16 @@ def index():
     sort_by = request.args.get("sort_by", "title")
     secondary = session.get("sort_history", "author")
 
+    if sort_by == secondary:
+        secondary = session.get("previous_secondary", "author")
+
     # TODO: if page is refreshed primary == secondary
     reference_service.sort_by_primary_and_secondary_key(
         primary=sort_by, secondary=secondary
     )
+
     session["sort_history"] = sort_by
+    session["previous_secondary"] = secondary
 
     if form.validate_on_submit():
         search = form.search.data
