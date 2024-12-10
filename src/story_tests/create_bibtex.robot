@@ -7,12 +7,12 @@ Test Setup  Go To Add Misc Page
 *** Test Cases ***
 Generate BibTeX for Article
     Go To Add Article Page
-    Set Title  D mahtava teksti
-    Set Author  Matti Meikalainen
-    Set Journal  jokin lehti
-    Set Year  2020
+    Set Title  Reducing the dimensionality of data with neural networks
+    Set Author  Hinton, Geoffrey E and Salakhutdinov, Ruslan R
+    Set Journal  Science
+    Set Year  2006
     Submit Article
-    Set Search  D mahtava teksti
+    Set Search  Reducing the dimensionality of data with neural networks
     Submit Search
     Click Button  Generate BibTeX
     Wait Until Element Is Visible  //textarea[@class="form-control" and @readonly]
@@ -20,11 +20,11 @@ Generate BibTeX for Article
 
 Generate BibTeX for Book
     Go To Add Book Page
-    Set Title  C mahtava teksti
-    Set Author  Matti Meikalainen
-    Set Year  2020
+    Set Title  Pattern Recognition and Machine Learning
+    Set Author  Bishop, Christopher M
+    Set Year  2006
     Submit Book
-    Set Search  C mahtava teksti
+    Set Search  Pattern Recognition and Machine Learning
     Submit Search
     Click Button  Generate BibTeX
     Wait Until Element Is Visible  //textarea[@class="form-control" and @readonly]
@@ -32,12 +32,12 @@ Generate BibTeX for Book
 
 Generate BibTeX for Inproceedings
     Go To Add Inproceeding Page
-    Set Author  Matti Meikalainen
-    Set Title  B mahtava teksti
-    Set Booktitle  jokin konferenssi
-    Set Year  2020
+    Set Author  LeCun, Yann and Boser, Bernhard and Denker, John S and Henderson, Donnie and Howard, Richard E and Hubbard, Wayne and Jackel, Lawrence D
+    Set Title  Backpropagation applied to handwritten zip code recognition
+    Set Booktitle  Neural computation
+    Set Year  1989
     Submit Inproceedings
-    Set Search  B mahtava teksti
+    Set Search  Backpropagation applied to handwritten zip code recognition
     Submit Search
     Click Button  Generate BibTeX
     Wait Until Element Is Visible  //textarea[@class="form-control" and @readonly]
@@ -45,11 +45,11 @@ Generate BibTeX for Inproceedings
 
 Generate BibTeX for Misc
     Go To Add Misc Page
-    Set Title  A mahtava teksti
-    Set Author  Matti Meikalainen
-    Set Year  2020
+    Set Title  Mastering the game of Go with deep neural networks and tree search
+    Set Author  Silver, David and Huang, Aja and Maddison, Chris J and Guez, Arthur and Sifre, Laurent and Van Den Driessche, George and Schrittwieser, Julian and Antonoglou, Ioannis and Panneershelvam, Veda and Lanctot, Marc and others
+    Set Year  2016
     Submit Misc
-    Set Search  A mahtava teksti
+    Set Search  Mastering the game of Go with deep neural networks and tree search
     Submit Search
     Click Button  Generate BibTeX
     Wait Until Element Is Visible  //textarea[@class="form-control" and @readonly]
@@ -66,29 +66,29 @@ Submit Search
 
 Article BibTeX Content Should Be Correct
     ${bibtex}=  Get Text  //textarea[@class="form-control" and @readonly]
-    Should Contain  ${bibtex}  author = "Matti Meikalainen"
-    Should Contain  ${bibtex}  title = "D mahtava teksti"
-    Should Contain  ${bibtex}  journal = "jokin lehti"
-    Should Contain  ${bibtex}  year = "2020"
+    Should Contain  ${bibtex}  author = "Hinton, Geoffrey E and Salakhutdinov, Ruslan R"
+    Should Contain  ${bibtex}  title = "Reducing the dimensionality of data with neural networks"
+    Should Contain  ${bibtex}  journal = "Science"
+    Should Contain  ${bibtex}  year = "2006"
 
 Book BibTeX Content Should Be Correct
     ${bibtex}=  Get Text  //textarea[@class="form-control" and @readonly]
-    Should Contain  ${bibtex}  author = "Matti Meikalainen"
-    Should Contain  ${bibtex}  title = "C mahtava teksti"
-    Should Contain  ${bibtex}  year = "2020"
+    Should Contain  ${bibtex}  author = "Bishop, Christopher M"
+    Should Contain  ${bibtex}  title = "Pattern Recognition and Machine Learning"
+    Should Contain  ${bibtex}  year = "2006"
 
 Inproceedings BibTeX Content Should Be Correct
     ${bibtex}=  Get Text  //textarea[@class="form-control" and @readonly]
-    Should Contain  ${bibtex}  author = "Matti Meikalainen"
-    Should Contain  ${bibtex}  title = "B mahtava teksti"
-    Should Contain  ${bibtex}  Booktitle = "jokin konferenssi"
-    Should Contain  ${bibtex}  year = "2020"
+    Should Contain  ${bibtex}  author = "LeCun, Yann and Boser, Bernhard and Denker, John S and Henderson, Donnie and Howard, Richard E and Hubbard, Wayne and Jackel, Lawrence D"
+    Should Contain  ${bibtex}  title = "Backpropagation applied to handwritten zip code recognition"
+    Should Contain  ${bibtex}  Booktitle = "Neural computation"
+    Should Contain  ${bibtex}  year = "1989"
 
 Misc BibTeX Content Should Be Correct
     ${bibtex}=  Get Text  //textarea[@class="form-control" and @readonly]
-    Should Contain  ${bibtex}  author = "Matti Meikalainen"
-    Should Contain  ${bibtex}  title = "A mahtava teksti"
-    Should Contain  ${bibtex}  year = "2020"
+    Should Contain  ${bibtex}  author = "Silver, David and Huang, Aja and Maddison, Chris J and Guez, Arthur and Sifre, Laurent and Van Den Driessche, George and Schrittwieser, Julian and Antonoglou, Ioannis and Panneershelvam, Veda and Lanctot, Marc and others"
+    Should Contain  ${bibtex}  title = "Mastering the game of Go with deep neural networks and tree search"
+    Should Contain  ${bibtex}  year = "2016"
 
 Set Title
     [Arguments]  ${title}

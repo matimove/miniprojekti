@@ -6,42 +6,42 @@ Test Setup  Go To Add Article Page
 
 *** Test Cases ***
 Add Article With Valid Information
-    Set Title  mahtava teksti 
-    Set Author  Matti Meikalainen
-    Set Journal  jokin lehti
-    Set Year  2020
+    Set Title  Can artificial intelligence help for scientific writing?
+    Set Author  Salvagno, Michele, Fabio Silvio Taccone, and Alberto Giovanni Gerli 
+    Set Journal  Critical care
+    Set Year  2023
     Submit Article
     Page Should Contain  Article added successfully!
 
 Add Article With Too Short Title
-    Set Title  joku
-    Set Author  Matti Meikalainen
-    Set Journal  nature 
-    Set Year  1999 
+    Set Title  Can?
+    Set Author  Salvagno, Michele
+    Set Journal  Critical care 
+    Set Year  2023 
     Submit Article
     Page Should Contain  Title must be between 5 and 255 characters. 
 
 Add Article With Not All Required Fields Filled
-    Set Title  joku
-    Set Author  Matti Meikalainen
+    Set Title  Can artificial intelligence help for scientific writing?
+    Set Author  Salvagno, Michele, Fabio Silvio Taccone, and Alberto Giovanni Gerli 
     Submit Article
     Page Should Not Contain    Article added successfully!
 
 Add Valid Article With All Inputs
-    Set Title  Toimitusketjujen Optimointi
-    Set Author  Joulupukki
-    Set Journal  Joulutiede Journal
-    Set Year  2024
-    Set Volume  1
-    Set Number  1
-    Set Pages  1-10
-    Set Month  December
-    Set Doi  10.1234/example-doi
+    Set Title  Time, Clocks, and the Ordering of Events in a Distributed System
+    Set Author  Leslie Lamport
+    Set Journal  Communications of the ACM
+    Set Year  1978
+    Set Volume  21
+    Set Number  7
+    Set Pages  558-565
+    Set Month  July
+    Set Doi  10.1145/359545.359563
     Submit Article
     Page Should Contain    Article added successfully!
 
 Add Valid Article Containing All Allowed Character Types And Multiple Authors
-    Set Title  Monien tekijöiden artikkeli
+    Set Title  Toimitusketjujen Optimointi
     Set Author  Joulupukki, Joulumuori, Tonttu T. Toljanteri, Petteri Punakuono, Iso-Tonttu, Ääkkösmies Å. Öökkölä
     Set Journal  Joulutiede Journal
     Set Year  2024
@@ -50,19 +50,6 @@ Add Valid Article Containing All Allowed Character Types And Multiple Authors
     Set Pages  123-130
     Set Month  December
     Set Doi  10.1234/example-doi
-    Submit Article
-    Page Should Contain    Article added successfully!
-
-Add Real Article
-    Set Title  Implementation of the EU AI act calls for interdisciplinary governance
-    Set Author  Huixin Zhong
-    Set Journal  AI Magazine
-    Set Year  2024
-    Set Volume  45
-    Set Number  3
-    Set Pages  333-337
-    Set Month  July
-    Set Doi  10.1002/aaai.12183
     Submit Article
     Page Should Contain    Article added successfully!
 

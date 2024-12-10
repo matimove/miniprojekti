@@ -7,10 +7,10 @@ Test Setup  Go To Add Misc Page
 *** Test Cases ***
 Success Messages Close
     Go To Add Article Page
-    Set Title  mahtava teksti 
-    Set Author  Matti Meikalainen
-    Set Journal  jokin lehti
-    Set Year  2020
+    Set Title  Adam: A method for stochastic optimization
+    Set Author  Kingma, Diederik P and Ba, Jimmy
+    Set Journal  arXiv preprint
+    Set Year  2014
     Submit Article
     Page Should Contain  Article added successfully!
     Click Button  close_message
