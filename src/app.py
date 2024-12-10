@@ -51,23 +51,19 @@ def index():
         message_references = None
 
     sort_by = request.args.get("sort_by", "title")
-    secondary = session.get("sort_history", "author")
+    secondary = session.get("sort_history_primary", "author")
 
     if sort_by == secondary:
-        secondary = session.get("previous_secondary", "author")
+        secondary = session.get("sort_history_secondary", "author")
 
     order = request.args.get("order", "asc")
-    if order == "desc":
-        reverse = True
-    else:
-        reverse = False
 
     reference_service.sort_by_primary_and_secondary_key(
-        primary=sort_by, secondary=secondary, reverse=reverse
+        primary=sort_by, secondary=secondary, reverse=reference_service.get_reverse(order)
     )
 
-    session["sort_history"] = sort_by
-    session["previous_secondary"] = secondary
+    session["sort_history_primary"] = sort_by
+    session["sort_history_secondary"] = secondary
 
     if form.validate_on_submit():
         search = form.search.data
@@ -100,7 +96,6 @@ def search_citations(search=None):
 
     search = search or request.args.get("search", "")
     form.search.data = search
-    sort_by = request.args.get("sort_by", "title")
 
     reference_service = ReferenceService()
     reference_service.add_references()
@@ -111,12 +106,19 @@ def search_citations(search=None):
         message_references = None
 
     sort_by = request.args.get("sort_by", "title")
-    secondary = session.get("sort_history", "author")
+    secondary = session.get("sort_history_primary", "author")
+
+    if sort_by == secondary:
+        secondary = session.get("sort_history_secondary", "author")
+
+    order = request.args.get("order", "asc")
 
     reference_service.sort_by_primary_and_secondary_key(
-        primary=sort_by, secondary=secondary
+        primary=sort_by, secondary=secondary, reverse=reference_service.get_reverse(order)
     )
-    session["sort_history"] = sort_by
+
+    session["sort_history_primary"] = sort_by
+    session["sort_history_secondary"] = secondary
 
     result = reference_service.search_with_keyword(search)
     message_search = f"({len(result)}) results found for {search}"
@@ -128,6 +130,7 @@ def search_citations(search=None):
         message_search=message_search,
         selected_value=sort_by,
         secondary_sort=secondary,
+        order=order,
         form=form,
     )
 

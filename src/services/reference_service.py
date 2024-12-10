@@ -22,11 +22,25 @@ class ReferenceService:
         self, primary="title", secondary="author", reverse=False
     ):
         self.references.sort(
-            key=lambda ref: (getattr(ref, primary), getattr(ref, secondary)),
+            key=lambda ref: (
+                (
+                    getattr(ref, primary).lower()
+                    if isinstance(getattr(ref, primary), str)
+                    else getattr(ref, primary)
+                ),
+                (
+                    getattr(ref, secondary).lower()
+                    if isinstance(getattr(ref, secondary), str)
+                    else getattr(ref, secondary)
+                ),
+            ),
             reverse=reverse,
         )
 
         return self.references
+
+    def get_reverse(self, order):
+        return True if order == "desc" else False
 
     def search_with_keyword(self, search):
         search = search.lower().strip()
