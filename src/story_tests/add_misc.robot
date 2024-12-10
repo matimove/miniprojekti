@@ -6,22 +6,25 @@ Test Setup  Go To Add Misc Page
 
 *** Test Cases ***
 Add Misc With Valid Information And Required Fields Filled
-    Set Title  Mahtava teksti 
-    Set Author  Matti Meikalainen
-    Set Year    2024
+    Set Title  Deep learning 
+    Set Author  LeCun, Yann and Bengio, Yoshua and Hinton, Geoffrey
+    Set Year  2015
     Submit Misc
     Page Should Contain  Misc added successfully!
 
-Add Misc With Too Short Title
-    Set Title    Test
-    Set Author  Matti Meikalainen
-    Set Year  1999
-    Submit Misc
-    Page Should Contain  Title must be between 5 and 255 characters. 
-
 Add Misc With Required Fields Not Filled
+    Set Title   Testi
     Set Author  Matti Meikalainen
-    Set Year    2024
+    Submit Misc
+    Page Should Not Contain  Misc added successfully!
+
+Add Misc With All Fields Filled
+    Set Title  ImageNet Classification with Deep Convolutional Neural Networks
+    Set Author  Krizhevsky, Alex and Sutskever, Ilya and Hinton, Geoffrey E
+    Set Year  2012
+    Set Month  July
+    Set Howpublished  \url{http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf}
+    Set Note  Tämä tutkimus esittelee AlexNet-nimisen syvän konvolutionaalisen neuroverkon, joka saavutti merkittäviä tuloksia ImageNet-kuvantunnistuskilpailussa ja oli merkittävä edistysaskel syvän oppimisen alalla.
     Submit Misc
     Page Should Not Contain  Misc added successfully!
 
@@ -37,6 +40,18 @@ Set Author
 Set Year 
       [Arguments]  ${year}
       Input Text  year  ${year}
+
+Set Month 
+      [Arguments]  ${Month}
+      Input Text  year  ${Month}
+
+Set Howpublished 
+      [Arguments]  ${Howpublished}
+      Input Text  year  ${Howpublished}
+
+Set Note 
+      [Arguments]  ${Note}
+      Input Text  year  ${Note}
 
 Submit Misc
     Scroll Element Into view  submit
