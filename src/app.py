@@ -56,9 +56,14 @@ def index():
     if sort_by == secondary:
         secondary = session.get("previous_secondary", "author")
 
-    # TODO: if page is refreshed primary == secondary
+    order = request.args.get("order", "asc")
+    if order == "desc":
+        reverse = True
+    else:
+        reverse = False
+
     reference_service.sort_by_primary_and_secondary_key(
-        primary=sort_by, secondary=secondary
+        primary=sort_by, secondary=secondary, reverse=reverse
     )
 
     session["sort_history"] = sort_by
@@ -74,6 +79,7 @@ def index():
         message_references=message_references,
         selected_value=sort_by,
         secondary_sort=secondary.capitalize(),
+        order=order,
         form=form,
     )
 
