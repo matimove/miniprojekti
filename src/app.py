@@ -1,6 +1,6 @@
-from flask import flash, jsonify, redirect, render_template, request, url_for
 from bibtexparser import loads
 import json
+from flask import flash, jsonify, redirect, render_template, request, url_for, session
 
 from config import app, test_env
 from db_helper import reset_db
@@ -20,6 +20,7 @@ from repositories import (
     misc_repository,
     doi_repository,
 )
+from services.bibtex_service import BibtexService
 from services.citation_service import (
     UserInputError,
     validate_article,
@@ -28,7 +29,7 @@ from services.citation_service import (
     validate_misc,
 )
 from services.reference_service import ReferenceService
-from services.bibtex_service import BibtexService
+
 
 
 class DeletionError(Exception):
@@ -50,13 +51,19 @@ def index():
         message_references = None
 
     sort_by = request.args.get("sort_by", "title")
+    secondary = session.get("sort_history_primary", "author")
 
-    if sort_by == "title":
-        reference_service.sort_references_by_title()
-    elif sort_by == "author":
-        reference_service.sort_references_by_author()
-    elif sort_by == "year":
-        reference_service.sort_references_by_year()
+    if sort_by == secondary:
+        secondary = session.get("sort_history_secondary", "author")
+
+    order = request.args.get("order", "asc")
+
+    reference_service.sort_by_primary_and_secondary_key(
+        primary=sort_by, secondary=secondary, reverse=reference_service.get_reverse(order)
+    )
+
+    session["sort_history_primary"] = sort_by
+    session["sort_history_secondary"] = secondary
 
     if form.validate_on_submit():
         search = form.search.data
@@ -67,6 +74,8 @@ def index():
         references=reference_service.references,
         message_references=message_references,
         selected_value=sort_by,
+        secondary_sort=secondary.capitalize(),
+        order=order,
         form=form,
     )
 
@@ -87,7 +96,6 @@ def search_citations(search=None):
 
     search = search or request.args.get("search", "")
     form.search.data = search
-    sort_by = request.args.get("sort_by", "title")
 
     reference_service = ReferenceService()
     reference_service.add_references()
@@ -97,12 +105,20 @@ def search_citations(search=None):
     else:
         message_references = None
 
-    if sort_by == "title":
-        reference_service.sort_references_by_title()
-    elif sort_by == "author":
-        reference_service.sort_references_by_author()
-    elif sort_by == "year":
-        reference_service.sort_references_by_year()
+    sort_by = request.args.get("sort_by", "title")
+    secondary = session.get("sort_history_primary", "author")
+
+    if sort_by == secondary:
+        secondary = session.get("sort_history_secondary", "author")
+
+    order = request.args.get("order", "asc")
+
+    reference_service.sort_by_primary_and_secondary_key(
+        primary=sort_by, secondary=secondary, reverse=reference_service.get_reverse(order)
+    )
+
+    session["sort_history_primary"] = sort_by
+    session["sort_history_secondary"] = secondary
 
     result = reference_service.search_with_keyword(search)
     message_search = f"({len(result)}) results found for {search}"
@@ -113,6 +129,8 @@ def search_citations(search=None):
         message_references=message_references,
         message_search=message_search,
         selected_value=sort_by,
+        secondary_sort=secondary,
+        order=order,
         form=form,
     )
 
@@ -672,7 +690,6 @@ def add_book_from_doi():
 
     # Render the form again (with error messages if any)
     return render_template("book.html", form=form)
-
 
 # testausta varten oleva reitti
 if test_env:

@@ -31,7 +31,7 @@ class TestReferenceService(unittest.TestCase):
         ]
 
     def test_sort_references_by_title(self):
-        result = self.reference_service.sort_references_by_title()
+        result = self.reference_service.sort_by_primary_and_secondary_key("title", "author")
         expected = [
             MockReference("Aamunsarastus", "Joulupukki", 2023),
             MockReference("An Analysis of Example", "John Smith and Jane Doe", 2022),
@@ -43,7 +43,7 @@ class TestReferenceService(unittest.TestCase):
         self.assertEqual(result, expected)
 
     def test_sort_references_by_author(self):
-        result = self.reference_service.sort_references_by_author()
+        result = self.reference_service.sort_by_primary_and_secondary_key("author", "title")
         expected = [
             MockReference("An Analysis of Example", "John Smith and Jane Doe", 2022),
             MockReference("Aamunsarastus", "Joulupukki", 2023),
@@ -55,7 +55,7 @@ class TestReferenceService(unittest.TestCase):
         self.assertEqual(result, expected)
 
     def test_sort_references_by_year(self):
-        result = self.reference_service.sort_references_by_year()
+        result = self.reference_service.sort_by_primary_and_secondary_key("year", "author")
         expected = [
             MockReference("Classical mechanics", "Leonard Susskind", 2014),
             MockReference("An Analysis of Example", "John Smith and Jane Doe", 2022),

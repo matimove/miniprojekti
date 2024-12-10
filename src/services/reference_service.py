@@ -18,27 +18,36 @@ class ReferenceService:
 
         self.references = self.references + articles + books + inproceedings + misc
 
-    def sort_references_by_title(self):
-        # secondary sort by author
-        self.references.sort(key=lambda ref: (ref.title.lower(), ref.author.lower()))
+    def sort_by_primary_and_secondary_key(
+        self, primary="title", secondary="author", reverse=False
+    ):
+        self.references.sort(
+            key=lambda ref: (
+                (
+                    getattr(ref, primary).lower()
+                    if isinstance(getattr(ref, primary), str)
+                    else getattr(ref, primary)
+                ),
+                (
+                    getattr(ref, secondary).lower()
+                    if isinstance(getattr(ref, secondary), str)
+                    else getattr(ref, secondary)
+                ),
+            ),
+            reverse=reverse,
+        )
 
         return self.references
 
-    def sort_references_by_author(self):
-        # secondary sort by title
-        self.references.sort(key=lambda ref: (ref.author.lower(), ref.title.lower()))
-
-        return self.references
-
-    def sort_references_by_year(self):
-        # secondary sort by author
-        self.references.sort(key=lambda ref: (ref.year, ref.author.lower()))
-
-        return self.references
+    def get_reverse(self, order):
+        return True if order == "desc" else False
 
     def search_with_keyword(self, search):
         search = search.lower().strip()
-        result = filter(lambda ref: search in ref.title.lower() or search ==
-                            str(ref.year) or search in ref.author.lower(),
-                            self.references)
+        result = filter(
+            lambda ref: search in ref.title.lower()
+            or search == str(ref.year)
+            or search in ref.author.lower(),
+            self.references,
+        )
         return list(result)
