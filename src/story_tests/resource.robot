@@ -50,3 +50,6 @@ Go To Import BibTeX Page
 
 Go To Add DOI
     Go To  ${ADD_DOI_URL}
+
+Go To Home
+    Go To  ${HOME_URL}

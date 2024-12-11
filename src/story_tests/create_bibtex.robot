@@ -2,7 +2,7 @@
 Resource  resource.robot 
 Suite Setup  Open And Configure Browser
 Suite Teardown  Close Browser
-Test Setup  Go To Add Misc Page
+Test Setup  Go To Home
 
 *** Test Cases ***
 Generate BibTeX for Article
@@ -14,8 +14,7 @@ Generate BibTeX for Article
     Submit Article
     Set Search  Reducing the dimensionality of data with neural networks
     Submit Search
-    Scroll Element Into View  generate-bibtex-button
-    Click Button  generate-bibtex-button
+    Click Generate BibTeX Button
     Wait Until Element Is Visible  //textarea[@class="form-control" and @readonly]
     Article BibTeX Content Should Be Correct
 
@@ -27,37 +26,35 @@ Generate BibTeX for Book
     Submit Book
     Set Search  Pattern Recognition and Machine Learning
     Submit Search
-    Scroll Element Into View  generate-bibtex-button
-    Click Button  generate-bibtex-button
+    Click Generate BibTeX Button
     Wait Until Element Is Visible  //textarea[@class="form-control" and @readonly]
     Book BibTeX Content Should Be Correct
 
-# Generate BibTeX for Inproceedings
-#     Go To Add Inproceeding Page
-#     Set Author  LeCun, Yann et. al.
-#     Set Title  Backpropagation applied to handwritten zip code recognition
-#     Set Booktitle  Neural computation
-#     Set Year  1989
-#     Submit Inproceedings
-#     Set Search  Backpropagation applied to handwritten zip code recognition
-#     Submit Search
-#     Scroll Element Into View  generate-bibtex-button
-#     Click Button  generate-bibtex-button
-#     Wait Until Element Is Visible  //textarea[@class="form-control" and @readonly]
-#     Inproceedings BibTeX Content Should Be Correct
-# 
-# Generate BibTeX for Misc
-#     Go To Add Misc Page
-#     Set Title  Mastering the game of Go with deep neural networks and tree search
-#     Set Author  Silver, David et. al.
-#     Set Year  2016
-#     Submit Misc
-#     Set Search  Mastering the game of Go with deep neural networks and tree search
-#     Submit Search
-#     Scroll Element Into View  generate-bibtex-button
-#     Click Button  generate-bibtex-button
-#     Wait Until Element Is Visible  //textarea[@class="form-control" and @readonly]
-#     Misc BibTeX Content Should Be Correct
+Generate BibTeX for Inproceedings
+    Go To Add Inproceeding Page
+    Set Author  LeCun, Yann et. al.
+    Set Title  Backpropagation applied to handwritten zip code recognition
+    Set Booktitle  Neural computation
+    Set Year  1989
+    Submit Inproceedings
+    Set Search  Backpropagation applied to handwritten zip code recognition
+    Submit Search
+    Click Generate BibTeX Button
+    Wait Until Element Is Visible  //textarea[@class="form-control" and @readonly]
+    Inproceedings BibTeX Content Should Be Correct
+
+Generate BibTeX for Misc
+    Go To Add Misc Page
+    Set Title  Mastering the game of Go with deep neural networks and tree search
+    Set Author  Silver, David et. al.
+    Set Year  2016
+    Submit Misc
+    Set Search  Mastering the game of Go with deep neural networks and tree search
+    Submit Search
+    Set Window Size  1920  1080
+    Click Generate BibTeX Button
+    Wait Until Element Is Visible  //textarea[@class="form-control" and @readonly]
+    Misc BibTeX Content Should Be Correct
 
 *** Keywords ***
 Set Search 
@@ -67,6 +64,12 @@ Set Search
 Submit Search
     Scroll Element Into View  search-button
     Click Button  search-button
+
+Click Generate BibTeX Button
+    Set Window Size  1920  1080
+    ${button_locator}=  Set Variable  //button[@name="generate-bibtex-button" and contains(@data-bs-target, "#BibTeXModal")]
+    Wait Until Element Is Visible  ${button_locator}
+    Click Button  ${button_locator}
 
 Article BibTeX Content Should Be Correct
     ${bibtex}=  Get Text  //textarea[@class="form-control" and @readonly]
@@ -90,6 +93,7 @@ Inproceedings BibTeX Content Should Be Correct
 Misc BibTeX Content Should Be Correct
     ${bibtex}=  Get Text  //textarea[@class="form-control" and @readonly]
     Should Contain  ${bibtex}  author = "Silver, David et. al."
+    Should Contain  ${bibtex}  title = "Mastering the game of Go with deep neural networks and tree search"
     Should Contain  ${bibtex}  year = "2016"
 
 Set Title
