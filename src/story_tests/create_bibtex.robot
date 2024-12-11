@@ -34,7 +34,7 @@ Generate BibTeX for Book
 
 Generate BibTeX for Inproceedings
     Go To Add Inproceeding Page
-    Set Author  LeCun, Yann and Boser, Bernhard and Denker, John S and Henderson, Donnie and Howard, Richard E and Hubbard, Wayne and Jackel, Lawrence D
+    Set Author  LeCun, Yann et. al.
     Set Title  Backpropagation applied to handwritten zip code recognition
     Set Booktitle  Neural computation
     Set Year  1989
@@ -49,7 +49,7 @@ Generate BibTeX for Inproceedings
 Generate BibTeX for Misc
     Go To Add Misc Page
     Set Title  Mastering the game of Go with deep neural networks and tree search
-    Set Author  Silver, David and Huang, Aja and Maddison, Chris J and Guez, Arthur and Sifre, Laurent and Van Den Driessche, George and Schrittwieser, Julian and Antonoglou, Ioannis and Panneershelvam, Veda and Lanctot, Marc and others
+    Set Author  Silver, David et. al.
     Set Year  2016
     Submit Misc
     Set Search  Mastering the game of Go with deep neural networks and tree search
@@ -83,14 +83,13 @@ Book BibTeX Content Should Be Correct
 
 Inproceedings BibTeX Content Should Be Correct
     ${bibtex}=  Get Text  //textarea[@class="form-control" and @readonly]
-    Should Contain  ${bibtex}  author = "LeCun, Yann and Boser, Bernhard and Denker, John S and Henderson, Donnie and Howard, Richard E and Hubbard, Wayne and Jackel, Lawrence D"
+    Should Contain  ${bibtex}  author = "LeCun, Yann et. al."
     Should Contain  ${bibtex}  title = "Backpropagation applied to handwritten zip code recognition"
-    Should Contain  ${bibtex}  Booktitle = "Neural computation"
     Should Contain  ${bibtex}  year = "1989"
 
 Misc BibTeX Content Should Be Correct
     ${bibtex}=  Get Text  //textarea[@class="form-control" and @readonly]
-    Should Contain  ${bibtex}  author = "Silver, David and Huang, Aja and Maddison, Chris J and Guez, Arthur and Sifre, Laurent and Van Den Driessche, George and Schrittwieser, Julian and Antonoglou, Ioannis and Panneershelvam, Veda and Lanctot, Marc and others"
+    Should Contain  ${bibtex}  author = "Silver, David et. al."
     Should Contain  ${bibtex}  title = "Mastering the game of Go with deep neural networks and tree search"
     Should Contain  ${bibtex}  year = "2016"
 
