@@ -1,7 +1,48 @@
+
+
+#heading {
+    position: fixed;
+    font-size: 35px;
+    top: 95px;
+    color: black;
+    left: 285px;
+}
+
+#search-message {
+    margin-top: 95px;
+}
+
+
+#message {
+    position: relative;
+    top: 5px;
+    width: 95%;
+}
+
 #search-button {
     margin-left: 15px;
 }
 
 #saved-references {
     margin-bottom: 20px;
+}
+
+#doi-inp-button{
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+#art-book-misc-button{
+    margin-top: 15px;
+}
+
+#menu {
+    position: fixed;
+    top: 17%;
+    margin-right: 15px;
+}
+
+#references {
+    position: absolute;
+    top: 17%;
 }

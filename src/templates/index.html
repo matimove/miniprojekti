@@ -7,12 +7,49 @@ Reference app
 {% block body %}
 </br>
 
+
+
 <div class="container">
-  <div class="row" id="saved-references">
-    <div class="col text-left"><h2>Saved references:</h2></div>
-  </div>
+
   <div class="row">
-    <div class="col">
+    <!-- Flash message for validation success -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div>
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible" id="message">
+              {{ message }}
+              <button type="button" class="text-end btn-close" data-bs-dismiss="alert" aria-label="Close" name="close_message"></button>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+  </div>
+
+  <div class="row">
+
+    <div class="col-lg-4">
+      <div id="heading">
+        <a class="navbar-brand " href="/">Reference App</a>
+      </div>
+      <div class="sticky-top" id="menu">
+      <!--Add references-->
+      <div class="card w-100 mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Add Reference</h5>
+            <div id="art-book-misc-button">
+              <a class="btn btn-outline-dark" href="/add-article">Article</a>
+              <a class="btn btn-outline-dark" href="/add-book">Book</a>
+              <a class="btn btn-outline-dark" href="/add-misc">Misc</a>
+            </div>
+            <div id="doi-inp-button">
+              <a class="btn btn-outline-dark" href="/add-inproceedings">Inproceedings</a>
+              <a class="btn btn-outline-dark" href="/add-doi">DOI</a>
+            </div>
+        </div>
+      </div>
+
       <!-- Search bar -->
       <form method="POST" class="d-flex" role="search">
         {{ form.hidden_tag() }}
@@ -21,64 +58,67 @@ Reference app
         {{ form.search(class="form-control") }}
         <button id="search-button" class="btn btn-outline-success" type="submit">Search</button>
       </form>
-    </div>
-    <!-- Sort by form -->
-    <div class="col">
-      <form method="GET" class="d-flex align-items-center">
-        <input type="hidden" name="search" value="{{ form.search.data }}">
-        <label for="sort_by" class="me-2"><b>Sort by</b></label>
-          <select id="sort_by" name="sort_by" onchange="this.form.submit()" class="form-select w-auto" aria-label="Sort by">
-            <option value="title" {% if selected_value == "title" %}selected{% endif %}>Title</option>
-            <option value="author" {% if selected_value == "author" %}selected{% endif %}>Author</option>
-            <option value="year" {% if selected_value == "year" %}selected{% endif %}>Year</option>
-          </select>
-        <span style="margin-left: 10px;"><b>Secondary sort by</b> {{ secondary_sort }}</span>
-        
-        <div class="form-check" style="margin-left: 10px;">
-          <input class="form-check-input" type="radio" name="order" id="ascending" value="asc" {% if order == "asc" %}checked{% endif %} onchange="this.form.submit()">
-          <label class="form-check-label" for="ascending">
-            Ascending
-          </label>
+
+      <!-- Sort by form -->
+      <div class="container">
+        <div class="row">
+          <form method="GET" class="d-flex align-items-center">
+            <input type="hidden" name="search" value="{{ form.search.data }}">
+            <label for="sort_by" class="me-2"><b>Sort by</b></label>
+            <select id="sort_by" name="sort_by" onchange="this.form.submit()" class="form-select w-auto" aria-label="Sort by">
+              <option value="title" {% if selected_value == "title" %}selected{% endif %}>Title</option>
+              <option value="author" {% if selected_value == "author" %}selected{% endif %}>Author</option>
+              <option value="year" {% if selected_value == "year" %}selected{% endif %}>Year</option>
+            </select>
+            <span style="margin-left: 10px;"><b>Secondary sort by</b> {{ secondary_sort }}</span> 
         </div>
-        <div class="form-check" style="margin-left: 10px;">
+      </div>
+
+      <div class="form-check" style="margin-left: 10px; display: inline-block;">
+        <input class="form-check-input" type="radio" name="order" id="ascending" value="asc" {% if order == "asc" %}checked{% endif %} onchange="this.form.submit()">
+        <label class="form-check-label" for="ascending">
+          Ascending
+        </label>
+      </div>
+        <div class="form-check" style="margin-left: 10px; display: inline-block;">
           <input class="form-check-input" type="radio" name="order" id="descending" value="desc" {% if order == "desc" %}checked{% endif %} onchange="this.form.submit()">
           <label class="form-check-label" for="descending">
             Descending 
           </label>
-        </div>
-      </form>
+        </form>
+      </div>
+
+      <div class="ms-auto text-center">
+        <a class="btn btn-dark" style="margin-bottom: 15px;" href="/bibtex">Generate BibTeX</a></br>
+        <a class="btn btn-dark" href="/import-bibtex">Import BibTeX</a>
+      </div>
+      </div>
     </div>
+
+    <div class="col-lg-8">
+      <div id="search-message">
+        {% if message_references %}
+          <p>{{ message_references }}</p>
+        {% endif %}
+
+        {% if message_search %}
+          <h5>{{ message_search }}</h5>
+        {% endif %}</br>
+      </div>
+
+      <div id="references">
+        {% for reference in references %}
+          {% with reference=reference, loop_index=loop.index0 %}
+            {% include "reference_card.html" %}
+          {% endwith %}
+        {% endfor %}
+      </div>
+    </div>
+
   </div>
-</div></br>
 
-<!-- Flash message for validation success -->
-
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    <div>
-      {% for category, message in messages %}
-        <div class="alert alert-{{ category }} alert-dismissible">
-          {{ message }}
-          <button type="button" class="text-end btn-close" data-bs-dismiss="alert" aria-label="Close" name="close_message"></button>
-        </div>
-      {% endfor %}
-    </div>
-  {% endif %}
-{% endwith %}
+</div>
 
 
-{% if message_references %}
-    <p>{{ message_references }}</p>
-{% endif %}
-
-{% if message_search %}
-    <h5>{{ message_search }}</h5>
-{% endif %}</br>
-
-{% for reference in references %}
-  {% with reference=reference, loop_index=loop.index0 %}
-    {% include "reference_card.html" %}
-  {% endwith %}
-{% endfor %}
 
 {% endblock %}
