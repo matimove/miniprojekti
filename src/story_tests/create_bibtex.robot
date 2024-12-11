@@ -39,6 +39,7 @@ Generate BibTeX for Inproceedings
     Submit Inproceedings
     Set Search  Backpropagation applied to handwritten zip code recognition
     Submit Search
+    Scroll Element Into View  Lecun1989 
     Click Button  Generate BibTeX
     Wait Until Element Is Visible  //textarea[@class="form-control" and @readonly]
     Inproceedings BibTeX Content Should Be Correct
@@ -51,6 +52,7 @@ Generate BibTeX for Misc
     Submit Misc
     Set Search  Mastering the game of Go with deep neural networks and tree search
     Submit Search
+    Scroll Element Into View  Silver2016
     Click Button  Generate BibTeX
     Wait Until Element Is Visible  //textarea[@class="form-control" and @readonly]
     Misc BibTeX Content Should Be Correct
