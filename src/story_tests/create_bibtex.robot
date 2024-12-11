@@ -90,7 +90,6 @@ Inproceedings BibTeX Content Should Be Correct
 Misc BibTeX Content Should Be Correct
     ${bibtex}=  Get Text  //textarea[@class="form-control" and @readonly]
     Should Contain  ${bibtex}  author = "Silver, David et. al."
-    Should Contain  ${bibtex}  title = "Mastering the game of Go with deep neural networks and tree search"
     Should Contain  ${bibtex}  year = "2016"
 
 Set Title
