@@ -83,7 +83,7 @@ Inproceedings BibTeX Content Should Be Correct
     ${bibtex}=  Get Text  //textarea[@class="form-control" and @readonly]
     Should Contain  ${bibtex}  author = "LeCun, Yann and Boser, Bernhard and Denker, John S and Henderson, Donnie and Howard, Richard E and Hubbard, Wayne and Jackel, Lawrence D"
     Should Contain  ${bibtex}  title = "Backpropagation applied to handwritten zip code recognition"
-    Should Contain  ${bibtex}  Booktitle = "Neural computation"
+    Should Contain  ${bibtex}  booktitle = "Neural computation"
     Should Contain  ${bibtex}  year = "1989"
 
 Misc BibTeX Content Should Be Correct
