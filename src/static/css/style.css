@@ -1,5 +1,3 @@
-
-
 #heading {
     position: fixed;
     font-size: 35px;
@@ -11,7 +9,6 @@
 #search-message {
     margin-top: 95px;
 }
-
 
 #message {
     position: relative;
@@ -37,12 +34,21 @@
 }
 
 #menu {
+    width: 400px;
     position: fixed;
     top: 17%;
-    margin-right: 15px;
 }
 
 #references {
     position: absolute;
     top: 17%;
+}
+
+#sort {
+    margin-top: 20px;
+    margin-bottom: 12px;
+}
+
+#bibtex {
+    margin-top: 90px;
 }

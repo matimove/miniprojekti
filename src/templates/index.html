@@ -37,14 +37,14 @@ Reference app
       <!--Add references-->
       <div class="card w-100 mb-3">
         <div class="card-body">
-          <h5 class="card-title">Add Reference</h5>
+          <h4 class="card-title">Add Reference</h4>
             <div id="art-book-misc-button">
-              <a class="btn btn-outline-dark" href="/add-article">Article</a>
-              <a class="btn btn-outline-dark" href="/add-book">Book</a>
+              <a class="btn btn-outline-dark" style="margin-right: 15px;" href="/add-article">Article</a>
+              <a class="btn btn-outline-dark" style="margin-right: 15px;" href="/add-book">Book</a>
               <a class="btn btn-outline-dark" href="/add-misc">Misc</a>
             </div>
             <div id="doi-inp-button">
-              <a class="btn btn-outline-dark" href="/add-inproceedings">Inproceedings</a>
+              <a class="btn btn-outline-dark" style="margin-right: 15px;" href="/add-inproceedings">Inproceedings</a>
               <a class="btn btn-outline-dark" href="/add-doi">DOI</a>
             </div>
         </div>
@@ -61,7 +61,7 @@ Reference app
 
       <!-- Sort by form -->
       <div class="container">
-        <div class="row">
+        <div class="row" id="sort">
           <form method="GET" class="d-flex align-items-center">
             <input type="hidden" name="search" value="{{ form.search.data }}">
             <label for="sort_by" class="me-2"><b>Sort by</b></label>
@@ -70,7 +70,7 @@ Reference app
               <option value="author" {% if selected_value == "author" %}selected{% endif %}>Author</option>
               <option value="year" {% if selected_value == "year" %}selected{% endif %}>Year</option>
             </select>
-            <span style="margin-left: 10px;"><b>Secondary sort by</b> {{ secondary_sort }}</span> 
+            <span style="margin-left: 15px;"><b>Secondary sort by</b> {{ secondary_sort }}</span> 
         </div>
       </div>
 
@@ -88,9 +88,9 @@ Reference app
         </form>
       </div>
 
-      <div class="ms-auto text-center">
-        <a class="btn btn-dark" style="margin-bottom: 15px;" href="/bibtex">Generate BibTeX</a></br>
-        <a class="btn btn-dark" href="/import-bibtex">Import BibTeX</a>
+      <div class="ms-auto text-center" id="bibtex">
+        <a class="btn btn-outline-secondary" style="margin-bottom: 15px;" href="/bibtex">Generate BibTeX</a></br>
+        <a class="btn btn-outline-secondary" href="/import-bibtex">Import BibTeX</a>
       </div>
       </div>
     </div>
