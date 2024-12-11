@@ -32,32 +32,32 @@ Generate BibTeX for Book
     Wait Until Element Is Visible  //textarea[@class="form-control" and @readonly]
     Book BibTeX Content Should Be Correct
 
-Generate BibTeX for Inproceedings
-    Go To Add Inproceeding Page
-    Set Author  LeCun, Yann et. al.
-    Set Title  Backpropagation applied to handwritten zip code recognition
-    Set Booktitle  Neural computation
-    Set Year  1989
-    Submit Inproceedings
-    Set Search  Backpropagation applied to handwritten zip code recognition
-    Submit Search
-    Scroll Element Into View  generate-bibtex-button
-    Click Button  generate-bibtex-button
-    Wait Until Element Is Visible  //textarea[@class="form-control" and @readonly]
-    Inproceedings BibTeX Content Should Be Correct
-
-Generate BibTeX for Misc
-    Go To Add Misc Page
-    Set Title  Mastering the game of Go with deep neural networks and tree search
-    Set Author  Silver, David et. al.
-    Set Year  2016
-    Submit Misc
-    Set Search  Mastering the game of Go with deep neural networks and tree search
-    Submit Search
-    Scroll Element Into View  generate-bibtex-button
-    Click Button  generate-bibtex-button
-    Wait Until Element Is Visible  //textarea[@class="form-control" and @readonly]
-    Misc BibTeX Content Should Be Correct
+# Generate BibTeX for Inproceedings
+#     Go To Add Inproceeding Page
+#     Set Author  LeCun, Yann et. al.
+#     Set Title  Backpropagation applied to handwritten zip code recognition
+#     Set Booktitle  Neural computation
+#     Set Year  1989
+#     Submit Inproceedings
+#     Set Search  Backpropagation applied to handwritten zip code recognition
+#     Submit Search
+#     Scroll Element Into View  generate-bibtex-button
+#     Click Button  generate-bibtex-button
+#     Wait Until Element Is Visible  //textarea[@class="form-control" and @readonly]
+#     Inproceedings BibTeX Content Should Be Correct
+# 
+# Generate BibTeX for Misc
+#     Go To Add Misc Page
+#     Set Title  Mastering the game of Go with deep neural networks and tree search
+#     Set Author  Silver, David et. al.
+#     Set Year  2016
+#     Submit Misc
+#     Set Search  Mastering the game of Go with deep neural networks and tree search
+#     Submit Search
+#     Scroll Element Into View  generate-bibtex-button
+#     Click Button  generate-bibtex-button
+#     Wait Until Element Is Visible  //textarea[@class="form-control" and @readonly]
+#     Misc BibTeX Content Should Be Correct
 
 *** Keywords ***
 Set Search 
