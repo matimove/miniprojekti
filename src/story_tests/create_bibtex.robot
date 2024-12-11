@@ -14,7 +14,8 @@ Generate BibTeX for Article
     Submit Article
     Set Search  Reducing the dimensionality of data with neural networks
     Submit Search
-    Click Button  Generate BibTeX
+    Scroll Element Into View  generate-bibtex-button
+    Click Button  generate-bibtex-button
     Wait Until Element Is Visible  //textarea[@class="form-control" and @readonly]
     Article BibTeX Content Should Be Correct
 
@@ -26,7 +27,8 @@ Generate BibTeX for Book
     Submit Book
     Set Search  Pattern Recognition and Machine Learning
     Submit Search
-    Click Button  Generate BibTeX
+    Scroll Element Into View  generate-bibtex-button
+    Click Button  generate-bibtex-button
     Wait Until Element Is Visible  //textarea[@class="form-control" and @readonly]
     Book BibTeX Content Should Be Correct
 
@@ -39,8 +41,8 @@ Generate BibTeX for Inproceedings
     Submit Inproceedings
     Set Search  Backpropagation applied to handwritten zip code recognition
     Submit Search
-    Scroll Element Into View  Lecun1989 
-    Click Button  Generate BibTeX
+    Scroll Element Into View  generate-bibtex-button
+    Click Button  generate-bibtex-button
     Wait Until Element Is Visible  //textarea[@class="form-control" and @readonly]
     Inproceedings BibTeX Content Should Be Correct
 
@@ -52,8 +54,8 @@ Generate BibTeX for Misc
     Submit Misc
     Set Search  Mastering the game of Go with deep neural networks and tree search
     Submit Search
-    Scroll Element Into View  Silver2016
-    Click Button  Generate BibTeX
+    Scroll Element Into View  generate-bibtex-button
+    Click Button  generate-bibtex-button
     Wait Until Element Is Visible  //textarea[@class="form-control" and @readonly]
     Misc BibTeX Content Should Be Correct
 

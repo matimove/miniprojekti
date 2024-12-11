@@ -36,7 +36,7 @@
       <p class="card-text">by {{ reference.author }} ({{ reference.year }})</p>
       <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#Modal{{ loop_index }}">View</button>
       <a href="/edit/article/{{ reference.id }}" class="btn btn-outline-dark">Edit</a>
-      <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#BibTeXModal{{ loop_index }}">Generate BibTeX</button>
+      <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#BibTeXModal{{ loop_index }}" name="generate-bibtex-button">Generate BibTeX</button>
       <a href="#" onclick="confirmDelete(event, '{{ reference.id }}', 'article')" class="btn btn-danger">Delete</a>
       <form id="delete-form-article-{{ reference.id }}" action="/delete/article/{{ reference.id }}" method="POST" style="display: none;">
       </form>
@@ -118,7 +118,7 @@
         <p class="card-text">by {{ reference.author }} ({{ reference.year }})</p></br>
         <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#Modal{{ loop_index }}">View</button>
         <a href="/edit/book/{{ reference.id }}" class="btn btn-outline-dark">Edit</a>
-        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#BibTeXModal{{ loop_index }}">Generate BibTeX</button>
+        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#BibTeXModal{{ loop_index }}" name="generate-bibtex-button">Generate BibTeX</button>
         <a href="#" onclick="confirmDelete(event, '{{ reference.id }}', 'book')" class="btn btn-danger">Delete</a>
         <form id="delete-form-book-{{ reference.id }}" action="/delete/book/{{ reference.id }}" method="POST" style="display: none;">
         </form>
@@ -190,7 +190,7 @@
         <p class="card-text"> by {{ reference.author }} ({{ reference.year }})</p></br>
         <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#Modal{{loop_index}}">View</button>
         <a href="/edit/inproceedings/{{ reference.id }}" class="btn btn-outline-dark">Edit</a>
-        <button type="button" id={{ reference.key }} class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#BibTeXModal{{ loop_index }}">Generate BibTeX</button>
+        <button type="button" id={{ reference.key }} class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#BibTeXModal{{ loop_index }}" name="generate-bibtex-button">Generate BibTeX</button>
         <a href="#" onclick="confirmDelete(event, '{{ reference.id }}', 'inproceedings')" class="btn btn-danger">Delete</a>
         <form id="delete-form-inproceedings-{{ reference.id }}" action="/delete/inproceedings/{{ reference.id }}" method="POST" style="display: none;">
         </form>
@@ -284,7 +284,7 @@
         <p class="card-text"> by {{ reference.author }} ({{ reference.year }})</p></br>
         <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#Modal{{loop_index}}">View</button>
         <a href="/edit/misc/{{ reference.id }}" class="btn btn-outline-dark">Edit</a>
-        <button type="button" id={{ reference.key }} class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#BibTeXModal{{ loop_index }}">Generate BibTeX</button>
+        <button type="button" id={{ reference.key }} class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#BibTeXModal{{ loop_index }}" name="generate-bibtex-button">Generate BibTeX</button>
         <a href="#" onclick="confirmDelete(event, '{{ reference.id }}', 'misc')" class="btn btn-danger">Delete</a>
         <form id="delete-form-misc-{{ reference.id }}" action="/delete/misc/{{ reference.id }}" method="POST" style="display: none;">
         </form>
