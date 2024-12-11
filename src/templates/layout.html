@@ -9,8 +9,13 @@
     <title>{% block title %}{% endblock %}</title>
   </head>
   <body>
-
-    <div class ="container">
+    <div class ="container" id="nav">
+      <nav class="navbar navbar-expand-lg bg-ligth sticky-top">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">Reference App</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        </div>
+      </nav>
         {% block body %}{% endblock %}
     </div>
   </body>

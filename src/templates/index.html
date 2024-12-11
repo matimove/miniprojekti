@@ -7,8 +7,6 @@ Reference app
 {% block body %}
 </br>
 
-
-
 <div class="container">
 
   <div class="row">
@@ -30,10 +28,6 @@ Reference app
   <div class="row">
 
     <div class="col-lg-4">
-      <div id="heading">
-        <a class="navbar-brand " href="/">
-          Reference App</a>
-      </div>
       <div class="sticky-top" id="menu">
       <!--Add references-->
       <div class="card w-100 mb-3">
@@ -98,10 +92,6 @@ Reference app
 
     <div class="col-lg-8">
       <div id="search-message">
-        {% if message_references %}
-          <p>{{ message_references }}</p>
-        {% endif %}
-
         {% if message_search %}
           <h5>{{ message_search }}</h5>
         {% endif %}</br>
@@ -113,6 +103,10 @@ Reference app
             {% include "reference_card.html" %}
           {% endwith %}
         {% endfor %}
+
+        {% if message_references %}
+          <p>{{ message_references }}</p>
+        {% endif %}
       </div>
     </div>
 
