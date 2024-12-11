@@ -64,39 +64,39 @@ Set Booktitle
 
 Set Editor
       [Arguments]  ${Editor}
-      Input Text  booktitle  ${Editor}
+      Input Text  editor  ${Editor}
 
 Set Volume
       [Arguments]  ${Volume}
-      Input Text  booktitle  ${Volume}
+      Input Text  volume  ${Volume}
 
 Set Number
       [Arguments]  ${Number}
-      Input Text  booktitle  ${Number}
+      Input Text  number  ${Number}
 
 Set Series
       [Arguments]  ${Series}
-      Input Text  booktitle  ${Series}
+      Input Text  series  ${Series}
 
 Set Pages
       [Arguments]  ${Pages}
-      Input Text  booktitle  ${Pages}
+      Input Text  pages  ${Pages}
 
 Set Address
       [Arguments]  ${Address}
-      Input Text  booktitle  ${Address}
+      Input Text  address  ${Address}
 
 Set Month
       [Arguments]  ${Month}
-      Input Text  booktitle  ${Month}
+      Input Text  month  ${Month}
 
 Set Organization
       [Arguments]  ${Organization}
-      Input Text  booktitle  ${Organization}
+      Input Text  organization  ${Organization}
 
 Set Publisher
       [Arguments]  ${Publisher}
-      Input Text  booktitle  ${Publisher}
+      Input Text  publisher  ${Publisher}
 
 Submit Inproceedings
     Scroll Element Into view  submit

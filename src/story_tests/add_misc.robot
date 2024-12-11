@@ -43,15 +43,15 @@ Set Year
 
 Set Month 
       [Arguments]  ${Month}
-      Input Text  year  ${Month}
+      Input Text  month  ${Month}
 
 Set Howpublished 
       [Arguments]  ${Howpublished}
-      Input Text  year  ${Howpublished}
+      Input Text  howpublished  ${Howpublished}
 
 Set Note 
       [Arguments]  ${Note}
-      Input Text  year  ${Note}
+      Input Text  note  ${Note}
 
 Submit Misc
     Scroll Element Into view  submit
