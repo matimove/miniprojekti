@@ -5,6 +5,9 @@ Ohtu miniprojekti - Ryhmä: OhtuWarriors
 [![codecov](https://codecov.io/gh/matimove/miniprojekti/graph/badge.svg?token=DORLX652RV)](https://codecov.io/gh/matimove/miniprojekti)
 [Backlog](https://helsinkifi-my.sharepoint.com/:x:/g/personal/toniemin_ad_helsinki_fi/EYYROFDfQ69EogVpHdGNgz4BX9Zb_ViC6bIx5EghfRbXNg?e=fH4cX5)
 
+## Loppuraportti:
+https://helsinkifi-my.sharepoint.com/:w:/g/personal/toniemin_ad_helsinki_fi/ESEhM3FxLUFOpRdiqvQhrHoBG3LVgzYepl9HdNKCGgseFQ?e=cIdlW2
+
 ## Definition of done
 
 Vaatimus on valmis, jos se on analysoitu, suunniteltu, ohjelmoitu, testattu, testaus automatisoitu, dokumentoitu, integroitu muuhun ohjelmistoon ja viety tuotantoympäristöön.
