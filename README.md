@@ -6,7 +6,7 @@ Ohtu miniprojekti - Ryhmä: OhtuWarriors
 [Backlog](https://helsinkifi-my.sharepoint.com/:x:/g/personal/toniemin_ad_helsinki_fi/EYYROFDfQ69EogVpHdGNgz4BX9Zb_ViC6bIx5EghfRbXNg?e=fH4cX5)
 
 ## Loppuraportti:
-https://helsinkifi-my.sharepoint.com/:w:/g/personal/toniemin_ad_helsinki_fi/ESEhM3FxLUFOpRdiqvQhrHoBG3LVgzYepl9HdNKCGgseFQ?e=cIdlW2
+https://helsinkifi-my.sharepoint.com/:w:/g/personal/toniemin_ad_helsinki_fi/ESEhM3FxLUFOpRdiqvQhrHoBRUAGIwYXjl6PqCEcHUygzA?e=7U40C9
 
 ## Definition of done
 
